@@ -1,4 +1,5 @@
-import type { LinksFunction, MetaFunction } from "remix";
+import React from 'react'
+import type { LinksFunction, MetaFunction } from 'remix'
 import {
   Links,
   LiveReload,
@@ -6,19 +7,19 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration
-} from "remix";
-import { Header } from "./components/root/Header";
-import styles from './tailwind.css';
+} from 'remix'
+import { Header } from './components/root/Header'
+import styles from './tailwind.css'
 
 export const meta: MetaFunction = () => {
-  return { title: "Andrew Usher" };
-};
-
-export const links: LinksFunction = () => {
-  return [{rel: "stylesheet", href: styles}]
+  return { title: 'Andrew Usher' }
 }
 
-export default function App() {
+export const links: LinksFunction = () => {
+  return [{ rel: 'stylesheet', href: styles }]
+}
+
+export default function App () {
   return (
     <html lang="en">
       <head>
@@ -32,8 +33,8 @@ export default function App() {
         <Outlet />
         <ScrollRestoration />
         <Scripts />
-        {process.env.NODE_ENV === "development" && <LiveReload />}
+        {process.env.NODE_ENV === 'development' && <LiveReload />}
       </body>
     </html>
-  );
+  )
 }

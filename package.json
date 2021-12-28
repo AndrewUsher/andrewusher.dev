@@ -19,10 +19,13 @@
     "@remix-run/vercel": "^1.1.1"
   },
   "devDependencies": {
+    "@drewster/eslint-config": "^3.1.1",
     "@remix-run/dev": "^1.1.1",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
+    "babel-eslint": "^10.1.0",
     "concurrently": "^6.5.1",
+    "eslint": "^7.32.0",
     "tailwindcss": "^3.0.7",
     "typescript": "^4.1.2"
   },
