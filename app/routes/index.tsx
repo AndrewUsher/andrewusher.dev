@@ -1,19 +1,21 @@
-import * as React from "react";
-import { Link } from "remix";
+import * as React from 'react'
+import { Link, LoaderFunction, useLoaderData } from 'remix'
+import { RecentPosts } from '~/components/home/RecentPosts/RecentPosts'
+import { getBlogPosts } from '~/lib/contentful.server'
 
-function Paragraph({ children }: { children: React.ReactNode }) {
-  return <p>{children}</p>;
+function Paragraph ({ children }: { children: React.ReactNode }) {
+  return <p>{children}</p>
 }
 
-function ExternalLink({ href, children }: { children: string; href: string }) {
+function ExternalLink ({ href, children }: { children: string; href: string }) {
   return (
     <a className="underline" href={href}>
       {children}
     </a>
-  );
+  )
 }
 
-function IntroLinkButton({ children, to }: { children: string; to: string }) {
+function IntroLinkButton ({ children, to }: { children: string; to: string }) {
   return (
     <Link
       className="bg-sky-400 hover:bg-sky-600 hover:text-white mr-8 px-4 py-4 text-lg ease-in-out w-full md:w-auto md:inline-block block text-center mb-8"
@@ -21,16 +23,26 @@ function IntroLinkButton({ children, to }: { children: string; to: string }) {
     >
       {children}
     </Link>
-  );
+  )
 }
 
-export default function Index() {
+export const loader: LoaderFunction = async () => {
+  const data = await getBlogPosts()
+
+  return data.items.slice(0, 5).map(({ fields }) => ({
+    slug: fields.slug,
+    title: fields.title
+  }))
+}
+
+export default function Index () {
+  const recentBlogPosts = useLoaderData()
   return (
     <>
       <div className="max-w-screen-xl mx-auto py-4 px-4">
         <div className="prose lg:prose-xl">
           <Paragraph>
-            Howdy! During the day, I am a systems engineer at{" "}
+            Howdy! During the day, I am a systems engineer at{' '}
             <ExternalLink href="https://www.autozone.com/">
               AutoZone
             </ExternalLink>
@@ -47,11 +59,12 @@ export default function Index() {
             <Link to="/about">Read more about me here.</Link>
           </Paragraph>
         </div>
-        <div className="my-12">
+        <div className="mt-12">
           <IntroLinkButton to="/blog">Go To Blog</IntroLinkButton>
           <IntroLinkButton to="/contact">Get In Touch</IntroLinkButton>
         </div>
+        <RecentPosts posts={recentBlogPosts}/>
       </div>
     </>
-  );
+  )
 }

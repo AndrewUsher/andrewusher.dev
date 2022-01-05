@@ -8,8 +8,18 @@ const client = contentful.createClient({
   space: contentfulSpaceId
 })
 
+type BlogPostFields = {
+  content: string;
+  date: string;
+  slug: string;
+  title: string;
+}
+
 const getBlogPosts = async () => {
-  const data = await client.getEntries()
+  const data = await client.getEntries<BlogPostFields>({
+    content_type: 'blog-post',
+    order: '-fields.date'
+  })
   return data
 }
 
