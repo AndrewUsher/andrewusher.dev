@@ -18,7 +18,7 @@ function ExternalLink ({ href, children }: { children: string; href: string }) {
 function IntroLinkButton ({ children, to }: { children: string; to: string }) {
   return (
     <Link
-      className="bg-sky-400 hover:bg-sky-600 hover:text-white mr-8 px-4 py-4 text-lg ease-in-out w-full md:w-auto md:inline-block block text-center mb-8"
+      className="bg-sky-400 dark:bg-sky-600 hover:bg-sky-600 dark:hover:bg-sky-800 hover:text-white mr-8 px-4 py-4 text-lg ease-in-out w-full md:w-auto md:inline-block block text-center mb-8 dark:text-white"
       to={to}
     >
       {children}
@@ -40,7 +40,7 @@ export default function Index () {
   return (
     <>
       <div className="max-w-screen-xl mx-auto py-4 px-4">
-        <div className="prose lg:prose-xl">
+        <div className="prose lg:prose-xl dark:prose-invert">
           <Paragraph>
             Howdy! During the day, I am a systems engineer at{' '}
             <ExternalLink href="https://www.autozone.com/">
