@@ -30,6 +30,7 @@ export const loader: LoaderFunction = async () => {
   const data = await getBlogPosts()
 
   return data.items.slice(0, 5).map(({ fields }) => ({
+    date: fields.date,
     slug: fields.slug,
     title: fields.title
   }))
