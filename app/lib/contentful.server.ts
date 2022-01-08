@@ -23,4 +23,14 @@ const getBlogPosts = async () => {
   return data
 }
 
-export { getBlogPosts }
+const getBlogPostBySlug = async (slug: string) => {
+  const searchResults = await client.getEntries<BlogPostFields>({
+    content_type: 'blog-post',
+    'fields.slug': slug
+  })
+
+  const foundPost = searchResults.items[0]
+  return foundPost.fields
+}
+
+export { getBlogPosts, getBlogPostBySlug }
