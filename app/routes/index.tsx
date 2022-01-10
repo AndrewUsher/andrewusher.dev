@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { Link, LoaderFunction, useLoaderData } from 'remix'
 import { RecentPosts } from '~/components/home/RecentPosts/RecentPosts'
-import { getBlogPosts } from '~/lib/contentful.server'
+import { RecentProjects } from '~/components/home/RecentProjects/RecentProjects'
+import { getBlogPosts, getProjects } from '~/lib/contentful.server'
 
 function Paragraph ({ children }: { children: React.ReactNode }) {
   return <p>{children}</p>
@@ -27,17 +28,24 @@ function IntroLinkButton ({ children, to }: { children: string; to: string }) {
 }
 
 export const loader: LoaderFunction = async () => {
-  const data = await getBlogPosts()
+  const [blogPosts, projects] = await Promise.all([getBlogPosts(), getProjects()])
 
-  return data.items.slice(0, 5).map(({ fields }) => ({
-    date: fields.date,
-    slug: fields.slug,
-    title: fields.title
-  }))
+  return {
+    recentBlogPosts: blogPosts.items.slice(0, 5).map(({ fields }) => ({
+      date: fields.date,
+      slug: fields.slug,
+      title: fields.title
+    })),
+
+    recentProjects: projects.items.map(({ fields }) => ({
+      summary: fields.summary,
+      title: fields.title
+    }))
+  }
 }
 
 export default function Index () {
-  const recentBlogPosts = useLoaderData()
+  const { recentBlogPosts, recentProjects } = useLoaderData()
   return (
     <>
       <div className="max-w-screen-xl mx-auto py-4 px-4">
@@ -64,6 +72,7 @@ export default function Index () {
           <IntroLinkButton to="/blog">Go To Blog</IntroLinkButton>
           <IntroLinkButton to="/contact">Get In Touch</IntroLinkButton>
         </div>
+        <RecentProjects projects={recentProjects}/>
         <RecentPosts posts={recentBlogPosts}/>
       </div>
     </>
