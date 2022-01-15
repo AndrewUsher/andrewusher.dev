@@ -8,6 +8,7 @@ import {
   Scripts,
   ScrollRestoration
 } from 'remix'
+import { Footer } from './components/root/Footer'
 import { Header } from './components/root/Header'
 import styles from './tailwind.css'
 
@@ -31,6 +32,7 @@ export default function App () {
       <body className="dark:bg-neutral-900">
         <Header />
         <Outlet />
+        <Footer />
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === 'development' && <LiveReload />}
