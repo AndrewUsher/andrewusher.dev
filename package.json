@@ -17,7 +17,7 @@
     "@remix-run/vercel": "1.1.1",
     "contentful": "9.1.5",
     "dayjs": "1.10.7",
-    "dotenv": "12.0.3",
+    "dotenv": "12.0.4",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "remix": "1.1.1",
