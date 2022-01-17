@@ -15,6 +15,8 @@
     "@remix-run/react": "1.1.1",
     "@remix-run/serve": "1.1.1",
     "@remix-run/vercel": "1.1.1",
+    "@tailwindcss/forms": "0.4.0",
+    "airtable": "^0.11.1",
     "contentful": "9.1.5",
     "dayjs": "1.10.7",
     "dotenv": "12.0.3",
