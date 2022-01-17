@@ -12,7 +12,7 @@ export function Footer () {
             <Link to="/contact" className="hover:opacity-75">Get in Touch</Link>
             <Link to="/contact" className="hover:opacity-75">Office Hours</Link>
             <Link to="/projects" className="hover:opacity-75">Projects</Link>
-            <Link to="/projects" className="hover:opacity-75">Uses</Link>
+            <Link to="/uses" className="hover:opacity-75">Uses</Link>
           </nav>
 
           <div className="flex justify-center mt-8 space-x-6">
