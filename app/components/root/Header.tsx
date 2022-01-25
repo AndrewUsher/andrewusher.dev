@@ -14,7 +14,7 @@ export function Header () {
         </Link>
       </h1>
       {/* TODO: Add sidebar for mobile if new links are added */}
-      <nav className="flex justify-between">
+      <nav className="hidden lg:flex justify-between">
         <NavLink to="/about">About Me</NavLink>
         <NavLink to="/blog">Blog</NavLink>
       </nav>
