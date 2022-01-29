@@ -1,6 +1,6 @@
 import clsx from 'clsx'
-import React, { useState } from 'react'
-import { Link, NavLink as RemixNavLink, NavLinkProps } from 'remix'
+import React, { useEffect, useState } from 'react'
+import { Link, NavLink as RemixNavLink, NavLinkProps, useLocation } from 'remix'
 
 const NavLink = ({ children, to }: NavLinkProps) => (
   <RemixNavLink className="block ml-8 first:ml-0 text-xl dark:text-white" to={to}>{children}</RemixNavLink>
@@ -12,12 +12,20 @@ const MobileNavLink = ({ children, to }: NavLinkProps) => (
 
 export function Header () {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const location = useLocation()
+
   const closeSidebar = () => {
     setSidebarOpen(false)
   }
   const openSidebar = () => {
     setSidebarOpen(true)
   }
+
+  useEffect(() => {
+    // Close sidebar on route change
+    closeSidebar()
+  }, [location])
+
   return (
     <>
       <header className="max-w-screen-xl mx-auto py-4 px-4 flex items-center justify-between">
