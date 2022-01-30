@@ -1,6 +1,6 @@
 import Airtable from 'airtable'
 
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base('appSBBeNjLaqKqTAP')
+const base = Airtable.base('appSBBeNjLaqKqTAP')
 
 type ContactInfo = {
   body: string;
