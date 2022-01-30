@@ -23,8 +23,6 @@ const addContactToTable = async ({ body, email, name, subject }: ContactInfo) =>
     if (err) {
       console.error(err)
       throw err
-    } else {
-      console.log(record)
     }
   })
 }

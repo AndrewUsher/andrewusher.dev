@@ -13,7 +13,7 @@ const Input = ({ label, id, ...rest }: React.HTMLAttributes<HTMLInputElement>) =
       <input
         id={id}
         name={id}
-        className="absolute inset-0 w-full px-3 pb-3 bg-transparent border-gray-200 rounded-lg sm:text-sm pt-9"
+        className="absolute inset-0 w-full px-3 pb-3 bg-transparent border-gray-200 rounded-lg sm:text-sm pt-9 dark:text-white"
         type="text"
         {...rest}
       />
