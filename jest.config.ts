@@ -9,6 +9,7 @@ const config: Config.InitialOptions = {
     '!<rootDir>/api/**',
     '!<rootDir>/public/**'
   ],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jest-environment-jsdom',
   verbose: true
 }
