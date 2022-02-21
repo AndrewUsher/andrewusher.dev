@@ -2,17 +2,12 @@ import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import React from 'react'
 import { Posts } from '~/components/shared/Posts'
+import { BlogPost } from '~/types/contentful'
 
 dayjs.extend(customParseFormat)
 
-type Post = {
-  date: string;
-  slug: string;
-  title: string;
-}
-
 type Props = {
-  posts: Post[]
+  posts: BlogPost[]
 }
 
 export function RecentPosts ({ posts }: Props) {

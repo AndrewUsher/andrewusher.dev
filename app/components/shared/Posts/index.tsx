@@ -1,15 +1,10 @@
 import dayjs from 'dayjs'
 import React from 'react'
 import { Link } from 'remix'
-
-type Post = {
-  slug: string;
-  title: string;
-  date: string;
-}
+import { BlogPost } from '~/types/contentful'
 
 type Props = {
-  posts: Post[]
+  posts: BlogPost[]
 }
 
 export function Posts ({ posts }: Props) {
