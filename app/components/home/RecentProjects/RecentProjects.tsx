@@ -1,11 +1,6 @@
 import React from 'react'
 import { Projects } from '~/components/shared/Projects/Projects'
-
-type Project = {
-  date: string;
-  summary: string;
-  title: string;
-}
+import { Project } from '~/types/contentful'
 
 type Props = {
   projects: Project[]

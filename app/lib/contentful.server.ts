@@ -1,4 +1,5 @@
 import contentful, { EntryCollection } from 'contentful'
+import { Project } from '~/types/contentful'
 
 const contentfulAccessToken = process.env.CONTENTFUL_ACCESS_TOKEN
 const contentfulSpaceId = process.env.CONTENTFUL_SPACE_ID
@@ -33,14 +34,8 @@ const getBlogPostBySlug = async (slug: string) => {
   return foundPost.fields
 }
 
-type ProjectFields = {
-  date: string;
-  summary: string;
-  title: string;
-}
-
-const getProjects = async (): Promise<EntryCollection<ProjectFields>> => {
-  const data = await client.getEntries<ProjectFields>({
+const getProjects = async (): Promise<EntryCollection<Project>> => {
+  const data = await client.getEntries<Project>({
     content_type: 'projects',
     order: '-fields.date'
   })
