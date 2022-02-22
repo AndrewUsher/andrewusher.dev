@@ -30,4 +30,30 @@ describe('<Posts />', () => {
     expect(firstPostTitle).toBeInTheDocument()
     expect(secondPostTitle).toBeInTheDocument()
   })
+
+  test('should render post links', () => {
+    render(
+      <RemixWrapper>
+        <Posts posts={MOCK_POSTS}/>
+      </RemixWrapper>
+    )
+
+    const postLink = screen.getByText('Fastify Quickstart')
+    const linkPath = new URL(postLink.href).pathname
+
+    expect(linkPath).toBe('/blog/fastify-quickstart')
+  })
+
+  test('should render post publish date', () => {
+    render(
+      <RemixWrapper>
+        <Posts posts={MOCK_POSTS} />
+      </RemixWrapper>
+    )
+
+    const publishInfo = screen.getByText('Published on January 05, 2022')
+
+    expect(publishInfo).toBeInTheDocument()
+    expect(publishInfo.getAttribute('datetime')).toBe('2022-01-05T00:00-06:00')
+  })
 })
