@@ -4,6 +4,8 @@ const config: Config.InitialOptions = {
   collectCoverage: true,
   collectCoverageFrom: [
     '<rootDir>/app/**/*.{js,jsx,ts,tsx}',
+    '!<rootDir>/app/entry.client.tsx',
+    '!<rootDir>/app/entry.server.tsx',
     '!**/node_modules/**',
     '!**/.cache/**',
     '!<rootDir>/api/**',
