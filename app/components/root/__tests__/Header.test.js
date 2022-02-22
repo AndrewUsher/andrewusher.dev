@@ -11,8 +11,8 @@ describe('<Header />', () => {
       </MemoryRouter>
     )
 
-    const headerLink = await screen.getByText('Andrew Usher')
-    expect(headerLink).toBeTruthy()
-    expect(new URL(headerLink.href).pathname).toBe('/')
+    const headerLinks = await screen.getAllByText('Andrew Usher')
+    expect(headerLinks[0]).toBeInTheDocument()
+    expect(new URL(headerLinks[0].href).pathname).toBe('/')
   })
 })
