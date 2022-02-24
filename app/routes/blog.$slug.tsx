@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import React from 'react'
 import { json, LoaderFunction, MetaFunction, useLoaderData } from 'remix'
 import snarkdown from 'snarkdown'
+import { ReadingProgressBar } from '~/components/post/ReadingProgress/ReadingProgress'
 import { getBlogPostBySlug } from '~/lib/contentful.server'
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -37,10 +38,13 @@ export default function BlogPostPage () {
   const post = useLoaderData()
   const formattedPublishDate = dayjs(post.date).format('MMMM DD, YYYY')
   return (
-    <main className="max-w-screen-xl mx-auto py-12 px-4 prose dark:prose-invert">
-      <h1 className="mb-1">{post.title}</h1>
-      <time dateTime={post.date}>Published on {formattedPublishDate}</time>
-      <div className="mt-12" dangerouslySetInnerHTML={{ __html: post.content }} />
-    </main>
+    <>
+      <main className="max-w-screen-xl mx-auto py-12 px-4 prose dark:prose-invert">
+        <h1 className="mb-1">{post.title}</h1>
+        <time dateTime={post.date}>Published on {formattedPublishDate}</time>
+        <div className="mt-12" dangerouslySetInnerHTML={{ __html: post.content }} />
+      </main>
+      <ReadingProgressBar />
+    </>
   )
 }
