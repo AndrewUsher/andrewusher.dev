@@ -3,5 +3,12 @@
     "env": {
       "ENABLE_FILE_SYSTEM_API": "1"
     }
-  }
+  },
+  "redirects": [
+    { 
+      "source": "/recipes",
+      "destination": "https://dev-delectables.vercel.app/", 
+      "permanent": true
+    }
+  ]
 }
