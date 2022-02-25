@@ -42,6 +42,10 @@ export default function App () {
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === 'development' && <LiveReload />}
+        <script
+          src="https://cdn.jsdelivr.net/gh/virae/we-stand-with-ukraine@v1.0.1/badge.js"
+          defer
+        />
       </body>
     </html>
   )
