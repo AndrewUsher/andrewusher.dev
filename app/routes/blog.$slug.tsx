@@ -1,7 +1,6 @@
 import dayjs from 'dayjs'
 import React from 'react'
-import { json, LoaderFunction, MetaFunction } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { json, LoaderFunction, MetaFunction, useLoaderData } from 'remix'
 import snarkdown from 'snarkdown'
 import { ReadingProgressBar } from '~/components/post/ReadingProgress/ReadingProgress'
 import { getBlogPostBySlug } from '~/lib/contentful.server'

@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { ActionFunction, json } from '@remix-run/node'
-import { useFetcher } from '@remix-run/react'
+import { ActionFunction, json, useFetcher } from 'remix'
 import { Input } from '~/components/shared/Input/Input'
 import { TextArea } from '~/components/shared/Textarea'
 import { addContactToTable } from '~/lib/airtable.server'
@@ -44,18 +43,16 @@ export default function ContactRoute () {
         <Input label="Email" id="email" required />
         <Input label="Subject" id="subject" required />
         <TextArea label="Body" id="body" required />
-        {submitted
-          ? (
+        {submitted ? (
           <p className="bg-sky-200/50 dark:bg-sky-700 border-l-8 border-l-sky-500 dark:border-l-yellow-400 dark:text-white p-4">Email sent! I&apos;ll be in touch soon!</p>
-            )
-          : (
+        ) : (
           <button className="relative inline-block group mb-12" type="submit" disabled={fetcher.state === 'submitting'}>
             <span className="absolute inset-0 bg-blue-300 dark:bg-blue-700 transition-transform transform translate-x-2 translate-y-2 group-hover:translate-y-0 group-hover:translate-x-0"></span>
             <span className="relative inline-block px-5 py-3 font-bold tracking-widest uppercase border-2 border-black dark:text-white dark:border-white">
             Send Message
             </span>
           </button>
-            )}
+        )}
       </fetcher.Form>
     </main>
   )
