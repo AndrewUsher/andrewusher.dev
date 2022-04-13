@@ -5,7 +5,6 @@ node_modules
 .output
 
 public/build
-api
 /app/tailwind.css
 coverage
 
