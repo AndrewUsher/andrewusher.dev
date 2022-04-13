@@ -1,5 +1,5 @@
 import React from 'react'
-import type { LinksFunction, MetaFunction } from 'remix'
+import { LinksFunction, MetaFunction } from '@remix-run/node'
 import {
   Links,
   LiveReload,
@@ -7,7 +7,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration
-} from 'remix'
+} from '@remix-run/react'
 import { Footer } from './components/root/Footer'
 import { Header } from './components/root/Header'
 import styles from './tailwind.css'

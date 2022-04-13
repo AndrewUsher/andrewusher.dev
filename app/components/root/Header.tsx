@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
-import { Link, NavLink as RemixNavLink, NavLinkProps, useLocation } from 'remix'
+import { Link, NavLink as RemixNavLink, NavLinkProps, useLocation } from '@remix-run/react'
 
 const NavLink = ({ children, to }: NavLinkProps) => (
   <RemixNavLink className="block ml-8 first:ml-0 text-xl dark:text-white" to={to}>{children}</RemixNavLink>

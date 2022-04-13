@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import React from 'react'
-import { Link } from 'remix'
+import { Link } from '@remix-run/react'
 import { BlogPost } from '~/types/contentful'
 
 type Props = {

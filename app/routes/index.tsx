@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { Link, LoaderFunction, useLoaderData } from 'remix'
+import { LoaderFunction } from '@remix-run/node'
+import { Link, useLoaderData } from '@remix-run/react'
 import { RecentPosts } from '~/components/home/RecentPosts/RecentPosts'
 import { RecentProjects } from '~/components/home/RecentProjects/RecentProjects'
 import { getBlogPosts, getProjects } from '~/lib/contentful.server'

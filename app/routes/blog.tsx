@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { LoaderFunction, useLoaderData } from 'remix'
+import { LoaderFunction } from '@remix-run/node'
+import { useLoaderData } from '@remix-run/react'
 import { Posts } from '~/components/shared/Posts'
 import { getBlogPosts } from '~/lib/contentful.server'
 
@@ -17,7 +18,7 @@ export default function Blog () {
   return (
     <>
       <main className="max-w-screen-xl mx-auto py-4 px-4">
-        <Posts posts={posts}/>
+        <Posts posts={posts} />
       </main>
     </>
   )

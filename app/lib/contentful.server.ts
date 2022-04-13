@@ -1,16 +1,9 @@
-import contentful, { EntryCollection } from 'contentful'
+import { EntryCollection } from 'contentful'
 import { BlogPost, Project } from '~/types/contentful'
-
-const contentfulAccessToken = process.env.CONTENTFUL_ACCESS_TOKEN
-const contentfulSpaceId = process.env.CONTENTFUL_SPACE_ID
-
-const client = contentful.createClient({
-  accessToken: contentfulAccessToken,
-  space: contentfulSpaceId
-})
+import { contentfulClient } from './globals.server'
 
 const getBlogPosts = async () => {
-  const data = await client.getEntries<BlogPost>({
+  const data = await contentfulClient.getEntries<BlogPost>({
     content_type: 'blog-post',
     order: '-fields.date'
   })
@@ -18,7 +11,7 @@ const getBlogPosts = async () => {
 }
 
 const getBlogPostBySlug = async (slug: string) => {
-  const searchResults = await client.getEntries<BlogPost>({
+  const searchResults = await contentfulClient.getEntries<BlogPost>({
     content_type: 'blog-post',
     'fields.slug': slug
   })
@@ -28,7 +21,7 @@ const getBlogPostBySlug = async (slug: string) => {
 }
 
 const getProjects = async (): Promise<EntryCollection<Project>> => {
-  const data = await client.getEntries<Project>({
+  const data = await contentfulClient.getEntries<Project>({
     content_type: 'projects',
     order: '-fields.date'
   })
