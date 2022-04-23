@@ -1,10 +1,10 @@
-import contentful, { EntryCollection } from 'contentful'
+import { createClient, EntryCollection } from 'contentful'
 import { BlogPost, Project } from '~/types/contentful'
 
 const contentfulAccessToken = process.env.CONTENTFUL_ACCESS_TOKEN
 const contentfulSpaceId = process.env.CONTENTFUL_SPACE_ID
 
-const client = contentful.createClient({
+const client = createClient({
   accessToken: contentfulAccessToken,
   space: contentfulSpaceId
 })
