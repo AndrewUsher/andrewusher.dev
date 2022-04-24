@@ -2,6 +2,7 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 import type { EntryContext } from 'remix'
 import { RemixServer } from 'remix'
+import { logger } from './lib/logger.server'
 
 export default function handleRequest (
   request: Request,
@@ -9,6 +10,8 @@ export default function handleRequest (
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
+  logger.debug(`${request.method} request made to ${request.url} - Status code: ${responseStatusCode}`)
+
   const markup = renderToString(
     <RemixServer context={remixContext} url={request.url} />
   )
