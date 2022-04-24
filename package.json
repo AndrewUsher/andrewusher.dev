@@ -20,7 +20,7 @@
     "@tailwindcss/forms": "0.5.0",
     "airtable": "0.11.3",
     "clsx": "1.1.1",
-    "contentful": "9.1.18",
+    "contentful": "10.0.0-beta-v10.5",
     "dayjs": "1.11.1",
     "dotenv": "14.3.2",
     "react": "17.0.2",
