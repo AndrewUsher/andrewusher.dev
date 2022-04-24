@@ -25,6 +25,15 @@ export default function App () {
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
+        <meta property="og:url" content="https://andrewusher.dev" />
+        <meta property="og:title" content="Andrew Usher" />
+        <meta
+          name="keywords"
+          content="Learn React, NPM Needs, Node.js, Learn TypeScript"
+        />
+        <meta name="twitter:creator" content="@AndrewUsher17" />
+        <meta name="twitter:site" content="@AndrewUsher17" />
+        <meta name="twitter:title" content="Andrew Usher" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <meta name="theme-color" media="(prefers-color-scheme: light)" content="#7dd3fc" />
         <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0284c7" />
@@ -32,6 +41,8 @@ export default function App () {
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
         <link rel="manifest" href="/site.webmanifest"/>
+        <meta name="color-scheme" content="dark light" />
+
         <Meta />
         <Links />
       </head>
