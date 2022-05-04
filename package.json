@@ -10,7 +10,7 @@
     "dev:css": "tailwindcss -i ./app/styles/tailwind.css -o ./app/tailwind.css --watch",
     "postinstall": "remix setup node",
     "start": "remix start",
-    "test": "jest"
+    "test": "vitest run"
   },
   "dependencies": {
     "@remix-run/node": "1.4.1",
@@ -30,9 +30,6 @@
     "snarkdown": "2.0.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "7.16.11",
-    "@babel/preset-react": "7.16.7",
-    "@babel/preset-typescript": "7.16.7",
     "@drewster/eslint-config": "4.0.0",
     "@remix-run/dev": "1.4.1",
     "@tailwindcss/typography": "0.5.0",
@@ -41,15 +38,14 @@
     "@types/react": "17.0.38",
     "@types/react-dom": "17.0.11",
     "babel-eslint": "10.1.0",
-    "babel-jest": "27.5.1",
     "concurrently": "7.1.0",
     "eslint": "8.11.0",
     "eslint-plugin-jest": "26.1.2",
-    "jest": "27.5.1",
     "pino-pretty": "7.6.1",
     "tailwindcss": "3.0.23",
     "ts-node": "10.7.0",
-    "typescript": "4.6.2"
+    "typescript": "4.6.2",
+    "vitest": "0.10.2"
   },
   "engines": {
     "node": ">=14"
