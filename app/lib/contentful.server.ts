@@ -23,6 +23,10 @@ const getBlogPostBySlug = async (slug: string) => {
     'fields.slug': slug
   })
 
+  const postNotFound = !searchResults?.items?.length
+  if (postNotFound) {
+    throw new Error(`Post for slug ${slug} not found`)
+  }
   const foundPost = searchResults.items[0]
   return foundPost.fields
 }
