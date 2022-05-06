@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
 import { Link, NavLink as RemixNavLink, NavLinkProps, useLocation } from 'remix'
+import Typical from 'react-typical'
 
 const NavLink = ({ children, to }: NavLinkProps) => (
   <RemixNavLink className="block ml-8 first:ml-0 text-xl dark:text-white" to={to}>{children}</RemixNavLink>
@@ -31,7 +32,7 @@ export function Header () {
       <header className="max-w-screen-xl mx-auto py-4 px-4 flex items-center justify-between">
         <h1 className="text-4xl font-bold dark:text-white">
           <Link to="/">
-          Andrew Usher
+          <Typical loop={1} steps={["Andrew", 500, "Andrew Usher", 500]} wrapper="div">Andrew Usher</Typical>
           </Link>
         </h1>
         {/* TODO: Add sidebar for mobile if new links are added */}
