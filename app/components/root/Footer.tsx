@@ -34,6 +34,20 @@ export function Footer () {
               </svg>
             </a>
           </div>
+          <div className="flex justify-center mt-8 space-x-6">
+          <a
+            href="https://www.buymeacoffee.com/andrewusher"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+              loading="lazy"
+              alt="Buy Me A Coffee"
+              style={{ height: '60px', width: '217px' }}
+            />
+          </a>
+          </div>
         </div>
       </div>
     </footer>
