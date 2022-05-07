@@ -95,7 +95,7 @@ export default function Index() {
             <Link to="/about">Read more about me here.</Link>
           </Paragraph>
         </div>
-        <div className="my-12 grid grid-cols-2 gap-8">
+        <div className="my-12 grid grid-cols-1 gap-8 md:grid-cols-2">
           <IntroSectionCard
             body="Loose collection of thoughts, things learned, and who-knows-whats about JavaScript, React, and TypeScript"
             heading="Blog"
