@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import React from 'react'
+import Giscus from '@giscus/react';
 import { json, Link, LoaderFunction, MetaFunction, useCatch, useLoaderData } from 'remix'
 import snarkdown from 'snarkdown'
 import { ReadingProgressBar } from '~/components/post/ReadingProgress/ReadingProgress'
@@ -44,6 +45,19 @@ export default function BlogPostPage () {
         <h1 className="mb-1">{post.title}</h1>
         <time dateTime={post.date}>Published on {formattedPublishDate}</time>
         <div className="mt-12" dangerouslySetInnerHTML={{ __html: post.content }} />
+        <Giscus         
+          repo="AndrewUsher/blog-comments"
+          repoId="R_kgDOHS90kA"
+          category="Announcements"
+          categoryId="DIC_kwDOHS90kM4CO-p9"
+          mapping="pathname"
+          reactionsEnabled="1"
+          emitMetadata="0"
+          inputPosition="top"
+          theme="preferred_color_scheme"
+          lang="en"
+          loading="lazy"
+        />
       </main>
       <ReadingProgressBar />
     </>
