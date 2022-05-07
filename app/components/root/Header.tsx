@@ -29,7 +29,7 @@ export function Header () {
 
   return (
     <>
-      <header className="max-w-screen-xl mx-auto py-4 px-4 flex items-center justify-between">
+      <header className="max-w-screen-xl mx-auto p-8 flex items-center justify-between">
         <h1 className="text-4xl font-bold dark:text-white">
           <Link to="/">
           <Typical loop={1} steps={["Andrew", 500, "Andrew Usher", 500]} wrapper="div">Andrew Usher</Typical>

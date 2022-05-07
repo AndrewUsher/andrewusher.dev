@@ -23,7 +23,7 @@ export default function ContactRoute () {
   const submitted = fetcher.type === 'done' && fetcher.data?.success === true
 
   return (
-    <main className="max-w-screen-md mx-auto py-4 px-4">
+    <main className="max-w-screen-md mx-auto p-8">
       <section className="prose dark:prose-invert mb-8">
         <p>How can I help you?</p>
         <p>

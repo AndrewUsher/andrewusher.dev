@@ -16,7 +16,7 @@ export default function Blog () {
   const posts = useLoaderData()
   return (
     <>
-      <main className="max-w-screen-xl mx-auto py-4 px-4">
+      <main className="max-w-screen-xl mx-auto p-8">
         <Posts posts={posts}/>
       </main>
     </>

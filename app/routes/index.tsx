@@ -48,7 +48,7 @@ export default function Index () {
   const { recentBlogPosts, recentProjects } = useLoaderData()
   return (
     <>
-      <div className="max-w-screen-xl mx-auto py-4 px-4">
+      <div className="max-w-screen-xl mx-auto p-8">
         <div className="prose lg:prose-xl dark:prose-invert">
           <Paragraph>
             Howdy! During the day, I am a systems engineer at{' '}
