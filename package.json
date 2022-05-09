@@ -8,6 +8,7 @@
     "build:css": "tailwindcss -i ./app/styles/tailwind.css -o ./app/tailwind.css --minify",
     "dev": "concurrently \"yarn dev:css\" \"node -r dotenv/config node_modules/.bin/remix dev\"",
     "dev:css": "tailwindcss -i ./app/styles/tailwind.css -o ./app/tailwind.css --watch",
+    "lint": "eslint app/",
     "postinstall": "remix setup node",
     "start": "remix start",
     "test": "vitest run"

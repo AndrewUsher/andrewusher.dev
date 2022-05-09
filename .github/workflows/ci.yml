@@ -47,5 +47,37 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: yarn
     - run: yarn build
+  ts:
+    name: '🔍 TypeScript'
+    needs: [install]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        cache: 'yarn'
+        node-version: ${{ matrix.node-version }}
+    - run: yarn
+    - run: yarn tsc
+  lint:
+    name: '🔍 ESLint'
+    needs: [install]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        cache: 'yarn'
+        node-version: ${{ matrix.node-version }}
+    - run: yarn
+    - run: yarn lint
     
     
