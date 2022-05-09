@@ -1,6 +1,12 @@
 import * as React from 'react'
 
-const Input = ({ label, id, ...rest }: React.HTMLAttributes<HTMLInputElement>) => {
+type InputProps = React.HTMLAttributes<HTMLInputElement> & {
+  label: string
+  id: string
+  required?: boolean
+}
+
+const Input = ({ label, id, ...rest }: InputProps) => {
   return (
     <div className="relative h-16 mb-8">
       <label

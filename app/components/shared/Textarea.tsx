@@ -1,6 +1,12 @@
 import * as React from 'react'
 
-const TextArea = ({ label, id, ...rest }: React.HTMLAttributes<HTMLTextAreaElement>) => {
+type TextAreaProps = React.HTMLAttributes<HTMLTextAreaElement> & {
+  label: string
+  id: string
+  required?: boolean
+}
+
+const TextArea = ({ label, id, ...rest }: TextAreaProps) => {
   return (
     <div className="relative h-32 mb-8">
       <label

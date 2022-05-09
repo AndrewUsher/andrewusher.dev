@@ -3,28 +3,30 @@ import Airtable from 'airtable'
 const base = Airtable.base('appSBBeNjLaqKqTAP')
 
 type ContactInfo = {
-  body: string;
-  email: string;
-  name: string;
-  subject: string;
+  body: string | null;
+  email: string | null;
+  name: string | null;
+  subject: string | null;
 }
 
 const addContactToTable = async ({ body, email, name, subject }: ContactInfo) => {
-  base('Table 1').create([
-    {
-      fields: {
-        Body: body,
-        Email: email,
-        Name: name,
-        Subject: subject
+  if (body && email && name && subject) {
+    base('Table 1').create([
+      {
+        fields: {
+          Body: body,
+          Email: email,
+          Name: name,
+          Subject: subject
+        }
       }
-    }
-  ], { typecast: false }, (err, record) => {
-    if (err) {
-      console.error(err)
-      throw err
-    }
-  })
+    ], { typecast: false }, (err, record) => {
+      if (err) {
+        console.error(err)
+        throw err
+      }
+    })
+  }
 }
 
 export { addContactToTable }

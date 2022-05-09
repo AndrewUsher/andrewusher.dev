@@ -10,11 +10,11 @@ import { RecentPosts } from '~/components/home/RecentPosts/RecentPosts'
 import { RecentProjects } from '~/components/home/RecentProjects/RecentProjects'
 import { getBlogPosts, getProjects } from '~/lib/contentful.server'
 
-function Paragraph({ children }: { children: React.ReactNode }) {
+function Paragraph ({ children }: { children: React.ReactNode }) {
   return <p>{children}</p>
 }
 
-function ExternalLink({ href, children }: { children: string; href: string }) {
+function ExternalLink ({ href, children }: { children: string; href: string }) {
   return (
     <a className="underline" href={href}>
       {children}
@@ -29,7 +29,7 @@ type IntroSectionCardProps = {
   url: string
 }
 
-function IntroSectionCard({
+function IntroSectionCard ({
   body,
   heading,
   icon: Icon,
@@ -71,7 +71,7 @@ export const loader: LoaderFunction = async () => {
   }
 }
 
-export default function Index() {
+export default function Index () {
   const { recentBlogPosts, recentProjects } = useLoaderData()
   return (
     <>

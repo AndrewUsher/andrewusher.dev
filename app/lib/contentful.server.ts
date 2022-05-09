@@ -5,8 +5,8 @@ const contentfulAccessToken = process.env.CONTENTFUL_ACCESS_TOKEN
 const contentfulSpaceId = process.env.CONTENTFUL_SPACE_ID
 
 const client = createClient({
-  accessToken: contentfulAccessToken,
-  space: contentfulSpaceId
+  accessToken: contentfulAccessToken!,
+  space: contentfulSpaceId!
 })
 
 const getBlogPosts = async () => {

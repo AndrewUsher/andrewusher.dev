@@ -4,11 +4,21 @@ import { Link, NavLink as RemixNavLink, NavLinkProps, useLocation } from 'remix'
 import Typical from 'react-typical'
 
 const NavLink = ({ children, to }: NavLinkProps) => (
-  <RemixNavLink className="block ml-8 first:ml-0 text-xl dark:text-white" to={to}>{children}</RemixNavLink>
+  <RemixNavLink
+    className="block ml-8 first:ml-0 text-xl dark:text-white"
+    to={to}
+  >
+    {children}
+  </RemixNavLink>
 )
 
 const MobileNavLink = ({ children, to }: NavLinkProps) => (
-  <RemixNavLink className="block mb-4 pb-4 text-xl dark:text-white w-full text-center" to={to}>{children}</RemixNavLink>
+  <RemixNavLink
+    className="block mb-4 pb-4 text-xl dark:text-white w-full text-center"
+    to={to}
+  >
+    {children}
+  </RemixNavLink>
 )
 
 export function Header () {
@@ -32,7 +42,11 @@ export function Header () {
       <header className="max-w-screen-xl mx-auto p-8 flex items-center justify-between">
         <h1 className="text-4xl font-bold dark:text-white">
           <Link to="/">
-          <Typical loop={1} steps={["Andrew", 500, "Andrew Usher", 500]} wrapper="div">Andrew Usher</Typical>
+            <Typical
+              loop={1}
+              steps={['Andrew', 500, 'Andrew Usher', 500]}
+              wrapper="div"
+            />
           </Link>
         </h1>
         {/* TODO: Add sidebar for mobile if new links are added */}
@@ -42,27 +56,50 @@ export function Header () {
         </nav>
         <nav className="flex lg:hidden">
           <button onClick={openSidebar} className="dark:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             </svg>
           </button>
-
         </nav>
-
       </header>
-      <div className={clsx('transition ease-in-out fixed top-0 bg-sky-300 h-full w-full text-white', {
-        'translate-x-full': !sidebarOpen,
-        'translate-x-0': sidebarOpen
-      })}>
+      <div
+        className={clsx(
+          'transition ease-in-out fixed top-0 bg-sky-300 h-full w-full text-white',
+          {
+            'translate-x-full': !sidebarOpen,
+            'translate-x-0': sidebarOpen
+          }
+        )}
+      >
         <nav className="flex justify-between p-4 mb-8">
           <h1 className="text-4xl font-bold dark:text-white">
-            <Link to="/">
-          Andrew Usher
-            </Link>
+            <Link to="/">Andrew Usher</Link>
           </h1>
           <button onClick={closeSidebar} className="dark:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </nav>

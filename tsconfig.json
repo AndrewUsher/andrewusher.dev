@@ -13,7 +13,7 @@
     "paths": {
       "~/*": ["./app/*"]
     },
-
+    "typeRoots": ["./app/external-types", "./node_modules/@types"],
     // Remix takes care of building everything in `remix build`.
     "noEmit": true
   }
