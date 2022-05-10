@@ -102,4 +102,4 @@
       <feGaussianBlur stdDeviation="0.5" result="effect1_foregroundBlur_2_2" />
     </filter>
   </defs>
-</svg>;
+</svg>
