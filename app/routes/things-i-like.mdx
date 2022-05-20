@@ -6,7 +6,7 @@ headers:
   Cache-Control: public, s-max-age=36000
 ---
 
-export default function Layout({ children }) {
+export default function Layout({ children, ...rest }) {
   return (
     <main className="prose max-w-screen-xl mx-auto py-12 px-4 dark:prose-invert">
       {children}
@@ -18,18 +18,30 @@ export default function Layout({ children }) {
 
 ### Programming
 
+#### AI/ML
+
+- [Automatic Colorization](https://tinyclouds.org/colorize)
+
 #### CSS
 
 - [State of CSS 2022](https://web.dev/state-of-css-2022/)
 
+#### JavaScript
+
+- [JavaScript Containers](https://tinyclouds.org/javascript_containers)
+
 #### Node
 
 - [Anatomy of an HTTP Transaction](https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/)
+- [Creating and deploying a tiny proxy server on Vercel in 10 minutes](https://mmazzarolo.com/blog/2022-02-05-creating-and-deploying-a-proxy-server-in-5-minutes/)
 - [Working with Different Filesystems](https://nodejs.org/en/docs/guides/working-with-different-filesystems/)
 
 #### Performance
 
+- [An In-Depth Guide To Measuring Core Web Vitals](https://www.smashingmagazine.com/2021/04/complete-guide-measure-core-web-vitals/)
+- [Improving Core Web Vitals, A Smashing Magazine Case Study](https://www.smashingmagazine.com/2021/12/core-web-vitals-case-study-smashing-magazine/)
 - [Rethinking Server-Timing As A Critical Monitoring Tool](https://www.smashingmagazine.com/2022/05/rethinking-server-timing-monitoring-tool/)
+- [Setting Height And Width On Images Is Important Again](https://www.smashingmagazine.com/2020/03/setting-height-width-images-important-again/)
 
 #### React
 
@@ -39,6 +51,10 @@ export default function Layout({ children }) {
 - [How Does Shallow Comparison Work In React?](https://www.chakshunyu.com/blog/how-does-shallow-comparison-work-in-react/)
 - [Introductory Guide To Concurrent Rendering](https://www.chakshunyu.com/blog/an-introductory-guide-to-concurrent-rendering/)
 - [Why I'll definitely use `mapDispatchToProps` in Redux](https://www.chakshunyu.com/blog/why-use-mapdispatchtoprops/)
+
+#### Remix
+
+- [Remix Routes Demystified](https://www.smashingmagazine.com/2022/03/remix-routes-demystified/)
 
 #### Web
 
