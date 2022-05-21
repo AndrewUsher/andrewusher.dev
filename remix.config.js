@@ -14,7 +14,7 @@ module.exports = {
     ])
 
     return {
-      rehypePlugins: [rehypeSlug, [rehypeTOC, { cssClasses: { toc: 'bg-slate-100 p-8 shadow-lg' } }]]
+      rehypePlugins: [rehypeSlug, [rehypeTOC, { cssClasses: { toc: 'bg-slate-100 dark:bg-slate-800 p-8 shadow-lg' } }]]
     }
   }
 }
