@@ -26,7 +26,7 @@
     "clsx": "1.1.1",
     "contentful": "10.0.0-beta-v10.5",
     "dayjs": "1.11.1",
-    "dotenv": "14.3.2",
+    "dotenv": "16.0.1",
     "pino": "7.10.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
