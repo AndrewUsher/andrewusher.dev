@@ -27,6 +27,7 @@
     "contentful": "10.0.0-beta-v10.5",
     "dayjs": "1.11.1",
     "dotenv": "14.3.2",
+    "esbuild": "0.14.39",
     "mdx-bundler": "^9.0.1",
     "pino": "7.10.0",
     "react": "18.1.0",
