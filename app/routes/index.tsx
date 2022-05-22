@@ -5,7 +5,7 @@ import {
   OfficeBuildingIcon,
   TerminalIcon
 } from '@heroicons/react/solid'
-import { Link, LoaderFunction, useLoaderData } from 'remix'
+import { HeadersFunction, Link, LoaderFunction, useLoaderData } from 'remix'
 import { RecentPosts } from '~/components/home/RecentPosts/RecentPosts'
 import { RecentProjects } from '~/components/home/RecentProjects/RecentProjects'
 import { getBlogPosts, getProjects } from '~/lib/contentful.server'
@@ -50,6 +50,10 @@ function IntroSectionCard ({
     </Link>
   )
 }
+
+export const headers: HeadersFunction = () => ({
+  'Cache-Control': 'public, s-max-age=36000'
+})
 
 export const loader: LoaderFunction = async () => {
   const [blogPosts, projects] = await Promise.all([
