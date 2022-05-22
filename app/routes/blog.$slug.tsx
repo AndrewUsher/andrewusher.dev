@@ -1,27 +1,11 @@
 import dayjs from 'dayjs'
 import React from 'react'
 import Giscus from '@giscus/react'
-import { getMDXComponent } from 'mdx-bundler/client'
-import {
-  json,
-  Link,
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-  useLoaderData
-} from 'remix'
+import { json, Link, LoaderFunction, MetaFunction, useLoaderData } from 'remix'
+import snarkdown from 'snarkdown'
 import { ReadingProgressBar } from '~/components/post/ReadingProgress/ReadingProgress'
 import { getBlogPostBySlug } from '~/lib/contentful.server'
 import { logger } from '~/lib/logger.server'
-import draculaHighlight from '~/styles/dracula.css'
-import { compileMMDX } from '~/lib/mdx.server'
-
-export const links: LinksFunction = () => [
-  {
-    rel: 'stylesheet',
-    href: draculaHighlight
-  }
-]
 
 export const loader: LoaderFunction = async ({ params }) => {
   try {
@@ -29,11 +13,11 @@ export const loader: LoaderFunction = async ({ params }) => {
       throw json({ message: 'not found' }, 404)
     }
     const { content: mdContent, ...rest } = await getBlogPostBySlug(params.slug)
-    const mdxContent = await compileMMDX(mdContent)
+    const content = snarkdown(mdContent)
 
     return {
       ...rest,
-      content: mdxContent.code
+      content
     }
   } catch (err) {
     logger.error(err)
@@ -56,23 +40,20 @@ export const meta: MetaFunction = ({ data }) => {
   }
 }
 
-export default function BlogPostPage() {
+export default function BlogPostPage () {
   const post = useLoaderData()
-  // it's generally a good idea to memoize this function call to
-  // avoid re-creating the component every render.
-  const Component = React.useMemo(
-    () => getMDXComponent(post.content),
-    [post.content]
-  )
   const formattedPublishDate = dayjs(post.date).format('MMMM DD, YYYY')
   return (
     <>
-      <main className="max-w-screen-xl mx-auto pb-12 px-4 prose dark:prose-invert prose-pre:py-6 prose-pre:px-4 prose-pre:bg-[#282a36]">
+      <main className="max-w-screen-xl mx-auto pb-12 px-4 prose dark:prose-invert">
         <div className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] py-20 px-4 text-center bg-gradient-to-tl from-blue-400 to-emerald-400 shadow-lg">
           <h1 className="mb-1">{post.title}</h1>
           <time dateTime={post.date}>Published on {formattedPublishDate}</time>
         </div>
-        <Component className="mt-12" />
+        <div
+          className="mt-12"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
         <Giscus
           repo="AndrewUsher/blog-comments"
           repoId="R_kgDOHS90kA"
@@ -92,7 +73,7 @@ export default function BlogPostPage() {
   )
 }
 
-export function CatchBoundary() {
+export function CatchBoundary () {
   return (
     <div className="flex items-center justify-center w-screen h-screen bg-gradient-to-r from-indigo-600 to-blue-400">
       <div className="h-full md:h-auto px-40 py-20 bg-white rounded-md shadow-xl">
