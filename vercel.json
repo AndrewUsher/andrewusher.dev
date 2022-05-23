@@ -9,6 +9,22 @@
       "source": "/recipes",
       "destination": "https://dev-delectables.vercel.app/", 
       "permanent": true
+    },
+    {
+      "source": "/cashapp",
+      "destination": "https://cash.app/$drewster17"
+    },
+    {
+      "source": "/github",
+      "destination": "https://github.com/AndrewUsher"
+    },
+    {
+      "source": "/linkedin",
+      "destination": "https://www.linkedin.com/in/andrew-usher-125332120/"
+    },
+    {
+      "source": "/twitter",
+      "destination": "https://twitter.com/AndrewUsher17"
     }
   ]
 }
