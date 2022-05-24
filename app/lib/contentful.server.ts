@@ -31,6 +31,28 @@ const getBlogPostBySlug = async (slug: string) => {
   return foundPost.fields
 }
 
+const getJournalEntries = async () => {
+  const data = await client.getEntries<BlogPost>({
+    content_type: 'journal-entry',
+    order: '-fields.date'
+  })
+  return data
+}
+
+const getJournalEntriesBySlug = async (slug: string) => {
+  const searchResults = await client.getEntries<BlogPost>({
+    content_type: 'journal-entry',
+    'fields.slug': slug
+  })
+
+  const postNotFound = !searchResults?.items?.length
+  if (postNotFound) {
+    throw new Error(`Post for slug ${slug} not found`)
+  }
+  const foundPost = searchResults.items[0]
+  return foundPost.fields
+}
+
 const getProjects = async (): Promise<EntryCollection<Project>> => {
   const data = await client.getEntries<Project>({
     content_type: 'projects',
@@ -40,4 +62,4 @@ const getProjects = async (): Promise<EntryCollection<Project>> => {
   return data
 }
 
-export { getBlogPosts, getBlogPostBySlug, getProjects }
+export { getBlogPosts, getBlogPostBySlug, getJournalEntries, getJournalEntriesBySlug, getProjects }

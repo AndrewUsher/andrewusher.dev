@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { LoaderFunction, useLoaderData } from 'remix'
 import { Posts } from '~/components/shared/Posts'
-import { getBlogPosts } from '~/lib/contentful.server'
+import { getBlogPosts, getJournalEntries } from '~/lib/contentful.server'
 
 export const loader: LoaderFunction = async () => {
-  const data = await getBlogPosts()
+  const data = await getJournalEntries()
   const parsedPosts = data.items.map(({ fields }) => ({
     ...fields
   }))
@@ -12,12 +12,12 @@ export const loader: LoaderFunction = async () => {
   return parsedPosts
 }
 
-export default function Blog () {
+export default function Journal () {
   const posts = useLoaderData()
   return (
     <>
       <main className="max-w-screen-xl mx-auto p-8">
-        <Posts entrySlugStart="/blog" posts={posts} />
+        <Posts entrySlugStart="/journal" posts={posts} />
       </main>
     </>
   )
