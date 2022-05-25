@@ -24,7 +24,7 @@
     "@tailwindcss/forms": "0.5.2",
     "airtable": "0.11.4",
     "clsx": "1.1.1",
-    "contentful": "10.0.0-beta-v10.5",
+    "contentful": "10.0.0-beta-v10.8",
     "dayjs": "1.11.2",
     "dotenv": "16.0.1",
     "pino": "7.11.0",
