@@ -34,7 +34,7 @@ describe('<Posts />', () => {
   test('should render post links', () => {
     render(
       <RemixWrapper>
-        <Posts posts={MOCK_POSTS}/>
+        <Posts entrySlugStart="/blog" posts={MOCK_POSTS}/>
       </RemixWrapper>
     )
 
@@ -55,5 +55,18 @@ describe('<Posts />', () => {
 
     expect(publishInfo).toBeInTheDocument()
     expect(publishInfo.getAttribute('datetime')).toBe('2022-01-05T00:00-06:00')
+  })
+
+  test('should render correct path prefix', () => {
+    render(
+      <RemixWrapper>
+        <Posts entrySlugStart="/journal" posts={MOCK_POSTS}/>
+      </RemixWrapper>
+    )
+
+    const postLink = screen.getByText('Fastify Quickstart')
+    const linkPath = new URL(postLink.href).pathname
+
+    expect(linkPath).toBe('/journal/fastify-quickstart')
   })
 })
