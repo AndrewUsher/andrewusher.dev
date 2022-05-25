@@ -3,7 +3,9 @@ import {
   BookOpenIcon,
   HeartIcon,
   OfficeBuildingIcon,
-  TerminalIcon
+  TemplateIcon,
+  TerminalIcon,
+  UserIcon
 } from '@heroicons/react/solid'
 import { HeadersFunction, Link, LoaderFunction, useLoaderData } from 'remix'
 import { RecentPosts } from '~/components/home/RecentPosts/RecentPosts'
@@ -52,7 +54,8 @@ function IntroSectionCard ({
 }
 
 export const headers: HeadersFunction = () => ({
-  'Cache-Control': 'public, max-age=3600, s-max-age=36000, stale-while-revalidate=72000'
+  'Cache-Control':
+    'public, max-age=3600, s-max-age=36000, stale-while-revalidate=72000'
 })
 
 export const loader: LoaderFunction = async () => {
@@ -103,8 +106,14 @@ export default function Index () {
           <IntroSectionCard
             body="Loose collection of thoughts, things learned, and who-knows-whats about JavaScript, React, and TypeScript"
             heading="Blog"
-            icon={BookOpenIcon}
+            icon={TemplateIcon}
             url="/blog"
+          />
+          <IntroSectionCard
+            body="Public collection of personal things I've written over the years"
+            heading="Journal"
+            icon={BookOpenIcon}
+            url="/journal"
           />
           <IntroSectionCard
             body="All of the fun things I've been working on"
@@ -123,6 +132,12 @@ export default function Index () {
             heading="Things I Like"
             icon={HeartIcon}
             url="/things-i-like"
+          />
+          <IntroSectionCard
+            body="Any questions? Project ideas? Get in touch with me!"
+            heading="Get In Touch"
+            icon={UserIcon}
+            url="/contact"
           />
         </div>
         <RecentProjects projects={recentProjects} />
