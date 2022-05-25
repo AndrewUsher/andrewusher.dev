@@ -53,6 +53,7 @@ export function Header () {
         <nav className="hidden lg:flex justify-between">
           <NavLink to="/about">About Me</NavLink>
           <NavLink to="/blog">Blog</NavLink>
+          <NavLink to="/journal">Journal</NavLink>
         </nav>
         <nav className="flex lg:hidden">
           <button onClick={openSidebar} className="dark:text-white">
