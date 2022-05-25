@@ -525,12 +525,12 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.2.tgz#30aa825f11d438671d585bd44e7fd564535fc210"
   integrity sha512-82cpyJyKRoQoRi+14ibCeGPu0CwypgtBAdBhq1WfvagpCZNKqwXbKwXllYSMG91DhmG4jt9gN8eP6lGOtozuaw==
 
-"@giscus/react@2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@giscus/react/-/react-2.0.3.tgz#d80fb9a5a0c9d5a6364ba6711277ae64d9e4cbe2"
-  integrity sha512-ynywOgvvlPn7zmWXDWAPr3jqfYC43vwK1g5P8qr528GjyWKXVyxBLJIve/mBrl+aCpZurcaExtsoJ2z6gq+Xgg==
+"@giscus/react@2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@giscus/react/-/react-2.0.5.tgz#70623df23618d1a4dcee4e9e076137cbd9843484"
+  integrity sha512-QTK4Buv+TqSJx9wovjANW130sFxnZ4/xtm2fEZifNSGaEVeT0AqfRM9Roe6n8OaJhBz5hZnlUpFWUZeHnTuu+A==
   dependencies:
-    giscus "^1.0.3"
+    giscus "^1.0.5"
 
 "@heroicons/react@^1.0.6":
   version "1.0.6"
@@ -3709,12 +3709,12 @@ get-value@^2.0.3, get-value@^2.0.6:
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
   integrity sha1-3BXKHGcjh8p2vTesCjlbogQqLCg=
 
-giscus@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/giscus/-/giscus-1.0.3.tgz#7f6895325c197f9f1a8ff469f09729a2786564ba"
-  integrity sha512-SaytuVitbLN3f8VaVeClhRvZ8XEIvjy5H4sHfaQne0yb5oKy990F12cNQtgGcTjgC8NZcJdv2bDunqQGY6sr8g==
+giscus@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/giscus/-/giscus-1.0.5.tgz#e526579bf1da6a394e23a8ac9f72a629825524d5"
+  integrity sha512-jg+4qUtyn2r9gCZJthbgPn/hLaoZAcZVhWx6d7+TYrrojMjAltrlSzYdsL++4iutVmGEYktp+nUJn2rQgZzvTg==
   dependencies:
-    lit "^2.2.2"
+    lit "^2.2.4"
 
 git-hooks-list@1.0.3:
   version "1.0.3"
@@ -4715,10 +4715,10 @@ lit-html@^2.2.0:
   dependencies:
     "@types/trusted-types" "^2.0.2"
 
-lit@^2.2.2:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/lit/-/lit-2.2.3.tgz#77203d8f247de7c0d4955817f89e40c927349b9c"
-  integrity sha512-5/v+r9dH3Pw/o0rhp/qYk3ERvOUclNF31bWb0FiW6MPgwdQIr+/KCt/p3zcd8aPl8lIGnxdGrVcZA+gWS6oFOQ==
+lit@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/lit/-/lit-2.2.4.tgz#4907d071a427620b83653e39a1664dbdacbfb982"
+  integrity sha512-O7t+uizo1/Br0y+5RaWRzPkd4MsoL4XY2eq7n2wrESyCCjeagq4ERZKsyKX40jbmsz4bAAs7/0qNRX11TuXzoA==
   dependencies:
     "@lit/reactive-element" "^1.3.0"
     lit-element "^3.2.0"
