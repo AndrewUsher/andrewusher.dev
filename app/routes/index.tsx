@@ -52,7 +52,7 @@ function IntroSectionCard ({
 }
 
 export const headers: HeadersFunction = () => ({
-  'Cache-Control': 'public, s-max-age=36000'
+  'Cache-Control': 'public, max-age=3600, s-max-age=36000, stale-while-revalidate=72000'
 })
 
 export const loader: LoaderFunction = async () => {
