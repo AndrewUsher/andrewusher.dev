@@ -38,7 +38,7 @@ function IntroSectionCard ({
   return (
     <Link
       to={url}
-      className="flex items-center rounded shadow-lg card p-6 transition ease-in-out hover:scale-105"
+      className="flex items-center rounded shadow-lg card p-6 transition ease-in-out hover:scale-105 dark:bg-slate-800"
     >
       <section>
         <Icon className="h-10 w-10 mr-4 text-sky-600" />
