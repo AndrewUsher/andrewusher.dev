@@ -1,11 +1,20 @@
 import dayjs from 'dayjs'
 import React from 'react'
 import Giscus from '@giscus/react'
-import { json, Link, LoaderFunction, MetaFunction, useLoaderData } from 'remix'
+import { json, Link, LinksFunction, LoaderFunction, MetaFunction, useLoaderData } from 'remix'
 import snarkdown from 'snarkdown'
 import { ReadingProgressBar } from '~/components/post/ReadingProgress/ReadingProgress'
 import { getBlogPostBySlug } from '~/lib/contentful.server'
 import { logger } from '~/lib/logger.server'
+import { parseMarkdown } from '~/lib/mdx.server'
+import prismCSS from '~/styles/prism-styles.css'
+
+export const links: LinksFunction = () => [
+  {
+    rel: 'stylesheet',
+    href: prismCSS
+  }
+]
 
 export const loader: LoaderFunction = async ({ params }) => {
   try {
@@ -13,7 +22,7 @@ export const loader: LoaderFunction = async ({ params }) => {
       throw json({ message: 'not found' }, 404)
     }
     const { content: mdContent, ...rest } = await getBlogPostBySlug(params.slug)
-    const content = snarkdown(mdContent)
+    const content = await parseMarkdown(mdContent)
 
     return {
       ...rest,
