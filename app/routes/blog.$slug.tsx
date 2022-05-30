@@ -1,7 +1,14 @@
 import dayjs from 'dayjs'
 import React from 'react'
 import Giscus from '@giscus/react'
-import { json, Link, LinksFunction, LoaderFunction, MetaFunction, useLoaderData } from 'remix'
+import {
+  json,
+  Link,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  useLoaderData,
+} from 'remix'
 import snarkdown from 'snarkdown'
 import { ReadingProgressBar } from '~/components/post/ReadingProgress/ReadingProgress'
 import { getBlogPostBySlug } from '~/lib/contentful.server'
@@ -12,8 +19,8 @@ import prismCSS from '~/styles/prism-styles.css'
 export const links: LinksFunction = () => [
   {
     rel: 'stylesheet',
-    href: prismCSS
-  }
+    href: prismCSS,
+  },
 ]
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -26,7 +33,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 
     return {
       ...rest,
-      content
+      content,
     }
   } catch (err) {
     logger.error(err)
@@ -39,23 +46,23 @@ export const meta: MetaFunction = ({ data }) => {
     return {
       title: 'Not Found',
       description:
-        "You landed on a page that Peter the Penguin wasn't able to find"
+        "You landed on a page that Peter the Penguin wasn't able to find",
     }
   } else {
     return {
       title: data.title,
-      description: `${data.title} | Andrew Usher`
+      description: `${data.title} | Andrew Usher`,
     }
   }
 }
 
-export default function BlogPostPage () {
+export default function BlogPostPage() {
   const post = useLoaderData()
   const formattedPublishDate = dayjs(post.date).format('MMMM DD, YYYY')
   return (
     <>
-      <main className="max-w-screen-xl mx-auto pb-12 px-4 prose dark:prose-invert">
-        <div className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] py-20 px-4 text-center bg-gradient-to-tl from-blue-400 to-emerald-400 shadow-lg">
+      <main className="prose mx-auto max-w-screen-xl px-4 pb-12 dark:prose-invert">
+        <div className="relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] w-screen bg-gradient-to-tl from-blue-400 to-emerald-400 py-20 px-4 text-center shadow-lg">
           <h1 className="mb-1">{post.title}</h1>
           <time dateTime={post.date}>Published on {formattedPublishDate}</time>
         </div>
@@ -82,14 +89,14 @@ export default function BlogPostPage () {
   )
 }
 
-export function CatchBoundary () {
+export function CatchBoundary() {
   return (
-    <div className="flex items-center justify-center w-screen h-screen bg-gradient-to-r from-indigo-600 to-blue-400">
-      <div className="h-full md:h-auto px-40 py-20 bg-white rounded-md shadow-xl">
+    <div className="flex h-screen w-screen items-center justify-center bg-gradient-to-r from-indigo-600 to-blue-400">
+      <div className="h-full rounded-md bg-white px-40 py-20 shadow-xl md:h-auto">
         <div className="flex flex-col items-center">
-          <h1 className="font-bold text-blue-600 text-9xl">404</h1>
+          <h1 className="text-9xl font-bold text-blue-600">404</h1>
 
-          <h6 className="mb-2 text-2xl font-bold text-center text-gray-800 md:text-3xl">
+          <h6 className="mb-2 text-center text-2xl font-bold text-gray-800 md:text-3xl">
             <span className="text-red-500">Oops!</span> Page not found
           </h6>
 
@@ -99,7 +106,7 @@ export function CatchBoundary () {
 
           <Link
             to="/"
-            className="px-6 py-2 text-sm font-semibold text-blue-800 bg-blue-100"
+            className="bg-blue-100 px-6 py-2 text-sm font-semibold text-blue-800"
           >
             Go home
           </Link>

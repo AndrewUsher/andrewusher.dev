@@ -4,13 +4,15 @@ import type { EntryContext } from 'remix'
 import { RemixServer } from 'remix'
 import { logger } from './lib/logger.server'
 
-export default function handleRequest (
+export default function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  logger.debug(`${request.method} request made to ${request.url} - Status code: ${responseStatusCode}`)
+  logger.debug(
+    `${request.method} request made to ${request.url} - Status code: ${responseStatusCode}`
+  )
 
   const markup = renderToString(
     <RemixServer context={remixContext} url={request.url} />
@@ -20,6 +22,6 @@ export default function handleRequest (
 
   return new Response('<!DOCTYPE html>' + markup, {
     status: responseStatusCode,
-    headers: responseHeaders
+    headers: responseHeaders,
   })
 }

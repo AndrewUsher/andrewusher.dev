@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 /**
  * React Hook to get the scroll percentage from the page, returns value from 0 to 100
  */
-export function useReadingProgress () {
+export function useReadingProgress() {
   const [completion, setCompletion] = useState(0)
   useEffect(() => {
     const updateScrollCompletion = () => {
@@ -12,7 +12,8 @@ export function useReadingProgress () {
 
       if (totalScrollHeight) {
         setCompletion(
-          Number((currentScrollingProgress / totalScrollHeight).toFixed(2)) * 100
+          Number((currentScrollingProgress / totalScrollHeight).toFixed(2)) *
+            100
         )
       }
     }
@@ -26,15 +27,17 @@ export function useReadingProgress () {
   return completion
 }
 
-export function ReadingProgressBar () {
+export function ReadingProgressBar() {
   const completion = useReadingProgress()
   return (
-      <span
-        id="progress-bar"
-        style={{
-          transform: `translateX(${completion - 100}%)`
-        }}
-        className={'fixed bottom-0 w-full transition-transform duration-150 h-1 bg-sky-600'}
-      />
+    <span
+      id="progress-bar"
+      style={{
+        transform: `translateX(${completion - 100}%)`,
+      }}
+      className={
+        'fixed bottom-0 h-1 w-full bg-sky-600 transition-transform duration-150'
+      }
+    />
   )
 }

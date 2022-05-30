@@ -10,10 +10,10 @@ type Props = {
   posts: BlogPost[]
 }
 
-export function RecentPosts ({ posts }: Props) {
+export function RecentPosts({ posts }: Props) {
   return (
     <section>
-      <h2 className="text-4xl font-bold mb-8 dark:text-white">
+      <h2 className="mb-8 text-4xl font-bold dark:text-white">
         Recent Blog Posts
       </h2>
       <Posts entrySlugStart="/blog" posts={posts} />

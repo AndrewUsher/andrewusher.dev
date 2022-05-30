@@ -8,7 +8,7 @@ export const loader: LoaderFunction = async () => {
   const data = await getProjects()
   logger.debug(`Projects route - ${data.total} projects found`)
   const parsedProjects = data.items.map(({ fields }) => ({
-    ...fields
+    ...fields,
   }))
 
   return parsedProjects
@@ -16,16 +16,15 @@ export const loader: LoaderFunction = async () => {
 
 export const meta: MetaFunction = () => ({
   title: 'Projects - Andrew Usher',
-  description:
-    'Projects that I\'ve worked on solely/contributed to.'
+  description: "Projects that I've worked on solely/contributed to.",
 })
 
-export default function ProjectsRoute () {
+export default function ProjectsRoute() {
   const projects = useLoaderData()
   return (
     <>
-      <main className="max-w-screen-xl mx-auto p-8">
-        <Projects projects={projects}/>
+      <main className="mx-auto max-w-screen-xl p-8">
+        <Projects projects={projects} />
       </main>
     </>
   )

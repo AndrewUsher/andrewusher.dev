@@ -5,7 +5,7 @@ import Typical from 'react-typical'
 
 const NavLink = ({ children, to }: NavLinkProps) => (
   <RemixNavLink
-    className="block ml-8 first:ml-0 text-xl dark:text-white"
+    className="ml-8 block text-xl first:ml-0 dark:text-white"
     to={to}
   >
     {children}
@@ -14,14 +14,14 @@ const NavLink = ({ children, to }: NavLinkProps) => (
 
 const MobileNavLink = ({ children, to }: NavLinkProps) => (
   <RemixNavLink
-    className="block mb-4 pb-4 text-xl dark:text-white w-full text-center"
+    className="mb-4 block w-full pb-4 text-center text-xl dark:text-white"
     to={to}
   >
     {children}
   </RemixNavLink>
 )
 
-export function Header () {
+export function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const location = useLocation()
 
@@ -39,7 +39,7 @@ export function Header () {
 
   return (
     <>
-      <header className="max-w-screen-xl mx-auto p-8 flex items-center justify-between">
+      <header className="mx-auto flex max-w-screen-xl items-center justify-between p-8">
         <h1 className="text-4xl font-bold dark:text-white">
           <Link to="/">
             <Typical
@@ -50,7 +50,7 @@ export function Header () {
           </Link>
         </h1>
         {/* TODO: Add sidebar for mobile if new links are added */}
-        <nav className="hidden lg:flex justify-between">
+        <nav className="hidden justify-between lg:flex">
           <NavLink to="/about">About Me</NavLink>
           <NavLink to="/blog">Blog</NavLink>
           <NavLink to="/journal">Journal</NavLink>
@@ -76,14 +76,14 @@ export function Header () {
       </header>
       <div
         className={clsx(
-          'transition ease-in-out fixed top-0 bg-sky-300 h-full w-full text-white',
+          'fixed top-0 h-full w-full bg-sky-300 text-white transition ease-in-out',
           {
             'translate-x-full': !sidebarOpen,
-            'translate-x-0': sidebarOpen
+            'translate-x-0': sidebarOpen,
           }
         )}
       >
-        <nav className="flex justify-between p-4 mb-8">
+        <nav className="mb-8 flex justify-between p-4">
           <h1 className="text-4xl font-bold dark:text-white">
             <Link to="/">Andrew Usher</Link>
           </h1>

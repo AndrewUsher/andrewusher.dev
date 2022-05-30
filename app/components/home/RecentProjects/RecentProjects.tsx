@@ -6,10 +6,12 @@ type Props = {
   projects: Project[]
 }
 
-export function RecentProjects ({ projects }: Props) {
+export function RecentProjects({ projects }: Props) {
   return (
     <section>
-      <h2 className="text-4xl font-bold mb-8 dark:text-white">Recent Projects</h2>
+      <h2 className="mb-8 text-4xl font-bold dark:text-white">
+        Recent Projects
+      </h2>
       <Projects projects={projects} />
     </section>
   )

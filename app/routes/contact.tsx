@@ -18,11 +18,11 @@ type SubmissionFields = {
   subject?: string | null
 }
 
-function validateContactFormSubmission ({
+function validateContactFormSubmission({
   body,
   email,
   name,
-  subject
+  subject,
 }: SubmissionFields) {
   const errors: MaybeErrors = {}
   if (!body) {
@@ -58,13 +58,13 @@ export const action: ActionFunction = async ({ request }) => {
   }
 }
 
-export default function ContactRoute () {
+export default function ContactRoute() {
   const fetcher = useFetcher()
   const submitted = fetcher.type === 'done' && fetcher.data?.success === true
 
   return (
-    <main className="max-w-screen-md mx-auto p-8">
-      <section className="prose dark:prose-invert mb-8">
+    <main className="mx-auto max-w-screen-md p-8">
+      <section className="prose mb-8 dark:prose-invert">
         <p>How can I help you?</p>
         <p>
           If you want us to work together on a project, or have any questions
@@ -87,17 +87,17 @@ export default function ContactRoute () {
         <Input label="Subject" id="subject" required />
         <TextArea label="Body" id="body" required />
         {submitted ? (
-          <p className="bg-sky-200/50 dark:bg-sky-700 border-l-8 border-l-sky-500 dark:border-l-yellow-400 dark:text-white p-4">
+          <p className="border-l-8 border-l-sky-500 bg-sky-200/50 p-4 dark:border-l-yellow-400 dark:bg-sky-700 dark:text-white">
             Email sent! I&apos;ll be in touch soon!
           </p>
         ) : (
           <button
-            className="relative inline-block group mb-12"
+            className="group relative mb-12 inline-block"
             type="submit"
             disabled={fetcher.state === 'submitting'}
           >
-            <span className="absolute inset-0 bg-blue-300 dark:bg-blue-700 transition-transform transform translate-x-2 translate-y-2 group-hover:translate-y-0 group-hover:translate-x-0"></span>
-            <span className="relative inline-block px-5 py-3 font-bold tracking-widest uppercase border-2 border-black dark:text-white dark:border-white">
+            <span className="absolute inset-0 translate-x-2 translate-y-2 transform bg-blue-300 transition-transform group-hover:translate-y-0 group-hover:translate-x-0 dark:bg-blue-700"></span>
+            <span className="relative inline-block border-2 border-black px-5 py-3 font-bold uppercase tracking-widest dark:border-white dark:text-white">
               Send Message
             </span>
           </button>

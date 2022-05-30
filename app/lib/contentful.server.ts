@@ -6,13 +6,13 @@ const contentfulSpaceId = process.env.CONTENTFUL_SPACE_ID
 
 const client = createClient({
   accessToken: contentfulAccessToken!,
-  space: contentfulSpaceId!
+  space: contentfulSpaceId!,
 })
 
 const getBlogPosts = async () => {
   const data = await client.getEntries<BlogPost>({
     content_type: 'blog-post',
-    order: '-fields.date'
+    order: '-fields.date',
   })
   return data
 }
@@ -20,7 +20,7 @@ const getBlogPosts = async () => {
 const getBlogPostBySlug = async (slug: string) => {
   const searchResults = await client.getEntries<BlogPost>({
     content_type: 'blog-post',
-    'fields.slug': slug
+    'fields.slug': slug,
   })
 
   const postNotFound = !searchResults?.items?.length
@@ -34,7 +34,7 @@ const getBlogPostBySlug = async (slug: string) => {
 const getJournalEntries = async () => {
   const data = await client.getEntries<BlogPost>({
     content_type: 'journal-entry',
-    order: '-fields.date'
+    order: '-fields.date',
   })
   return data
 }
@@ -42,7 +42,7 @@ const getJournalEntries = async () => {
 const getJournalEntriesBySlug = async (slug: string) => {
   const searchResults = await client.getEntries<BlogPost>({
     content_type: 'journal-entry',
-    'fields.slug': slug
+    'fields.slug': slug,
   })
 
   const postNotFound = !searchResults?.items?.length
@@ -56,10 +56,16 @@ const getJournalEntriesBySlug = async (slug: string) => {
 const getProjects = async (): Promise<EntryCollection<Project>> => {
   const data = await client.getEntries<Project>({
     content_type: 'projects',
-    order: '-fields.date'
+    order: '-fields.date',
   })
 
   return data
 }
 
-export { getBlogPosts, getBlogPostBySlug, getJournalEntries, getJournalEntriesBySlug, getProjects }
+export {
+  getBlogPosts,
+  getBlogPostBySlug,
+  getJournalEntries,
+  getJournalEntriesBySlug,
+  getProjects,
+}

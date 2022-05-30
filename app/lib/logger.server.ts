@@ -3,7 +3,10 @@ import pretty from 'pino-pretty'
 
 const stream = pretty({
   colorize: true,
-  translateTime: false
+  translateTime: false,
 })
 
-export const logger = pino({ level: process.env.PINO_LOG_LEVEL || 'error' }, stream)
+export const logger = pino(
+  { level: process.env.PINO_LOG_LEVEL || 'error' },
+  stream
+)

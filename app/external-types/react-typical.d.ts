@@ -7,6 +7,6 @@ declare module 'react-typical' {
     wrapper: string
   }
 
-  function ReactTypical (props: ReactTypicalProps): React.ReactElement
+  function ReactTypical(props: ReactTypicalProps): React.ReactElement
   export default ReactTypical
 }

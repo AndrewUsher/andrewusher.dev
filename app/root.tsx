@@ -6,7 +6,7 @@ import {
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration
+  ScrollRestoration,
 } from 'remix'
 import { Footer } from './components/root/Footer'
 import { Header } from './components/root/Header'
@@ -20,7 +20,7 @@ export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: styles }]
 }
 
-export default function App () {
+export default function App() {
   return (
     <html lang="en">
       <head>
@@ -35,12 +35,34 @@ export default function App () {
         <meta name="twitter:site" content="@AndrewUsher17" />
         <meta name="twitter:title" content="Andrew Usher" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#7dd3fc" />
-        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0284c7" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
-        <link rel="manifest" href="/site.webmanifest"/>
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: light)"
+          content="#7dd3fc"
+        />
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: dark)"
+          content="#0284c7"
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
         <meta name="color-scheme" content="dark light" />
 
         <Meta />

@@ -1,4 +1,3 @@
-
 module.exports = {
   extends: ['@drewster/eslint-config/react', '@drewster/eslint-config/ts'],
   globals: {
@@ -9,11 +8,9 @@ module.exports = {
     describe: true,
     expect: true,
     jest: true,
-    test: true
+    test: true,
   },
   rules: {
     'multiline-ternary': 0,
-    'space-before-function-paren': ['error', 'always']
-
-  }
+  },
 }

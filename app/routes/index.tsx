@@ -5,18 +5,18 @@ import {
   OfficeBuildingIcon,
   TemplateIcon,
   TerminalIcon,
-  UserIcon
+  UserIcon,
 } from '@heroicons/react/solid'
 import { HeadersFunction, Link, LoaderFunction, useLoaderData } from 'remix'
 import { RecentPosts } from '~/components/home/RecentPosts/RecentPosts'
 import { RecentProjects } from '~/components/home/RecentProjects/RecentProjects'
 import { getBlogPosts, getProjects } from '~/lib/contentful.server'
 
-function Paragraph ({ children }: { children: React.ReactNode }) {
+function Paragraph({ children }: { children: React.ReactNode }) {
   return <p>{children}</p>
 }
 
-function ExternalLink ({ href, children }: { children: string; href: string }) {
+function ExternalLink({ href, children }: { children: string; href: string }) {
   return (
     <a className="underline" href={href}>
       {children}
@@ -31,22 +31,22 @@ type IntroSectionCardProps = {
   url: string
 }
 
-function IntroSectionCard ({
+function IntroSectionCard({
   body,
   heading,
   icon: Icon,
-  url
+  url,
 }: IntroSectionCardProps) {
   return (
     <Link
       to={url}
-      className="flex items-center rounded shadow-lg card p-6 transition ease-in-out hover:scale-105 dark:bg-slate-800"
+      className="card flex items-center rounded p-6 shadow-lg transition ease-in-out hover:scale-105 dark:bg-slate-800"
     >
       <section>
-        <Icon className="h-10 w-10 mr-4 text-sky-600" />
+        <Icon className="mr-4 h-10 w-10 text-sky-600" />
       </section>
       <section>
-        <h2 className="font-bold text-3xl mb-1 text-sky-600">{heading}</h2>
+        <h2 className="mb-1 text-3xl font-bold text-sky-600">{heading}</h2>
         <p className="text-base">{body}</p>
       </section>
     </Link>
@@ -55,35 +55,35 @@ function IntroSectionCard ({
 
 export const headers: HeadersFunction = () => ({
   'Cache-Control':
-    'public, max-age=3600, s-max-age=36000, stale-while-revalidate=72000'
+    'public, max-age=3600, s-max-age=36000, stale-while-revalidate=72000',
 })
 
 export const loader: LoaderFunction = async () => {
   const [blogPosts, projects] = await Promise.all([
     getBlogPosts(),
-    getProjects()
+    getProjects(),
   ])
 
   return {
     recentBlogPosts: blogPosts.items.slice(0, 5).map(({ fields }) => ({
       date: fields.date,
       slug: fields.slug,
-      title: fields.title
+      title: fields.title,
     })),
 
     recentProjects: projects.items.map(({ fields }) => ({
       summary: fields.summary,
-      title: fields.title
-    }))
+      title: fields.title,
+    })),
   }
 }
 
-export default function Index () {
+export default function Index() {
   const { recentBlogPosts, recentProjects } = useLoaderData()
   return (
     <>
-      <div className="max-w-screen-xl mx-auto p-8">
-        <div className="prose lg:prose-xl dark:prose-invert">
+      <div className="mx-auto max-w-screen-xl p-8">
+        <div className="prose dark:prose-invert lg:prose-xl">
           <Paragraph>
             Howdy! During the day, I am a systems engineer at{' '}
             <ExternalLink href="https://www.autozone.com/">

@@ -6,17 +6,17 @@ import { getBlogPosts } from '~/lib/contentful.server'
 export const loader: LoaderFunction = async () => {
   const data = await getBlogPosts()
   const parsedPosts = data.items.map(({ fields }) => ({
-    ...fields
+    ...fields,
   }))
 
   return parsedPosts
 }
 
-export default function Blog () {
+export default function Blog() {
   const posts = useLoaderData()
   return (
     <>
-      <main className="max-w-screen-xl mx-auto p-8">
+      <main className="mx-auto max-w-screen-xl p-8">
         <Posts entrySlugStart="/blog" posts={posts} />
       </main>
     </>
