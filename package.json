@@ -51,7 +51,7 @@
     "babel-eslint": "10.1.0",
     "c8": "7.11.3",
     "concurrently": "7.2.1",
-    "eslint": "8.16.0",
+    "eslint": "8.17.0",
     "eslint-plugin-jest": "26.4.6",
     "jsdom": "19.0.0",
     "pino-pretty": "8.0.0",
