@@ -1,10 +1,9 @@
 module.exports = {
   content: ['./app/**/*.{ts,tsx}', './remix.*.js'],
   theme: {
-    extend: {}
+    fontFamily: {
+      epilogue: 'Epilogue, serif',
+    },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography')
-  ]
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 }
