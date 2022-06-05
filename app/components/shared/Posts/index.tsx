@@ -13,7 +13,7 @@ export function Posts({ entrySlugStart, posts }: Props) {
     <>
       {posts.map((post) => (
         <article key={post.title} className="mb-6">
-          <h3 className="mb-1 text-2xl font-semibold dark:text-white">
+          <h3 className="mb-1 break-words text-2xl font-semibold dark:text-white">
             <Link
               className="hover:text-sky-500"
               to={`${entrySlugStart}/${post.slug}`}

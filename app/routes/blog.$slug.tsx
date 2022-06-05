@@ -63,7 +63,7 @@ export default function BlogPostPage() {
     <>
       <main className="prose mx-auto max-w-screen-xl px-4 pb-12 prose-headings:text-blue-700 prose-h1:text-black dark:prose-invert">
         <div className="relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] w-screen bg-gradient-to-tl from-blue-400 to-emerald-400 py-20 px-4 text-center shadow-lg">
-          <h1 className="mb-1 text-black">{post.title}</h1>
+          <h1 className="mb-1 break-words text-black">{post.title}</h1>
           <time dateTime={post.date}>Published on {formattedPublishDate}</time>
         </div>
         <div
