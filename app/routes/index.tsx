@@ -11,6 +11,7 @@ import { HeadersFunction, Link, LoaderFunction, useLoaderData } from 'remix'
 import { RecentPosts } from '~/components/home/RecentPosts/RecentPosts'
 import { RecentProjects } from '~/components/home/RecentProjects/RecentProjects'
 import { getBlogPosts, getProjects } from '~/lib/contentful.server'
+import { BlogPostOrJournalEntry, Project } from '~/types/contentful'
 
 function Paragraph({ children }: { children: React.ReactNode }) {
   return <p>{children}</p>
@@ -58,7 +59,12 @@ export const headers: HeadersFunction = () => ({
     'public, max-age=3600, s-max-age=36000, stale-while-revalidate=72000',
 })
 
-export const loader: LoaderFunction = async () => {
+type LoaderData = {
+  recentBlogPosts: Omit<BlogPostOrJournalEntry, 'content'>[]
+  recentProjects: Omit<Project, 'date'>[]
+}
+
+export const loader: LoaderFunction = async (): Promise<LoaderData> => {
   const [blogPosts, projects] = await Promise.all([
     getBlogPosts(),
     getProjects(),
@@ -79,7 +85,7 @@ export const loader: LoaderFunction = async () => {
 }
 
 export default function Index() {
-  const { recentBlogPosts, recentProjects } = useLoaderData()
+  const { recentBlogPosts, recentProjects } = useLoaderData<LoaderData>()
   return (
     <>
       <div className="mx-auto max-w-screen-xl p-8">

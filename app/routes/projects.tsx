@@ -3,8 +3,11 @@ import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
 import { Projects } from '~/components/shared/Projects/Projects'
 import { getProjects } from '~/lib/contentful.server'
 import { logger } from '~/lib/logger.server'
+import { Project } from '~/types/contentful'
 
-export const loader: LoaderFunction = async () => {
+type LoaderData = Project[]
+
+export const loader: LoaderFunction = async (): Promise<LoaderData> => {
   const data = await getProjects()
   logger.debug(`Projects route - ${data.total} projects found`)
   const parsedProjects = data.items.map(({ fields }) => ({
@@ -20,7 +23,7 @@ export const meta: MetaFunction = () => ({
 })
 
 export default function ProjectsRoute() {
-  const projects = useLoaderData()
+  const projects = useLoaderData<LoaderData>()
   return (
     <>
       <main className="mx-auto max-w-screen-xl p-8">

@@ -1,5 +1,5 @@
 import { createClient, EntryCollection } from 'contentful'
-import { BlogPost, Project } from '~/types/contentful'
+import { BlogPostOrJournalEntry, Project } from '~/types/contentful'
 
 const contentfulAccessToken = process.env.CONTENTFUL_ACCESS_TOKEN
 const contentfulSpaceId = process.env.CONTENTFUL_SPACE_ID
@@ -10,7 +10,7 @@ const client = createClient({
 })
 
 const getBlogPosts = async () => {
-  const data = await client.getEntries<BlogPost>({
+  const data = await client.getEntries<BlogPostOrJournalEntry>({
     content_type: 'blog-post',
     order: '-fields.date',
   })
@@ -18,7 +18,7 @@ const getBlogPosts = async () => {
 }
 
 const getBlogPostBySlug = async (slug: string) => {
-  const searchResults = await client.getEntries<BlogPost>({
+  const searchResults = await client.getEntries<BlogPostOrJournalEntry>({
     content_type: 'blog-post',
     'fields.slug': slug,
   })
@@ -32,7 +32,7 @@ const getBlogPostBySlug = async (slug: string) => {
 }
 
 const getJournalEntries = async () => {
-  const data = await client.getEntries<BlogPost>({
+  const data = await client.getEntries<BlogPostOrJournalEntry>({
     content_type: 'journal-entry',
     order: '-fields.date',
   })
@@ -40,7 +40,7 @@ const getJournalEntries = async () => {
 }
 
 const getJournalEntriesBySlug = async (slug: string) => {
-  const searchResults = await client.getEntries<BlogPost>({
+  const searchResults = await client.getEntries<BlogPostOrJournalEntry>({
     content_type: 'journal-entry',
     'fields.slug': slug,
   })

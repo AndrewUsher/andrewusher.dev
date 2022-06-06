@@ -2,7 +2,7 @@ import React from 'react'
 import { Project } from '~/types/contentful'
 
 type Props = {
-  projects: Project[]
+  projects: Omit<Project, 'date'>[]
 }
 
 export function Projects({ projects }: Props) {

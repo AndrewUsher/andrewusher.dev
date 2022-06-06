@@ -3,7 +3,7 @@ import { Projects } from '~/components/shared/Projects/Projects'
 import { Project } from '~/types/contentful'
 
 type Props = {
-  projects: Project[]
+  projects: Omit<Project, 'date'>[]
 }
 
 export function RecentProjects({ projects }: Props) {

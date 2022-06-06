@@ -15,6 +15,7 @@ import { getBlogPostBySlug } from '~/lib/contentful.server'
 import { logger } from '~/lib/logger.server'
 import { parseMarkdown } from '~/lib/mdx.server'
 import prismCSS from '~/styles/prism-styles.css'
+import { BlogPostOrJournalEntry } from '~/types/contentful'
 
 export const links: LinksFunction = () => [
   {
@@ -23,7 +24,11 @@ export const links: LinksFunction = () => [
   },
 ]
 
-export const loader: LoaderFunction = async ({ params }) => {
+type LoaderData = BlogPostOrJournalEntry
+
+export const loader: LoaderFunction = async ({
+  params,
+}): Promise<LoaderData> => {
   try {
     if (!params.slug) {
       throw json({ message: 'not found' }, 404)
@@ -57,7 +62,7 @@ export const meta: MetaFunction = ({ data }) => {
 }
 
 export default function BlogPostPage() {
-  const post = useLoaderData()
+  const post = useLoaderData<LoaderData>()
   const formattedPublishDate = dayjs(post.date).format('MMMM DD, YYYY')
   return (
     <>

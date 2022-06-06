@@ -1,4 +1,4 @@
-export type BlogPost = {
+export type BlogPostOrJournalEntry = {
   content: string
   date: string
   slug: string
