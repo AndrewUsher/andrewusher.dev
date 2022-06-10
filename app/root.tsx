@@ -69,6 +69,7 @@ export default function App() {
         <Links />
       </head>
       <body className="font-epilogue dark:bg-neutral-900">
+        <div className="sticky top-0 h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></div>
         <Header />
         <Outlet />
         <Footer />
