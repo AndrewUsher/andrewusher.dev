@@ -7,11 +7,19 @@ import {
   TerminalIcon,
   UserIcon,
 } from '@heroicons/react/solid'
-import { HeadersFunction, Link, LoaderFunction, useLoaderData } from 'remix'
+import {
+  HeadersFunction,
+  Link,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  useLoaderData,
+} from 'remix'
 import { RecentPosts } from '~/components/home/RecentPosts/RecentPosts'
 import { RecentProjects } from '~/components/home/RecentProjects/RecentProjects'
 import { getBlogPosts, getProjects } from '~/lib/contentful.server'
 import { BlogPostOrJournalEntry, Project } from '~/types/contentful'
+import { getSeo } from '~/seo'
 
 function Paragraph({ children }: { children: React.ReactNode }) {
   return <p>{children}</p>
@@ -83,6 +91,11 @@ export const loader: LoaderFunction = async (): Promise<LoaderData> => {
     })),
   }
 }
+
+const [seoMeta, seoLinks] = getSeo()
+
+export const links: LinksFunction = () => [...seoLinks]
+export const meta: MetaFunction = () => ({ ...seoMeta })
 
 export default function Index() {
   const { recentBlogPosts, recentProjects } = useLoaderData<LoaderData>()
