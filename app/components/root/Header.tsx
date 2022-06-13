@@ -39,7 +39,7 @@ export function Header() {
 
   return (
     <>
-      <header className="mx-auto flex max-w-screen-xl items-center justify-between p-8">
+      <div className="mx-auto flex max-w-screen-xl items-center justify-between p-8">
         <h1 className="text-4xl font-bold dark:text-white">
           <Link to="/">
             <Typical
@@ -73,7 +73,7 @@ export function Header() {
             </svg>
           </button>
         </nav>
-      </header>
+      </div>
       <div
         className={clsx(
           'fixed top-0 h-full w-full bg-sky-300 text-white transition ease-in-out',
