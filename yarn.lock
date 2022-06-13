@@ -5422,6 +5422,11 @@ jsprim@^2.0.2:
     array-includes "^3.1.3"
     object.assign "^4.1.2"
 
+just-merge@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/just-merge/-/just-merge-3.0.1.tgz#26504f9b41b86ea15a4ace421c5009bebbe17717"
+  integrity sha512-NAwyt7KvIhHFRkLNlwor8cMs//ni72uBNL5Eev4WF/6v2xgEyWglv+z7V5EtW9jKYxbYCvt9EwsLeVlpHCEOCA==
+
 keyv@^4.0.0:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/keyv/-/keyv-4.0.5.tgz#bb12b467aba372fab2a44d4420c00d3c4ebd484c"
@@ -7539,6 +7544,13 @@ remark@14.0.2:
     remark-parse "^10.0.0"
     remark-stringify "^10.0.0"
     unified "^10.0.0"
+
+remix-seo@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/remix-seo/-/remix-seo-0.1.0.tgz#0f98dc1f07c311deb53da66589ef8567339a3a44"
+  integrity sha512-Dr51sNdOIjAqE62Xc7D2prNAowzudwB3fU1Lr9IxM2vUWGu+gdPIoo8duNA+qg+FYAuFJJJk11skJXD8+8p4pw==
+  dependencies:
+    just-merge "^3.0.1"
 
 remix@1.5.1:
   version "1.5.1"
