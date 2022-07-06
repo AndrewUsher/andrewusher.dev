@@ -48,7 +48,7 @@
     "@tailwindcss/typography": "0.5.2",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "13.3.0",
-    "@types/react": "18.0.14",
+    "@types/react": "18.0.15",
     "@types/react-dom": "18.0.5",
     "babel-eslint": "10.1.0",
     "c8": "7.11.3",
