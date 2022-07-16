@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config'
+import { defineConfig, configDefaults } from 'vitest/config'
 
 export default defineConfig({
   test: {
@@ -7,7 +7,8 @@ export default defineConfig({
     reporters: 'verbose',
     setupFiles: ['./vitest.setup.js'],
     transformMode: {
-      web: [/\.([cm]?[jt]sx?|json)$/]
-    }
-  }
+      web: [/\.([cm]?[jt]sx?|json)$/],
+    },
+    exclude: [...configDefaults.exclude, 'e2e'],
+  },
 })
