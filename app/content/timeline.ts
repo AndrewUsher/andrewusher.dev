@@ -15,6 +15,11 @@ export const timelineData = [
     description: null,
   },
   {
+    date: 'August 2011',
+    heading: 'Started playing basketball 🏀',
+    description: null,
+  },
+  {
     date: 'February 9, 1999',
     heading: 'I was Born 👶🏾',
     description: null,
