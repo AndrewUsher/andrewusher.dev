@@ -46,16 +46,23 @@ export default function BlogPostPage() {
   const formattedPublishDate = dayjs(post.date).format('MMMM DD, YYYY')
   return (
     <>
-      <main className="prose-lg mx-auto max-w-screen-xl px-4 pb-12 dark:prose-invert md:prose-xl">
-        <div className="relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] w-screen bg-gradient-to-tl from-blue-400 to-emerald-400 py-20 px-4 text-center shadow-lg">
-          <h1 className="mb-1 break-words">{post.title}</h1>
-          <time dateTime={post.date}>Published on {formattedPublishDate}</time>
-        </div>
-        <div
-          className="mt-12"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-      </main>
+      <div className="s mx-auto mt-8 max-w-screen-xl px-4">
+        <h1 className="mb-1 break-words text-3xl font-bold text-indigo-600 dark:text-indigo-200">
+          {post.title}
+        </h1>
+        <time
+          className="text-indigo-400 opacity-80 dark:text-indigo-200"
+          dateTime={post.date}
+        >
+          Published on {formattedPublishDate}
+        </time>
+        <main className="prose-lg  pb-12 dark:prose-invert">
+          <div
+            className="mt-12"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
+        </main>
+      </div>
       <ReadingProgressBar />
     </>
   )
