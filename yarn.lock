@@ -1578,27 +1578,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mswjs/cookies@npm:^0.2.0":
-  version: 0.2.1
-  resolution: "@mswjs/cookies@npm:0.2.1"
+"@mswjs/cookies@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@mswjs/cookies@npm:0.2.2"
   dependencies:
     "@types/set-cookie-parser": ^2.4.0
     set-cookie-parser: ^2.4.6
-  checksum: c8226a41b2bfb35b0e27b936998246e4401bf47aab2be416491ab8932c3c96c56b34453a36ac72e070fba2f4a6c114935ab78db476c49a762ee83a26e6380cf7
+  checksum: 23b1ef56d57efcc1b44600076f531a1fb703855af342a31e01bad4adaf0dab51f6d3b5595a95a7988c3f612ba075835f9a06c52833205284d101eb9a51dd72b0
   languageName: node
   linkType: hard
 
-"@mswjs/interceptors@npm:^0.16.3":
-  version: 0.16.6
-  resolution: "@mswjs/interceptors@npm:0.16.6"
+"@mswjs/interceptors@npm:^0.17.2":
+  version: 0.17.3
+  resolution: "@mswjs/interceptors@npm:0.17.3"
   dependencies:
     "@open-draft/until": ^1.0.3
+    "@types/debug": ^4.1.7
     "@xmldom/xmldom": ^0.7.5
     debug: ^4.3.3
     headers-polyfill: ^3.0.4
     outvariant: ^1.2.1
     strict-event-emitter: ^0.2.4
-  checksum: ab9c1fd0142b18875b1fe5134260fcf10b3b7249324cc62f2656d888bafc0db472cd7b4dea4649dfd0f061375b55342e2de557dd075e9f9c8afb3eaf266d987e
+    web-encoding: ^1.1.5
+  checksum: 1c879fe78e2e19e29f610d3572f22990b67f3f892719530ed1d8b0191a644e03461b812ed8137586ab126e66c49dbfd53ea1ff830696589d1b1ad238df40f206
   languageName: node
   linkType: hard
 
@@ -2083,7 +2085,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/debug@npm:^4.0.0":
+"@types/debug@npm:^4.0.0, @types/debug@npm:^4.1.7":
   version: 4.1.7
   resolution: "@types/debug@npm:4.1.7"
   dependencies:
@@ -8797,12 +8799,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw@npm:0.42.3":
-  version: 0.42.3
-  resolution: "msw@npm:0.42.3"
+"msw@npm:0.44.2":
+  version: 0.44.2
+  resolution: "msw@npm:0.44.2"
   dependencies:
-    "@mswjs/cookies": ^0.2.0
-    "@mswjs/interceptors": ^0.16.3
+    "@mswjs/cookies": ^0.2.2
+    "@mswjs/interceptors": ^0.17.2
     "@open-draft/until": ^1.0.3
     "@types/cookie": ^0.4.1
     "@types/js-levenshtein": ^1.1.1
@@ -8828,7 +8830,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 6eda5102dcdfd405d13d75c8557fc8b0ceb06bcd37851d919d5392971dd43d1dd524b7d2a46f2ffa580aadc2b12eac81776cd51e7d085c41d1e4236b57cc921c
+  checksum: 739d536ee09d1c0a2cbc9dbe917f167c42115a6548f99780850ce9a63a5e7c377cf9b5f1a3b497e85ce7304025ab22966e997fe73adbd8d2ab968b8685f15a24
   languageName: node
   linkType: hard
 
@@ -10425,7 +10427,7 @@ __metadata:
     eslint: 8.18.0
     eslint-plugin-jest: 26.5.3
     jsdom: 20.0.0
-    msw: 0.42.3
+    msw: 0.44.2
     pino: 8.1.0
     pino-pretty: 8.1.0
     react: 18.2.0
@@ -12351,7 +12353,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-encoding@npm:1.1.5":
+"web-encoding@npm:1.1.5, web-encoding@npm:^1.1.5":
   version: 1.1.5
   resolution: "web-encoding@npm:1.1.5"
   dependencies:
