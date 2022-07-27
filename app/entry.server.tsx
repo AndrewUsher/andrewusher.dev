@@ -4,6 +4,12 @@ import type { EntryContext } from 'remix'
 import { RemixServer } from 'remix'
 import { logger } from './lib/logger.server'
 
+if (process.env.ENABLE_MSW === 'true') {
+  import('./msw/server').then(({ server }) => {
+    server.listen()
+  })
+}
+
 export default function handleRequest(
   request: Request,
   responseStatusCode: number,
