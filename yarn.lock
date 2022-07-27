@@ -3957,9 +3957,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"concurrently@npm:7.2.2":
-  version: 7.2.2
-  resolution: "concurrently@npm:7.2.2"
+"concurrently@npm:7.3.0":
+  version: 7.3.0
+  resolution: "concurrently@npm:7.3.0"
   dependencies:
     chalk: ^4.1.0
     date-fns: ^2.16.1
@@ -3972,7 +3972,7 @@ __metadata:
     yargs: ^17.3.1
   bin:
     concurrently: dist/bin/concurrently.js
-  checksum: ae9604032d971a49a11c6797ed057380e53bde0ec79d1dcbd23bdbe578961867289089e9729e802520297d8f410e3085333719a3f7a4ce1c2ed167b68c740247
+  checksum: 5de845e4947c550a6ff74ecc80e1897109abe339fe8a7fa117e7b8978362566ac4ee070e4475bdaa6fc453f780fadb9089739a02606e27e04affaa7dd8905d2d
   languageName: node
   linkType: hard
 
@@ -10291,7 +10291,7 @@ __metadata:
     babel-eslint: 10.1.0
     c8: 7.12.0
     clsx: 1.2.1
-    concurrently: 7.2.2
+    concurrently: 7.3.0
     contentful: 10.0.0-beta-v10.8
     dayjs: 1.11.4
     dotenv: 16.0.1
