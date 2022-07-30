@@ -14,7 +14,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@giscus/react": "2.1.1",
+    "@giscus/react": "2.2.0",
     "@heroicons/react": "1.0.6",
     "@jsdevtools/rehype-toc": "3.0.2",
     "@remix-run/node": "1.6.5",
