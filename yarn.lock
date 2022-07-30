@@ -1634,15 +1634,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@giscus/react@npm:2.1.1":
-  version: 2.1.1
-  resolution: "@giscus/react@npm:2.1.1"
+"@giscus/react@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@giscus/react@npm:2.2.0"
   dependencies:
-    giscus: ^1.1.1
+    giscus: ^1.2.0
   peerDependencies:
     react: ^16 || ^17 || ^18
     react-dom: ^16 || ^17 || ^18
-  checksum: 3c425b673598cc7eeb900a574f13436cfd2c12fe02030b7aaf2b08f4e37e1e61bb78dd9b314b652702ddde648a5562badf376e1ca8aee95918607eec331624ce
+  checksum: 1d0b4701dd9fef74aa1cc67ee4b7dda354e38fd4bd9c61306b382ac49e127df30a4c262eb39ba4f53aeb3262d4725359bc49ea6a2b08027f5479a65879e7fbba
   languageName: node
   linkType: hard
 
@@ -6227,12 +6227,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"giscus@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "giscus@npm:1.1.1"
+"giscus@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "giscus@npm:1.2.0"
   dependencies:
     lit: ^2.2.8
-  checksum: f9c8d949ef9e00c41d9085e7105766d3b2769a040b7cde5ffd51ad3bd8c31cce58d14c36e0cf8890f2889feb4488ea223981c58a9fd3cf384e52620319f192ed
+  checksum: 221485483ec11617324f11ac00cd43f920f525d269c91ca7a5616b42830d512566dc5d57b8dd72bc7f901ed06371436d9d039dbc4b3d54cf1a9fab91dc3928f0
   languageName: node
   linkType: hard
 
@@ -10271,7 +10271,7 @@ __metadata:
   resolution: "remix-app-template@workspace:."
   dependencies:
     "@drewster/eslint-config": 5.0.3
-    "@giscus/react": 2.1.1
+    "@giscus/react": 2.2.0
     "@heroicons/react": 1.0.6
     "@jsdevtools/rehype-toc": 3.0.2
     "@playwright/test": ^1.24.1
