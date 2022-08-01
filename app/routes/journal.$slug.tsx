@@ -56,7 +56,7 @@ export default function BlogPostPage() {
         >
           Published on {formattedPublishDate}
         </time>
-        <main className="prose-lg  pb-12 dark:prose-invert">
+        <main className="prose-lg pb-12 prose-ul:list-disc dark:prose-invert">
           <div
             className="mt-12"
             dangerouslySetInnerHTML={{ __html: post.content }}
