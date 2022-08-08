@@ -13,7 +13,7 @@ type Props = {
 export function RecentPosts({ posts }: Props) {
   return (
     <section>
-      <h2 className="mb-8 text-4xl font-bold dark:text-white">
+      <h2 className="mb-8 text-4xl font-bold tracking-tight dark:text-white">
         Recent Blog Posts
       </h2>
       <Posts entrySlugStart="/blog" posts={posts} />

@@ -9,7 +9,7 @@ type Props = {
 export function RecentProjects({ projects }: Props) {
   return (
     <section>
-      <h2 className="mb-8 text-4xl font-bold dark:text-white">
+      <h2 className="mb-8 text-4xl font-bold tracking-tight dark:text-white">
         Recent Projects
       </h2>
       <Projects projects={projects} />
