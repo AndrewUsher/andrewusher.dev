@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @font-face {
-	font-family: 'Epilogue';
-	src: url('/fonts/Epilogue.woff') format('woff');
+	font-family: 'Merriweather Sans';
+	src: url('/fonts/merriweather-sans.ttf') format('woff');
 	font-weight: 100 1000;
 }
 
