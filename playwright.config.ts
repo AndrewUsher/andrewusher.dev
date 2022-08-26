@@ -70,7 +70,7 @@ const config: PlaywrightTestConfig = {
     },
   ],
   webServer: {
-    command: 'yarn dev',
+    command: 'yarn build && yarn start',
     port: 3000,
     reuseExistingServer: !process.env.CI,
     timeout: 12000,
