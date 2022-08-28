@@ -1,12 +1,12 @@
 import * as React from 'react'
 import {
   BookOpenIcon,
+  BuildingOfficeIcon,
+  CommandLineIcon,
   HeartIcon,
-  OfficeBuildingIcon,
-  TemplateIcon,
-  TerminalIcon,
+  RectangleGroupIcon,
   UserIcon,
-} from '@heroicons/react/solid'
+} from '@heroicons/react/24/solid'
 import {
   HeadersFunction,
   Link,
@@ -125,7 +125,7 @@ export default function Index() {
           <IntroSectionCard
             body="Loose collection of thoughts, things learned, and who-knows-whats about JavaScript, React, and TypeScript"
             heading="Blog"
-            icon={TemplateIcon}
+            icon={RectangleGroupIcon}
             url="/blog"
           />
           <IntroSectionCard
@@ -137,13 +137,13 @@ export default function Index() {
           <IntroSectionCard
             body="All of the fun things I've been working on"
             heading="Projects"
-            icon={OfficeBuildingIcon}
+            icon={BuildingOfficeIcon}
             url="/projects"
           />
           <IntroSectionCard
             body="List of my daily drivers and necessities anyways, mostly revolving around my love for Apple"
             heading="Uses"
-            icon={TerminalIcon}
+            icon={CommandLineIcon}
             url="/uses"
           />
           <IntroSectionCard
