@@ -100,7 +100,6 @@ export const meta: MetaFunction = () => ({ ...seoMeta })
 
 export default function Index() {
   const { recentBlogPosts, recentProjects } = useLoaderData<LoaderData>()
-  console.log({ recentProjects })
   return (
     <>
       <div className="mx-auto max-w-screen-xl p-8">
