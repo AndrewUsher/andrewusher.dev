@@ -7,6 +7,7 @@ export type BlogPostOrJournalEntry = {
 
 export type Project = {
   date: string
+  liveProjectLink: string
   summary: string
   title: string
 }

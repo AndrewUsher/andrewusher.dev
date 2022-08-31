@@ -86,6 +86,7 @@ export const loader: LoaderFunction = async (): Promise<LoaderData> => {
     })),
 
     recentProjects: projects.items.map(({ fields }) => ({
+      liveProjectLink: fields.liveProjectLink,
       summary: fields.summary,
       title: fields.title,
     })),
@@ -99,6 +100,7 @@ export const meta: MetaFunction = () => ({ ...seoMeta })
 
 export default function Index() {
   const { recentBlogPosts, recentProjects } = useLoaderData<LoaderData>()
+  console.log({ recentProjects })
   return (
     <>
       <div className="mx-auto max-w-screen-xl p-8">

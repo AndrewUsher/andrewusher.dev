@@ -5,13 +5,15 @@ import { RemixWrapper } from '../../../test-utils'
 
 const MOCK_PROJECTS = [
   {
+    liveProjectLink: 'https://carbonite.vercel.app/',
     title: 'Carbonite',
-    summary: 'Star Wars Wiki'
+    summary: 'Star Wars Wiki',
   },
   {
+    liveProjectLink: 'https://carbonite.vercel.app/',
     title: 'Pokedex',
-    summary: 'Gen 1 Pokedex'
-  }
+    summary: 'Gen 1 Pokedex',
+  },
 ]
 
 describe('<Projects />', () => {
@@ -32,12 +34,22 @@ describe('<Projects />', () => {
   test('should render project summary', () => {
     render(
       <RemixWrapper>
-        <Projects projects={MOCK_PROJECTS}/>
+        <Projects projects={MOCK_PROJECTS} />
       </RemixWrapper>
     )
 
     const projectSummary = screen.getByText('Star Wars Wiki')
 
     expect(projectSummary).toBeInTheDocument()
+  })
+
+  test('should render project links', () => {
+    const { container } = render(
+      <RemixWrapper>
+        <Projects projects={MOCK_PROJECTS} />
+      </RemixWrapper>
+    )
+
+    expect(container.querySelectorAll('a').length).toBe(2)
   })
 })

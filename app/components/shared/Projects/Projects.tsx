@@ -11,7 +11,9 @@ export function Projects({ projects }: Props) {
       {projects.map((project) => (
         <article key={project.title} className="mb-6">
           <h3 className="mb-4 break-words text-2xl font-semibold tracking-wide tracking-tighter hover:text-sky-500 dark:text-white">
-            {project.title}
+            <a href={project.liveProjectLink} target="_blank" rel="noreferrer">
+              {project.title}
+            </a>
           </h3>
           <p className="text-xl leading-8 dark:text-slate-300">
             {project.summary}
