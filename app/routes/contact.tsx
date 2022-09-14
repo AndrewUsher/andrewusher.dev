@@ -18,6 +18,8 @@ type SubmissionFields = {
   subject?: string | null
 }
 
+const blockList = ['crytowar']
+
 function validateContactFormSubmission({
   body,
   email,
@@ -36,6 +38,10 @@ function validateContactFormSubmission({
   }
   if (!subject) {
     errors.subject = 'Subject is required'
+  }
+
+  if (blockList.includes(name?.toLowerCase() || '')) {
+    throw new Error('User is blocked from sending contact')
   }
   return Object.keys(errors).length ? errors : null
 }
