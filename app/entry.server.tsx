@@ -25,6 +25,7 @@ export default function handleRequest(
   )
 
   responseHeaders.set('Content-Type', 'text/html')
+  responseHeaders.set('X-Frame-Options', 'DENY')
 
   return new Response('<!DOCTYPE html>' + markup, {
     status: responseStatusCode,
