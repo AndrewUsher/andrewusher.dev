@@ -6,6 +6,7 @@
 	font-family: 'Merriweather Sans';
 	src: url('/fonts/merriweather-sans.ttf') format('woff');
 	font-weight: 100 1000;
+	font-display: swap;
 }
 
 body::-webkit-scrollbar {
