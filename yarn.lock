@@ -1976,7 +1976,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.26.0":
+"@playwright/test@npm:1.26.0":
   version: 1.26.0
   resolution: "@playwright/test@npm:1.26.0"
   dependencies:
@@ -10463,7 +10463,7 @@ __metadata:
     "@giscus/react": 2.2.0
     "@heroicons/react": 2.0.11
     "@jsdevtools/rehype-toc": 3.0.2
-    "@playwright/test": ^1.26.0
+    "@playwright/test": 1.26.0
     "@remix-run/dev": 1.7.2
     "@remix-run/node": 1.7.2
     "@remix-run/react": 1.7.2
