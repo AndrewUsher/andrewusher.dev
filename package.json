@@ -26,7 +26,7 @@
     "clsx": "1.2.1",
     "contentful": "10.0.0-beta-v10.8",
     "dayjs": "1.11.5",
-    "dotenv": "16.0.2",
+    "dotenv": "16.0.3",
     "framer-motion": "7.5.3",
     "pino": "8.6.0",
     "react": "18.2.0",
