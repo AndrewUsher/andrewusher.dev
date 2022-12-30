@@ -9672,9 +9672,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino@npm:8.6.0":
-  version: 8.6.0
-  resolution: "pino@npm:8.6.0"
+"pino@npm:8.8.0":
+  version: 8.8.0
+  resolution: "pino@npm:8.8.0"
   dependencies:
     atomic-sleep: ^1.0.0
     fast-redact: ^3.1.1
@@ -9689,7 +9689,7 @@ __metadata:
     thread-stream: ^2.0.0
   bin:
     pino: bin.js
-  checksum: 1142454645053191239e126d1f248e55d116dd3c7f0b00a2201ad4ea907b655d8b5dc6eb44ec1ea823974a13f5034df08cd5607e097c11409eda2a9c6672cc95
+  checksum: 69256469221b332776333069d637100053eb15dc7baa3f95897d7864bf2e6fd99f15cfd9cfc94b56e7b00da2e6b349c49affcff1abaca9a3d4b7ba63ff86b4f0
   languageName: node
   linkType: hard
 
@@ -10496,7 +10496,7 @@ __metadata:
     framer-motion: 7.5.3
     jsdom: 20.0.0
     msw: 0.47.4
-    pino: 8.6.0
+    pino: 8.8.0
     pino-pretty: 9.1.0
     react: 18.2.0
     react-dom: 18.2.0
