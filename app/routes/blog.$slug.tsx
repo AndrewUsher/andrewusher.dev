@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import React from 'react'
 import Giscus from '@giscus/react'
+import { RiTwitterFill } from 'react-icons/ri'
 import {
   json,
   Link,
@@ -8,6 +9,7 @@ import {
   LoaderFunction,
   MetaFunction,
   useLoaderData,
+  useLocation,
 } from 'remix'
 import snarkdown from 'snarkdown'
 import { ReadingProgressBar } from '~/components/post/ReadingProgress/ReadingProgress'
@@ -16,6 +18,7 @@ import { logger } from '~/lib/logger.server'
 import { parseMarkdown } from '~/lib/mdx.server'
 import prismCSS from '~/styles/prism-styles.css'
 import { BlogPostOrJournalEntry } from '~/types/contentful'
+import { generateTwitterShareURL } from '~/lib/generateTwitterShareURL'
 
 export const links: LinksFunction = () => [
   {
@@ -64,6 +67,7 @@ export const meta: MetaFunction = ({ data }) => {
 export default function BlogPostPage() {
   const post = useLoaderData<LoaderData>()
   const formattedPublishDate = dayjs(post.date).format('MMMM DD, YYYY')
+  const { pathname } = useLocation()
   return (
     <>
       <main className="prose mx-auto max-w-screen-xl px-4 pb-12 prose-headings:text-blue-700 prose-h1:text-black prose-ul:list-disc dark:prose-invert">
@@ -75,6 +79,21 @@ export default function BlogPostPage() {
           className="mt-12"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
+        <div className="mb-4 flex items-center bg-stone-200 px-4 py-2 dark:bg-stone-800">
+          <RiTwitterFill fill="#1DA1F2" className="h-16 w-16 md:h-8 md:w-8" />
+          <p className="ml-2">
+            If you liked this article and think others should read it, please{' '}
+            <a
+              href={generateTwitterShareURL({
+                slug: pathname,
+                title: post.title,
+              })}
+            >
+              share it on Twitter
+            </a>
+            !
+          </p>
+        </div>
         <Giscus
           repo="AndrewUsher/blog-comments"
           repoId="R_kgDOHS90kA"

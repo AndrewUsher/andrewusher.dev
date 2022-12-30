@@ -10081,6 +10081,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-icons@npm:4.7.1":
+  version: 4.7.1
+  resolution: "react-icons@npm:4.7.1"
+  peerDependencies:
+    react: "*"
+  checksum: ed3cbdc5fc0c4d7d2debf78fdc8c4c80aeacf85a506a9a3c11b1d5922de393ac0a6542012b7fb81761e9280c54d0f26827d50a92b54ec8f0c8e52364d89970b5
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.13.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -10491,6 +10500,7 @@ __metadata:
     pino-pretty: 9.1.0
     react: 18.2.0
     react-dom: 18.2.0
+    react-icons: 4.7.1
     react-typical: 0.1.3
     rehype-slug: 5.0.1
     rehype-stringify: 9.0.3
