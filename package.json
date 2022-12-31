@@ -11,7 +11,8 @@
     "lint": "eslint app/",
     "postinstall": "remix setup node",
     "start": "remix start",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:watch": "vitest --ui"
   },
   "dependencies": {
     "@giscus/react": "2.2.0",
@@ -51,6 +52,7 @@
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "13.4.0",
     "@types/react-dom": "18.0.6",
+    "@vitest/ui": "0.26.2",
     "babel-eslint": "10.1.0",
     "c8": "7.12.0",
     "concurrently": "7.4.0",

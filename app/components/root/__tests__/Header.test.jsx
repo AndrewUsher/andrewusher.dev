@@ -15,4 +15,14 @@ describe('<Header />', () => {
     expect(headerLinks[0]).toBeInTheDocument()
     expect(new URL(headerLinks[0].href).pathname).toBe('/')
   })
+
+  test('Renders name in header', () => {
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    )
+
+    expect(screen.getByText('Andrew Usher')).toBeInTheDocument()
+  })
 })
