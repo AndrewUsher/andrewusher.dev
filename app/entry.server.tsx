@@ -1,7 +1,7 @@
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import type { EntryContext } from 'remix'
-import { RemixServer } from 'remix'
+import type { EntryContext } from '@remix-run/react'
+import { RemixServer } from '@remix-run/react'
 import { logger } from './lib/logger.server'
 
 if (process.env.ENABLE_MSW === 'true') {

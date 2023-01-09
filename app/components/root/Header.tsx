@@ -1,6 +1,11 @@
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
-import { Link, NavLink as RemixNavLink, NavLinkProps, useLocation } from 'remix'
+import {
+  Link,
+  NavLink as RemixNavLink,
+  NavLinkProps,
+  useLocation,
+} from '@remix-run/react'
 import Typical from 'react-typical'
 
 const NavLink = ({ children, to }: NavLinkProps) => {

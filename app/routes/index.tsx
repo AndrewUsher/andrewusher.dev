@@ -9,12 +9,11 @@ import {
 } from '@heroicons/react/24/solid'
 import {
   HeadersFunction,
-  Link,
   LinksFunction,
   LoaderFunction,
   MetaFunction,
-  useLoaderData,
-} from 'remix'
+} from '@remix-run/server-runtime'
+import { Link, useLoaderData } from '@remix-run/react'
 import { RecentPosts } from '~/components/home/RecentPosts/RecentPosts'
 import { RecentProjects } from '~/components/home/RecentProjects/RecentProjects'
 import { getBlogPosts, getProjects } from '~/lib/contentful.server'

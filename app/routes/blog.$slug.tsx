@@ -2,15 +2,13 @@ import dayjs from 'dayjs'
 import React from 'react'
 import Giscus from '@giscus/react'
 import { RiTwitterFill } from 'react-icons/ri'
+import { Link, useLoaderData, useLocation } from '@remix-run/react'
 import {
   json,
-  Link,
   LinksFunction,
   LoaderFunction,
   MetaFunction,
-  useLoaderData,
-  useLocation,
-} from 'remix'
+} from '@remix-run/server-runtime'
 import snarkdown from 'snarkdown'
 import { ReadingProgressBar } from '~/components/post/ReadingProgress/ReadingProgress'
 import { getBlogPostBySlug } from '~/lib/contentful.server'

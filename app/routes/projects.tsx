@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
+import { useLoaderData } from '@remix-run/react'
+import { LoaderFunction, MetaFunction } from '@remix-run/server-runtime'
 import { Projects } from '~/components/shared/Projects/Projects'
 import { getProjects } from '~/lib/contentful.server'
 import { logger } from '~/lib/logger.server'

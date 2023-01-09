@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
 import React from 'react'
-import { Link } from 'remix'
+import { Link } from '@remix-run/react'
 import { BlogPostOrJournalEntry } from '~/types/contentful'
 
 type Props = {

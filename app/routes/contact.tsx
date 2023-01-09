@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { ActionFunction, json, useFetcher } from 'remix'
+import { useFetcher } from '@remix-run/react'
+import { ActionFunction, json } from '@remix-run/server-runtime'
 import { Input } from '~/components/shared/Input/Input'
 import { TextArea } from '~/components/shared/Textarea'
 import { addContactToTable } from '~/lib/airtable.server'
