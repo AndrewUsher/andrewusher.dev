@@ -3,14 +3,21 @@ import React, { useEffect, useState } from 'react'
 import { Link, NavLink as RemixNavLink, NavLinkProps, useLocation } from 'remix'
 import Typical from 'react-typical'
 
-const NavLink = ({ children, to }: NavLinkProps) => (
-  <RemixNavLink
-    className="ml-8 block text-xl first:ml-0 dark:text-white"
-    to={to}
-  >
-    {children}
-  </RemixNavLink>
-)
+const NavLink = ({ children, to }: NavLinkProps) => {
+  const linkClasses = 'ml-8 block text-xl first:ml-0 dark:text-white'
+  if (to === '/resume.pdf') {
+    return (
+      <a href={to} className={linkClasses} target="_blank" rel="noreferrer">
+        Resume
+      </a>
+    )
+  }
+  return (
+    <RemixNavLink className={linkClasses} to={to}>
+      {children}
+    </RemixNavLink>
+  )
+}
 
 const MobileNavLink = ({ children, to }: NavLinkProps) => (
   <RemixNavLink
@@ -54,6 +61,7 @@ export function Header() {
           <NavLink to="/about">About Me</NavLink>
           <NavLink to="/blog">Blog</NavLink>
           <NavLink to="/journal">Journal</NavLink>
+          <NavLink to="/resume.pdf">Resume</NavLink>
         </nav>
         <nav className="flex lg:hidden">
           <button onClick={openSidebar} className="dark:text-white">
