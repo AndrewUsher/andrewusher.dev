@@ -35,7 +35,12 @@ function ExternalLink({ href, children }: { children: string; href: string }) {
 type IntroSectionCardProps = {
   body: string
   heading: string
-  icon: React.FunctionComponent<{ className: string }>
+  icon: React.ForwardRefExoticComponent<
+    React.SVGProps<SVGSVGElement> & {
+      title?: string | undefined
+      titleId?: string | undefined
+    }
+  >
   url: string
 }
 
@@ -54,7 +59,7 @@ function IntroSectionCard({
         <Icon className="mr-4 h-10 w-10 text-sky-600" />
       </section>
       <section>
-        <h2 className="mb-1 text-3xl font-bold text-sky-600">{heading}</h2>
+        <h2 className="mb-2 text-3xl font-bold text-sky-600">{heading}</h2>
         <p className="text-base">{body}</p>
       </section>
     </Link>
