@@ -60,7 +60,7 @@ function IntroSectionCard({
       </section>
       <section>
         <h2 className="mb-2 text-3xl font-bold text-sky-600">{heading}</h2>
-        <p className="text-base">{body}</p>
+        <p className="text-lg">{body}</p>
       </section>
     </Link>
   )
