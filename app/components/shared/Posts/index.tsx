@@ -1,5 +1,4 @@
 import dayjs from 'dayjs'
-import { motion } from 'framer-motion'
 import React from 'react'
 import { Link } from '@remix-run/react'
 import { BlogPostOrJournalEntry } from '~/types/contentful'
@@ -13,13 +12,7 @@ export function Posts({ entrySlugStart, posts }: Props) {
   return (
     <>
       {posts.map((post) => (
-        <motion.article
-          key={post.title}
-          className="mb-6 origin-left"
-          initial={{ opacity: 0, translateX: -800 }}
-          whileInView={{ opacity: 1, translateX: 0 }}
-          viewport={{ once: true }}
-        >
+        <article key={post.title} className="mb-6">
           <h3 className="mb-1 break-words text-2xl font-semibold tracking-wide dark:text-white">
             <Link
               className="tracking-tighter hover:text-sky-500"
@@ -34,7 +27,7 @@ export function Posts({ entrySlugStart, posts }: Props) {
           >
             Published on {dayjs(post.date).format('MMMM DD, YYYY')}
           </time>
-        </motion.article>
+        </article>
       ))}
     </>
   )
