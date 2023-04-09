@@ -6,16 +6,15 @@ import { Link, useLoaderData, useLocation } from '@remix-run/react'
 import {
   json,
   LinksFunction,
-  LoaderFunction,
+  LoaderArgs,
   MetaFunction,
 } from '@remix-run/server-runtime'
-import snarkdown from 'snarkdown'
 import { ReadingProgressBar } from '~/components/post/ReadingProgress/ReadingProgress'
 import { getBlogPostBySlug } from '~/lib/contentful.server'
 import { logger } from '~/lib/logger.server'
 import { parseMarkdown } from '~/lib/mdx.server'
 import prismCSS from '~/styles/prism-styles.css'
-import { BlogPostOrJournalEntry } from '~/types/contentful'
+
 import { generateTwitterShareURL } from '~/lib/generateTwitterShareURL'
 
 export const links: LinksFunction = () => [
@@ -25,11 +24,7 @@ export const links: LinksFunction = () => [
   },
 ]
 
-type LoaderData = BlogPostOrJournalEntry
-
-export const loader: LoaderFunction = async ({
-  params,
-}): Promise<LoaderData> => {
+export const loader = async ({ params }: LoaderArgs) => {
   try {
     if (!params.slug) {
       throw json({ message: 'not found' }, 404)
@@ -63,7 +58,7 @@ export const meta: MetaFunction = ({ data }) => {
 }
 
 export default function BlogPostPage() {
-  const post = useLoaderData<LoaderData>()
+  const post = useLoaderData<typeof loader>()
   const formattedPublishDate = dayjs(post.date).format('MMMM DD, YYYY')
   const { pathname } = useLocation()
   return (

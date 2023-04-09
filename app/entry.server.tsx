@@ -1,6 +1,6 @@
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import type { EntryContext } from '@remix-run/react'
+import { EntryContext } from '@remix-run/node'
 import { RemixServer } from '@remix-run/react'
 import { logger } from './lib/logger.server'
 

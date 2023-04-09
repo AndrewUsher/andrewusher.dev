@@ -1,5 +1,9 @@
-import { createClient, EntryCollection } from 'contentful'
-import { BlogPostOrJournalEntry, Project } from '~/types/contentful'
+import { createClient } from 'contentful'
+import {
+  ContentfulBlogPostEntrySkeleton,
+  ContentfulJournalEntrySkeleton,
+  ContentfulProjectEntrySkeleton,
+} from '~/types/contentful'
 
 const contentfulAccessToken = process.env.CONTENTFUL_ACCESS_TOKEN
 const contentfulSpaceId = process.env.CONTENTFUL_SPACE_ID
@@ -10,18 +14,19 @@ const client = createClient({
 })
 
 const getBlogPosts = async () => {
-  const data = await client.getEntries<BlogPostOrJournalEntry>({
+  const data = await client.getEntries<ContentfulBlogPostEntrySkeleton>({
     content_type: 'blog-post',
-    order: '-fields.date',
+    order: ['-fields.date'],
   })
-  return data
+  return data.items
 }
 
 const getBlogPostBySlug = async (slug: string) => {
-  const searchResults = await client.getEntries<BlogPostOrJournalEntry>({
-    content_type: 'blog-post',
-    'fields.slug': slug,
-  })
+  const searchResults =
+    await client.getEntries<ContentfulBlogPostEntrySkeleton>({
+      content_type: 'blog-post',
+      'fields.slug': slug,
+    })
 
   const postNotFound = !searchResults?.items?.length
   if (postNotFound) {
@@ -32,20 +37,22 @@ const getBlogPostBySlug = async (slug: string) => {
 }
 
 const getJournalEntries = async () => {
-  const data = await client.getEntries<BlogPostOrJournalEntry>({
+  const data = await client.getEntries<ContentfulJournalEntrySkeleton>({
     content_type: 'journal-entry',
-    order: '-fields.date',
+    order: ['-fields.date'],
   })
-  return data
+  return data.items
 }
 
 const getJournalEntriesBySlug = async (slug: string) => {
-  const searchResults = await client.getEntries<BlogPostOrJournalEntry>({
-    content_type: 'journal-entry',
-    'fields.slug': slug,
-  })
+  const searchResults = await client.getEntries<ContentfulJournalEntrySkeleton>(
+    {
+      content_type: 'journal-entry',
+      'fields.slug': slug,
+    }
+  )
 
-  const postNotFound = !searchResults?.items?.length
+  const postNotFound = !searchResults.items.length
   if (postNotFound) {
     throw new Error(`Post for slug ${slug} not found`)
   }
@@ -53,10 +60,10 @@ const getJournalEntriesBySlug = async (slug: string) => {
   return foundPost.fields
 }
 
-const getProjects = async (): Promise<EntryCollection<Project>> => {
-  const data = await client.getEntries<Project>({
+const getProjects = async () => {
+  const data = await client.getEntries<ContentfulProjectEntrySkeleton>({
     content_type: 'projects',
-    order: '-fields.date',
+    order: ['-fields.date'],
   })
 
   return data

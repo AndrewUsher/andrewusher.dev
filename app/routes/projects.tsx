@@ -1,14 +1,11 @@
 import * as React from 'react'
 import { useLoaderData } from '@remix-run/react'
-import { LoaderFunction, MetaFunction } from '@remix-run/server-runtime'
+import { MetaFunction } from '@remix-run/server-runtime'
 import { Projects } from '~/components/shared/Projects/Projects'
 import { getProjects } from '~/lib/contentful.server'
 import { logger } from '~/lib/logger.server'
-import { Project } from '~/types/contentful'
 
-type LoaderData = Project[]
-
-export const loader: LoaderFunction = async (): Promise<LoaderData> => {
+export const loader = async () => {
   const data = await getProjects()
   logger.debug(`Projects route - ${data.total} projects found`)
   const parsedProjects = data.items.map(({ fields }) => ({
@@ -24,7 +21,7 @@ export const meta: MetaFunction = () => ({
 })
 
 export default function ProjectsRoute() {
-  const projects = useLoaderData<LoaderData>()
+  const projects = useLoaderData<typeof loader>()
   return (
     <>
       <main className="mx-auto max-w-screen-xl p-8">

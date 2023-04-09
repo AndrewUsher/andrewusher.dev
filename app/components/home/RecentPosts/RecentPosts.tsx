@@ -2,12 +2,12 @@ import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import React from 'react'
 import { Posts } from '~/components/shared/Posts'
-import { BlogPostOrJournalEntry } from '~/types/contentful'
+import { BlogPost, JournalEntry } from '~/types/contentful'
 
 dayjs.extend(customParseFormat)
 
 type Props = {
-  posts: Omit<BlogPostOrJournalEntry, 'content'>[]
+  posts: Omit<BlogPost | JournalEntry, 'content'>[]
 }
 
 export function RecentPosts({ posts }: Props) {

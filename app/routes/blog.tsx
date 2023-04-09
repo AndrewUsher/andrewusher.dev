@@ -3,13 +3,10 @@ import { useLoaderData } from '@remix-run/react'
 import { LoaderFunction } from '@remix-run/server-runtime'
 import { Posts } from '~/components/shared/Posts'
 import { getBlogPosts } from '~/lib/contentful.server'
-import { BlogPostOrJournalEntry } from '~/types/contentful'
 
-type LoaderData = BlogPostOrJournalEntry[]
-
-export const loader: LoaderFunction = async (): Promise<LoaderData> => {
+export const loader = async () => {
   const data = await getBlogPosts()
-  const parsedPosts = data.items.map(({ fields }) => ({
+  const parsedPosts = data.map(({ fields }) => ({
     ...fields,
   }))
 
@@ -17,7 +14,7 @@ export const loader: LoaderFunction = async (): Promise<LoaderData> => {
 }
 
 export default function Blog() {
-  const posts = useLoaderData<LoaderData>()
+  const posts = useLoaderData<typeof loader>()
   return (
     <>
       <main className="mx-auto max-w-screen-xl p-8">

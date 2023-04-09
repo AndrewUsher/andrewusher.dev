@@ -1,11 +1,11 @@
 import dayjs from 'dayjs'
 import React from 'react'
 import { Link } from '@remix-run/react'
-import { BlogPostOrJournalEntry } from '~/types/contentful'
+import { BlogPost, JournalEntry } from '~/types/contentful'
 
 type Props = {
   entrySlugStart: '/blog' | '/journal'
-  posts: Omit<BlogPostOrJournalEntry, 'content'>[]
+  posts: Omit<BlogPost | JournalEntry, 'content'>[]
 }
 
 export function Posts({ entrySlugStart, posts }: Props) {

@@ -1640,10 +1640,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@contentful/rich-text-types@npm:^15.3.6":
-  version: 15.12.1
-  resolution: "@contentful/rich-text-types@npm:15.12.1"
-  checksum: 2a0f7b2e39f04dcf00847a61b8497fe8849033180adc76102aed1fa84db9ce0523c9b2321b7949cfa2c0ed7b698d727c44d6be3cd720d5687aeff147e1db085b
+"@contentful/rich-text-types@npm:^16.0.2":
+  version: 16.0.3
+  resolution: "@contentful/rich-text-types@npm:16.0.3"
+  checksum: 830c384ec6c5ea9d14ef867291065cbf9935a078b9ac4326db549175ddcd2efbd0f1adf980d9d9f9e9386dfed48745eeb920742230ef2e72bb2773f2c8901824
   languageName: node
   linkType: hard
 
@@ -3799,7 +3799,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.26.0":
+"axios@npm:^0.26.1":
   version: 0.26.1
   resolution: "axios@npm:0.26.1"
   dependencies:
@@ -4602,17 +4602,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"contentful@npm:10.0.0-beta-v10.8":
-  version: 10.0.0-beta-v10.8
-  resolution: "contentful@npm:10.0.0-beta-v10.8"
+"contentful@npm:10.0.0-beta-v10.43":
+  version: 10.0.0-beta-v10.43
+  resolution: "contentful@npm:10.0.0-beta-v10.43"
   dependencies:
-    "@contentful/rich-text-types": ^15.3.6
-    axios: ^0.26.0
+    "@contentful/rich-text-types": ^16.0.2
+    axios: ^0.26.1
     contentful-resolve-response: ^1.3.6
     contentful-sdk-core: ^7.0.2
     json-stringify-safe: ^5.0.1
-    type-fest: ^2.12.0
-  checksum: 8812b51e659544cd4d25c65ca84f38ac84c50c08bf207ac455afb1e889674f5654415091f736a1b1e32fc8f9935dcc062f1a56288c1f1f57273073d60d3ee9ae
+    type-fest: ^3.1.0
+  checksum: 52a24ca101994484b331755eea7995d12748b220bb82af1cc939ae94af8a9719bf4f382b9bffb09d27ef68670a576b3053aa021878245f8137d81ee72ec600df
   languageName: node
   linkType: hard
 
@@ -10676,7 +10676,7 @@ __metadata:
     c8: 7.12.0
     clsx: 1.2.1
     concurrently: 7.6.0
-    contentful: 10.0.0-beta-v10.8
+    contentful: 10.0.0-beta-v10.43
     dayjs: 1.11.7
     dotenv: 16.0.3
     eslint: 8.32.0
@@ -11970,17 +11970,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^2.12.0":
-  version: 2.15.1
-  resolution: "type-fest@npm:2.15.1"
-  checksum: 4eb7d717aae49ca654a6926f99bef8112f76f71c7a685df8e0431e6ae8049bae6c526076f30ee5ccddc535d4b3b3869bcc5e8c4b7f0264b1007f810b898dd33c
-  languageName: node
-  linkType: hard
-
 "type-fest@npm:^2.19.0":
   version: 2.19.0
   resolution: "type-fest@npm:2.19.0"
   checksum: a4ef07ece297c9fba78fc1bd6d85dff4472fe043ede98bd4710d2615d15776902b595abf62bd78339ed6278f021235fb28a96361f8be86ed754f778973a0d278
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^3.1.0":
+  version: 3.8.0
+  resolution: "type-fest@npm:3.8.0"
+  checksum: f9a9ef00378dddd6af2be5cbb67ce4c3a61f6696c5f3ae88815c98266865766118343d928faec8a0efc012efe1d080f59bf62d8fdc382bf285f45d02dbc8fb66
   languageName: node
   linkType: hard
 

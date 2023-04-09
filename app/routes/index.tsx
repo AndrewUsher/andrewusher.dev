@@ -10,14 +10,12 @@ import {
 import {
   HeadersFunction,
   LinksFunction,
-  LoaderFunction,
   MetaFunction,
 } from '@remix-run/server-runtime'
 import { Link, useLoaderData } from '@remix-run/react'
 import { RecentPosts } from '~/components/home/RecentPosts/RecentPosts'
 import { RecentProjects } from '~/components/home/RecentProjects/RecentProjects'
 import { getBlogPosts, getProjects } from '~/lib/contentful.server'
-import { BlogPostOrJournalEntry, Project } from '~/types/contentful'
 import { getSeo } from '~/seo'
 
 function Paragraph({ children }: { children: React.ReactNode }) {
@@ -71,19 +69,14 @@ export const headers: HeadersFunction = () => ({
     'public, max-age=3600, s-max-age=36000, stale-while-revalidate=72000',
 })
 
-type LoaderData = {
-  recentBlogPosts: Omit<BlogPostOrJournalEntry, 'content'>[]
-  recentProjects: Omit<Project, 'date'>[]
-}
-
-export const loader: LoaderFunction = async (): Promise<LoaderData> => {
+export const loader = async () => {
   const [blogPosts, projects] = await Promise.all([
     getBlogPosts(),
     getProjects(),
   ])
 
   return {
-    recentBlogPosts: blogPosts.items.slice(0, 5).map(({ fields }) => ({
+    recentBlogPosts: blogPosts.slice(0, 5).map(({ fields }) => ({
       date: fields.date,
       slug: fields.slug,
       title: fields.title,
@@ -103,7 +96,7 @@ export const links: LinksFunction = () => [...seoLinks]
 export const meta: MetaFunction = () => ({ ...seoMeta })
 
 export default function Index() {
-  const { recentBlogPosts, recentProjects } = useLoaderData<LoaderData>()
+  const { recentBlogPosts, recentProjects } = useLoaderData<typeof loader>()
   return (
     <>
       <div className="mx-auto max-w-screen-xl p-8">
