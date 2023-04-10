@@ -67,7 +67,7 @@
     "vitest": "0.28.3"
   },
   "engines": {
-    "node": ">=14"
+    "node": "18.15.0"
   },
   "sideEffects": false,
   "packageManager": "yarn@3.2.1"
