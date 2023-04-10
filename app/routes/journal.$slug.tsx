@@ -69,7 +69,7 @@ export default function BlogPostPage() {
   )
 }
 
-export function CatchBoundary() {
+export function ErrorBoundary() {
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-gradient-to-r from-indigo-600 to-blue-400">
       <div className="h-full rounded-md bg-white px-40 py-20 shadow-xl md:h-auto">
