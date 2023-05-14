@@ -69,7 +69,7 @@ export default function App() {
         <Links />
       </head>
       <body className="font-merriweather-sans dark:bg-neutral-900">
-        <header className="sticky top-0 z-20 bg-white dark:bg-neutral-900">
+        <header className="bg-white dark:bg-neutral-900">
           <div className="top-0 h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></div>
           <Header />
         </header>

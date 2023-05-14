@@ -12,5 +12,7 @@ module.exports = {
   },
   rules: {
     'multiline-ternary': 0,
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
   },
 }
