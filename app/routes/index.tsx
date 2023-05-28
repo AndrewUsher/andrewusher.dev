@@ -111,18 +111,14 @@ export default function Index() {
       <div className="mx-auto max-w-screen-xl p-8 pt-0">
         <div className="prose dark:prose-invert lg:prose-xl">
           <Paragraph>
-            Howdy! During the day, I am a systems engineer at{' '}
-            <ExternalLink href="https://www.autozone.com/">
-              AutoZone
-            </ExternalLink>
-            , primarily leading a small team of React developers on the B2C web
-            application.
-          </Paragraph>
-          <Paragraph>
-            During my free time, I like dabbling around with new front end
-            technologies by creating my own projects. When I&apos;m not coding,
-            I like to play basketball and ride my bike throughout downtown
-            Memphis.
+            Greetings! I am a systems engineer at{' '}
+            <ExternalLink href="https://autozone.com">AutoZone</ExternalLink>,
+            where I lead a team of React developers in the development of the
+            B2C web application. In my leisure time, I enjoy experimenting with
+            new front-end technologies by creating personal projects. Outside of
+            work, I engage in physical activities such as basketball and cycling
+            in downtown Memphis. For additional information about me, please
+            refer to my profile.
           </Paragraph>
           <Paragraph>
             <Link to="/about">Read more about me here.</Link>
