@@ -12,6 +12,7 @@ import {
   LinksFunction,
   MetaFunction,
 } from '@remix-run/server-runtime'
+import { motion } from 'framer-motion'
 import { Link, useLoaderData } from '@remix-run/react'
 import { RecentPosts } from '~/components/home/RecentPosts/RecentPosts'
 import { RecentProjects } from '~/components/home/RecentProjects/RecentProjects'
@@ -19,7 +20,15 @@ import { getBlogPosts, getProjects } from '~/lib/contentful.server'
 import { getSeo } from '~/seo'
 
 function Paragraph({ children }: { children: React.ReactNode }) {
-  return <p>{children}</p>
+  return (
+    <motion.p
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
+      {children}
+    </motion.p>
+  )
 }
 
 function ExternalLink({ href, children }: { children: string; href: string }) {
@@ -99,7 +108,7 @@ export default function Index() {
   const { recentBlogPosts, recentProjects } = useLoaderData<typeof loader>()
   return (
     <>
-      <div className="mx-auto max-w-screen-xl p-8">
+      <div className="mx-auto max-w-screen-xl p-8 pt-0">
         <div className="prose dark:prose-invert lg:prose-xl">
           <Paragraph>
             Howdy! During the day, I am a systems engineer at{' '}
