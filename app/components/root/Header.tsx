@@ -1,5 +1,4 @@
 import { Link, NavLink as RemixNavLink, NavLinkProps } from '@remix-run/react'
-import Typical from 'react-typical'
 
 const NavLink = ({ children, to }: NavLinkProps) => {
   const linkClasses =
@@ -23,13 +22,7 @@ export function Header() {
     <>
       <div className="mx-auto flex max-w-screen-xl flex-col items-center justify-between p-8 lg:flex-row">
         <h1 className="text-4xl font-bold dark:text-white">
-          <Link to="/">
-            <Typical
-              loop={1}
-              steps={['Andrew', 500, 'Andrew Usher', 500]}
-              wrapper="div"
-            />
-          </Link>
+          <Link to="/">Andrew Usher</Link>
         </h1>
         <nav className="hidden justify-between lg:flex">
           <NavLink to="/about">About Me</NavLink>
