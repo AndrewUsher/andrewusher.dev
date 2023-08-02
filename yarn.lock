@@ -2394,12 +2394,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@heroicons/react@npm:2.0.14":
-  version: 2.0.14
-  resolution: "@heroicons/react@npm:2.0.14"
+"@heroicons/react@npm:2.0.18":
+  version: 2.0.18
+  resolution: "@heroicons/react@npm:2.0.18"
   peerDependencies:
     react: ">= 16"
-  checksum: d1623865c04e2bedc1ae370ca0a305bb0c775c7db171e29d03afc3032598105b7e8c9290e7d6b34a5f334e2a2c92e8e2aac1c5e89d1ea1fb7073cce6e03a7f16
+  checksum: 597e8668818623d568a302e343ef06b69f62ce297c14b88c2ebbfed0c0f00cd85ec44fae33ec8a249931b4e7dcf145743ae3198095a9f4682108de5155f5f4c3
   languageName: node
   linkType: hard
 
@@ -11281,7 +11281,7 @@ __metadata:
   dependencies:
     "@drewster/eslint-config": 5.0.3
     "@giscus/react": 2.2.6
-    "@heroicons/react": 2.0.14
+    "@heroicons/react": 2.0.18
     "@jsdevtools/rehype-toc": 3.0.2
     "@playwright/test": ^1.33.0
     "@remix-run/dev": 1.16.1

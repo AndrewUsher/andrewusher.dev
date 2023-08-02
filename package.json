@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@giscus/react": "2.2.6",
-    "@heroicons/react": "2.0.14",
+    "@heroicons/react": "2.0.18",
     "@jsdevtools/rehype-toc": "3.0.2",
     "@remix-run/node": "1.16.1",
     "@remix-run/react": "1.16.1",
