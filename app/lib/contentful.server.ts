@@ -1,16 +1,14 @@
 import { createClient } from 'contentful'
+import { env } from '~/env'
 import {
   ContentfulBlogPostEntrySkeleton,
   ContentfulJournalEntrySkeleton,
   ContentfulProjectEntrySkeleton,
 } from '~/types/contentful'
 
-const contentfulAccessToken = process.env.CONTENTFUL_ACCESS_TOKEN
-const contentfulSpaceId = process.env.CONTENTFUL_SPACE_ID
-
 const client = createClient({
-  accessToken: contentfulAccessToken!,
-  space: contentfulSpaceId!,
+  accessToken: env.CONTENTFUL_ACCESS_TOKEN,
+  space: env.CONTENTFUL_SPACE_ID,
 })
 
 const getBlogPosts = async () => {

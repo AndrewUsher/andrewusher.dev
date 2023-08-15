@@ -28,7 +28,7 @@ const addContactToTable = async ({
         },
       ],
       { typecast: false },
-      (err, record) => {
+      (err) => {
         if (err) {
           console.error(err)
           throw err

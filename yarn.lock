@@ -3014,6 +3014,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@t3-oss/env-core@npm:0.6.0":
+  version: 0.6.0
+  resolution: "@t3-oss/env-core@npm:0.6.0"
+  peerDependencies:
+    typescript: ">=4.7.2"
+    zod: ^3.0.0
+  checksum: 00c5b8e2d893f85e9d33099fded1e9ee1c74e642144b91d60096d31ed5bcd09986f14b275316568aa1a1f42d1b01a34b67dcf1396e11d837ff5c11b4bfb56a3a
+  languageName: node
+  linkType: hard
+
 "@tailwindcss/forms@npm:0.5.3":
   version: 0.5.3
   resolution: "@tailwindcss/forms@npm:0.5.3"
@@ -11289,6 +11299,7 @@ __metadata:
     "@remix-run/react": 1.16.1
     "@remix-run/serve": 1.16.1
     "@remix-run/vercel": 1.16.1
+    "@t3-oss/env-core": 0.6.0
     "@tailwindcss/forms": 0.5.3
     "@tailwindcss/typography": 0.5.9
     "@testing-library/jest-dom": 5.16.5
@@ -11326,6 +11337,7 @@ __metadata:
     ts-node: 10.9.1
     typescript: ^5.0.4
     vitest: ^0.31.1
+    zod: 3.22.0
   languageName: unknown
   linkType: soft
 
@@ -13586,6 +13598,13 @@ __metadata:
   version: 1.0.0
   resolution: "yocto-queue@npm:1.0.0"
   checksum: 2cac84540f65c64ccc1683c267edce396b26b1e931aa429660aefac8fbe0188167b7aee815a3c22fa59a28a58d898d1a2b1825048f834d8d629f4c2a5d443801
+  languageName: node
+  linkType: hard
+
+"zod@npm:3.22.0":
+  version: 3.22.0
+  resolution: "zod@npm:3.22.0"
+  checksum: b3974ac2c879e1597559d69ad11c331dd4961164fb3a4805d12fe2b3c5b0b6404e4b3acca997d514456f2035140d228f1e9c523a69852937faeb0027f94b6ec0
   languageName: node
   linkType: hard
 
