@@ -43,10 +43,10 @@ type IntroSectionCardProps = {
   body: string
   heading: string
   icon: React.ForwardRefExoticComponent<
-    React.SVGProps<SVGSVGElement> & {
-      title?: string | undefined
-      titleId?: string | undefined
-    }
+    React.PropsWithoutRef<React.SVGProps<SVGSVGElement>> & {
+      title?: string
+      titleId?: string
+    } & React.RefAttributes<SVGSVGElement>
   >
   url: string
 }
