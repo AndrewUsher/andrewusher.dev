@@ -29,7 +29,7 @@
     "contentful": "10.0.0-beta-v10.43",
     "dayjs": "1.11.7",
     "dotenv": "16.0.3",
-    "framer-motion": "8.5.4",
+    "framer-motion": "8.5.5",
     "node-gyp": "^9.4.0",
     "pino": "8.8.0",
     "pino-pretty": "9.1.1",
