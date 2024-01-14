@@ -2592,71 +2592,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@motionone/animation@npm:^10.15.1":
-  version: 10.15.1
-  resolution: "@motionone/animation@npm:10.15.1"
-  dependencies:
-    "@motionone/easing": ^10.15.1
-    "@motionone/types": ^10.15.1
-    "@motionone/utils": ^10.15.1
-    tslib: ^2.3.1
-  checksum: 75b7a1e6c47c27073a578eb5559ea0a6e7075862c72e1eb1598403c8c2725f596a95b0369514c9e72f3c7439a9845c468b85a14d4e500df48e09d01b0739d4a7
-  languageName: node
-  linkType: hard
-
-"@motionone/dom@npm:^10.15.3":
-  version: 10.15.5
-  resolution: "@motionone/dom@npm:10.15.5"
-  dependencies:
-    "@motionone/animation": ^10.15.1
-    "@motionone/generators": ^10.15.1
-    "@motionone/types": ^10.15.1
-    "@motionone/utils": ^10.15.1
-    hey-listen: ^1.0.8
-    tslib: ^2.3.1
-  checksum: 2453fe3df6a2b4b339d075bcd598bda1eee1926ba0ad881edfd154362b0992c91f31c08d83c469c7e8cb8bf8ebc0ed5530972673cf5c74d99e46e3772cf5f1cb
-  languageName: node
-  linkType: hard
-
-"@motionone/easing@npm:^10.15.1":
-  version: 10.15.1
-  resolution: "@motionone/easing@npm:10.15.1"
-  dependencies:
-    "@motionone/utils": ^10.15.1
-    tslib: ^2.3.1
-  checksum: cf7cfcf9917525d892334c58282425aafc69d9ab9004c190bfa7cf91317a680e8143f227adc79557424e7f26cdf8478dcbb2ae467e744cebc58195d6f0b8153a
-  languageName: node
-  linkType: hard
-
-"@motionone/generators@npm:^10.15.1":
-  version: 10.15.1
-  resolution: "@motionone/generators@npm:10.15.1"
-  dependencies:
-    "@motionone/types": ^10.15.1
-    "@motionone/utils": ^10.15.1
-    tslib: ^2.3.1
-  checksum: 0eb6797a64d536bb5c26628343d6594a2ebc45c3c447b8ce442b4ac3a41be847b860ac009bda7968fc7d339d2ee49b18bfe36306c5dd99cf17c7d84c82de93f3
-  languageName: node
-  linkType: hard
-
-"@motionone/types@npm:^10.15.1":
-  version: 10.15.1
-  resolution: "@motionone/types@npm:10.15.1"
-  checksum: 98091f7dca257508d94d1080678c433da39a814e8e58aaa742212bf6c2a5b5e2120a6251a06e3ea522219ce6d1b6eb6aa2cab224b803fe52789033d8398ef0aa
-  languageName: node
-  linkType: hard
-
-"@motionone/utils@npm:^10.15.1":
-  version: 10.15.1
-  resolution: "@motionone/utils@npm:10.15.1"
-  dependencies:
-    "@motionone/types": ^10.15.1
-    hey-listen: ^1.0.8
-    tslib: ^2.3.1
-  checksum: 6ef13cd6637ec87c340e5536f849f8c40d30cc90139a3856d11cd70d78e3740f8815b0e63564fefd23c05a060da7a0ea5395390549606ed8801a7b832b74e04e
-  languageName: node
-  linkType: hard
-
 "@mswjs/cookies@npm:^0.2.2":
   version: 0.2.2
   resolution: "@mswjs/cookies@npm:0.2.2"
@@ -4024,7 +3959,7 @@ __metadata:
     dotenv: 16.0.3
     eslint: 8.32.0
     eslint-plugin-jest: 27.2.1
-    framer-motion: 8.5.4
+    framer-motion: 10.18.0
     jsdom: 21.1.0
     msw: 0.49.3
     node-gyp: ^9.4.0
@@ -7034,13 +6969,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:8.5.4":
-  version: 8.5.4
-  resolution: "framer-motion@npm:8.5.4"
+"framer-motion@npm:10.18.0":
+  version: 10.18.0
+  resolution: "framer-motion@npm:10.18.0"
   dependencies:
     "@emotion/is-prop-valid": ^0.8.2
-    "@motionone/dom": ^10.15.3
-    hey-listen: ^1.0.8
     tslib: ^2.4.0
   peerDependencies:
     react: ^18.0.0
@@ -7048,7 +6981,12 @@ __metadata:
   dependenciesMeta:
     "@emotion/is-prop-valid":
       optional: true
-  checksum: 9852c448951986b2c2984bcf457b8a50ea10bb5d63c5ee58af7a60582dc04739873aa458a5e26e4ee4b582a01afd3ac2421241f1941a4bd5c97122960429299a
+  peerDependenciesMeta:
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: b43f1edcfc8c2226e3325517612d2abb7455455c4d2232d62499d70a603a51ffdd6a810aa7b5e783a25860856ec6c6e5b3bcf749846facedc54a063f9a548f0b
   languageName: node
   linkType: hard
 
@@ -7631,13 +7569,6 @@ __metadata:
     glob: ^8.0.0
     readable-stream: ^3.6.0
   checksum: d7815a7b2876b1883a87d6dd837b0ec4d7192d84d89e5695e20d3df23c2c67d6bb785752892a52d5be21ae221818e627d90e2c52fcc75ab324ba10af7e96a352
-  languageName: node
-  linkType: hard
-
-"hey-listen@npm:^1.0.8":
-  version: 1.0.8
-  resolution: "hey-listen@npm:1.0.8"
-  checksum: 6bad60b367688f5348e25e7ca3276a74b59ac5a09b0455e6ff8ab7d4a9e38cd2116c708a7dcd8a954d27253ce1d8717ec891d175723ea739885b828cf44e4072
   languageName: node
   linkType: hard
 
@@ -12777,7 +12708,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.1, tslib@npm:^2.1.0, tslib@npm:^2.3.1":
+"tslib@npm:^2.0.1, tslib@npm:^2.1.0":
   version: 2.4.0
   resolution: "tslib@npm:2.4.0"
   checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
