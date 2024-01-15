@@ -27,7 +27,7 @@
     "airtable": "0.11.6",
     "clsx": "1.2.1",
     "contentful": "10.0.0-beta-v10.43",
-    "dayjs": "1.11.7",
+    "dayjs": "1.11.10",
     "dotenv": "16.0.3",
     "framer-motion": "10.18.0",
     "node-gyp": "^9.4.0",
