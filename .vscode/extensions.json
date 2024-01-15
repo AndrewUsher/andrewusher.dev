@@ -3,6 +3,7 @@
     "bbutner.heroicons-preview",
     "bradlc.vscode-tailwindcss",
     "esbenp.prettier-vscode",
-    "silvenon.mdx"
+    "silvenon.mdx",
+    "zixuanchen.vitest-explorer"
   ]
 }
