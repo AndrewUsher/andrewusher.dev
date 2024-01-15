@@ -3,14 +3,14 @@ module.exports = {
   appDirectory: 'app',
   assetsBuildDirectory: 'public/build',
   publicPath: '/build/',
-  serverBuildPath: './api/_build/index.js',
+  serverBuildPath: 'api/_build/index.js',
+  serverModuleFormat: 'cjs',
   ignoredRouteFiles: ['.*'],
   async mdx(filename) {
     const [rehypeTOC, rehypeSlug] = await Promise.all([
       import('@jsdevtools/rehype-toc').then((mod) => mod.default),
       import('rehype-slug').then((mod) => mod.default),
     ])
-
     return {
       rehypePlugins: [
         rehypeSlug,

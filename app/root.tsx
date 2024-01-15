@@ -1,5 +1,5 @@
 import React from 'react'
-import type { LinksFunction, MetaFunction } from '@remix-run/server-runtime'
+import type { LinksFunction } from '@remix-run/server-runtime'
 import {
   Links,
   LiveReload,
@@ -11,10 +11,6 @@ import {
 import { Footer } from './components/root/Footer'
 import { Header } from './components/root/Header'
 import styles from './tailwind.css'
-
-export const meta: MetaFunction = () => {
-  return { title: 'Andrew Usher' }
-}
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: styles }]

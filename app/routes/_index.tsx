@@ -7,13 +7,9 @@ import {
   RectangleGroupIcon,
   UserIcon,
 } from '@heroicons/react/24/solid'
-import {
-  HeadersFunction,
-  LinksFunction,
-  MetaFunction,
-} from '@remix-run/server-runtime'
+import { HeadersFunction, LinksFunction } from '@remix-run/server-runtime'
 import { motion } from 'framer-motion'
-import { Link, useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData, MetaFunction } from '@remix-run/react'
 import { RecentPosts } from '~/components/home/RecentPosts/RecentPosts'
 import { RecentProjects } from '~/components/home/RecentProjects/RecentProjects'
 import { getBlogPosts, getProjects } from '~/lib/contentful.server'
