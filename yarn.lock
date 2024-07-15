@@ -3764,7 +3764,7 @@ __metadata:
     pino-pretty: "npm:9.1.1"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
-    react-icons: "npm:4.7.1"
+    react-icons: "npm:5.2.1"
     rehype-slug: "npm:5.1.0"
     rehype-stringify: "npm:9.0.3"
     remark: "npm:14.0.2"
@@ -11606,12 +11606,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-icons@npm:4.7.1":
-  version: 4.7.1
-  resolution: "react-icons@npm:4.7.1"
+"react-icons@npm:5.2.1":
+  version: 5.2.1
+  resolution: "react-icons@npm:5.2.1"
   peerDependencies:
     react: "*"
-  checksum: 10/c838bed471a1a1f15bb5f6930c43f7bce3ac70d804e36dd440f1b2e7834ebfda60b52ab306cb3830a0a53cb42d77630a9803db89b5fe662f3f7fb5c6556e5070
+  checksum: 10/8cdf49a9583488f9bb58cbab21f10a5e1993dd9d4f5a62f30fbbce249e4868e8e2c34eb1888adb22014a4319633d1035079bcf5d33b1a8596d745809632699c8
   languageName: node
   linkType: hard
 
