@@ -5,7 +5,6 @@ export default {
   appDirectory: 'app',
   assetsBuildDirectory: 'public/build',
   publicPath: '/build/',
-  serverBuildPath: './api/_build/index.js',
   ignoredRouteFiles: ['**/*'],
   serverModuleFormat: 'cjs',
   routes: (defineRoutes) => {
@@ -34,13 +33,5 @@ export default {
         ],
       ],
     }
-  },
-  future: {
-    v2_errorBoundary: true,
-    v2_normalizeFormMethod: true,
-    v2_routeConvention: true,
-    v2_dev: true,
-    v2_headers: true,
-    v2_meta: true,
   },
 }
