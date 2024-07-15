@@ -5,8 +5,7 @@
   "license": "",
   "type": "module",
   "scripts": {
-    "build": "yarn build:css && remix vite:build",
-    "build:css": "tailwindcss -i ./app/styles/tailwind.css -o ./app/tailwind.css --minify",
+    "build": "remix vite:build",
     "dev": "remix vite:dev",
     "lint": "eslint app/",
     "postinstall": "remix setup node",
