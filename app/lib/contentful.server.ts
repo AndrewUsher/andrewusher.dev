@@ -1,10 +1,12 @@
-import { createClient } from 'contentful'
+import contentful from 'contentful'
 import { env } from '~/env'
 import {
   ContentfulBlogPostEntrySkeleton,
   ContentfulJournalEntrySkeleton,
   ContentfulProjectEntrySkeleton,
 } from '~/types/contentful'
+
+const { createClient } = contentful
 
 const client = createClient({
   accessToken: env.CONTENTFUL_ACCESS_TOKEN,
