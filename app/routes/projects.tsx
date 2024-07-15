@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { useLoaderData } from '@remix-run/react'
-import { MetaFunction } from '@remix-run/server-runtime'
 import { Projects } from '~/components/shared/Projects/Projects'
 import { getProjects } from '~/lib/contentful.server'
 import { logger } from '~/lib/logger.server'
+import { V2_MetaFunction as V2MetaFunction } from '@remix-run/node'
 
 export const loader = async () => {
   const data = await getProjects()
@@ -15,10 +15,15 @@ export const loader = async () => {
   return parsedProjects
 }
 
-export const meta: MetaFunction = () => ({
-  title: 'Projects - Andrew Usher',
-  description: "Projects that I've worked on solely/contributed to.",
-})
+export const meta: V2MetaFunction = () => [
+  {
+    title: 'Projects - Andrew Usher',
+  },
+  {
+    name: 'description',
+    content: "Projects that I've worked on solely/contributed to.",
+  },
+]
 
 export default function ProjectsRoute() {
   const projects = useLoaderData<typeof loader>()

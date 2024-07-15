@@ -1,7 +1,11 @@
 import dayjs from 'dayjs'
 import React from 'react'
-import { json, LoaderFunction, MetaFunction } from '@remix-run/server-runtime'
-import { Link, useLoaderData } from '@remix-run/react'
+import { json, LoaderFunction } from '@remix-run/server-runtime'
+import {
+  Link,
+  useLoaderData,
+  V2_MetaFunction as V2MetaFunction,
+} from '@remix-run/react'
 import snarkdown from 'snarkdown'
 import { ReadingProgressBar } from '~/components/post/ReadingProgress/ReadingProgress'
 import { getJournalEntriesBySlug } from '~/lib/contentful.server'
@@ -27,18 +31,23 @@ export const loader: LoaderFunction = async ({ params }) => {
   }
 }
 
-export const meta: MetaFunction = ({ data }) => {
+export const meta: V2MetaFunction = ({ data }) => {
   if (!data?.content) {
-    return {
-      title: 'Not Found',
-      description:
-        "You landed on a page that Peter the Penguin wasn't able to find",
-    }
+    return [
+      {
+        title: 'Not Found',
+      },
+      {
+        name: 'description',
+        content:
+          "You landed on a page that Peter the Penguin wasn't able to find",
+      },
+    ]
   } else {
-    return {
-      title: data.title,
-      description: `${data.title} | Andrew Usher`,
-    }
+    return [
+      { title: data.title },
+      { name: 'description', content: `${data.title} | Andrew Usher` },
+    ]
   }
 }
 

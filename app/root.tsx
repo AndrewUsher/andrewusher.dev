@@ -1,5 +1,5 @@
 import React from 'react'
-import type { LinksFunction, MetaFunction } from '@remix-run/server-runtime'
+import type { LinksFunction } from '@remix-run/server-runtime'
 import {
   Links,
   LiveReload,
@@ -7,13 +7,14 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  V2_MetaFunction as V2MetaFunction,
 } from '@remix-run/react'
 import { Footer } from './components/root/Footer'
 import { Header } from './components/root/Header'
 import styles from './tailwind.css'
 
-export const meta: MetaFunction = () => {
-  return { title: 'Andrew Usher' }
+export const meta: V2MetaFunction = () => {
+  return [{ title: 'Andrew Usher' }]
 }
 
 export const links: LinksFunction = () => {
@@ -66,7 +67,6 @@ export default function App() {
         />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="color-scheme" content="dark light" />
-
         <Meta />
         <Links />
       </head>
