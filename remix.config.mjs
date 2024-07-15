@@ -1,10 +1,22 @@
+import { createRoutesFromFolders } from '@remix-run/v1-route-convention'
+
 /** @type {import('@remix-run/dev').AppConfig} */
-module.exports = {
+export default {
   appDirectory: 'app',
   assetsBuildDirectory: 'public/build',
   publicPath: '/build/',
   serverBuildPath: './api/_build/index.js',
-  ignoredRouteFiles: ['.*'],
+  ignoredRouteFiles: ['**/*'],
+  serverModuleFormat: 'cjs',
+  routes: (defineRoutes) => {
+    // `createRoutesFromFolders` will create routes for all files in the
+    // routes directory using the same default conventions as Remix v1.
+    return createRoutesFromFolders(defineRoutes, {
+      // If you're already using `ignoredRouteFiles` in your Remix config,
+      // you can move them to `ignoredFilePatterns` in the plugin's options.
+      ignoredFilePatterns: ['.*'],
+    })
+  },
   async mdx(filename) {
     const [rehypeTOC, rehypeSlug] = await Promise.all([
       import('@jsdevtools/rehype-toc').then((mod) => mod.default),
@@ -26,6 +38,9 @@ module.exports = {
   future: {
     v2_errorBoundary: true,
     v2_normalizeFormMethod: true,
-    v2_routeConvention: false,
+    v2_routeConvention: true,
+    v2_dev: true,
+    v2_headers: true,
+    v2_meta: true,
   },
 }

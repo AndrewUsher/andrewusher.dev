@@ -17,7 +17,6 @@ import { Link, useLoaderData } from '@remix-run/react'
 import { RecentPosts } from '~/components/home/RecentPosts/RecentPosts'
 import { RecentProjects } from '~/components/home/RecentProjects/RecentProjects'
 import { getBlogPosts, getProjects } from '~/lib/contentful.server'
-import { getSeo } from '~/seo'
 
 function Paragraph({ children }: { children: React.ReactNode }) {
   return (
@@ -98,11 +97,6 @@ export const loader = async () => {
     })),
   }
 }
-
-const [seoMeta, seoLinks] = getSeo()
-
-export const links: LinksFunction = () => [...seoLinks]
-export const meta: MetaFunction = () => ({ ...seoMeta })
 
 export default function Index() {
   const { recentBlogPosts, recentProjects } = useLoaderData<typeof loader>()

@@ -6,9 +6,10 @@ export default defineConfig({
     globals: true,
     reporters: 'verbose',
     setupFiles: ['./vitest.setup.js'],
-    transformMode: {
+    testTransformMode: {
       web: [/\.([cm]?[jt]sx?|json)$/],
     },
+
     exclude: [...configDefaults.exclude, 'e2e'],
   },
 })

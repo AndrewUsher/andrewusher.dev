@@ -25,6 +25,8 @@ export default function App() {
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
+        <meta name="robots" content="index,follow" />
+        <meta name="googlebot" content="index,follow" />
         <meta property="og:url" content="https://andrewusher.dev" />
         <meta property="og:title" content="Andrew Usher" />
         <meta
