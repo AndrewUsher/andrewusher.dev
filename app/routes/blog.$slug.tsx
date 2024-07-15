@@ -13,7 +13,7 @@ import { ReadingProgressBar } from '~/components/post/ReadingProgress/ReadingPro
 import { getBlogPostBySlug } from '~/lib/contentful.server'
 import { logger } from '~/lib/logger.server'
 import { parseMarkdown } from '~/lib/mdx.server'
-import prismCSS from '~/styles/prism-styles.css'
+import prismCSS from '~/styles/prism-styles.css?url'
 
 import { generateTwitterShareURL } from '~/lib/generateTwitterShareURL'
 
