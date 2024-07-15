@@ -11,7 +11,7 @@ import {
 } from '@remix-run/react'
 import { Footer } from './components/root/Footer'
 import { Header } from './components/root/Header'
-import styles from './tailwind.css'
+import styles from './tailwind.css?url'
 
 export const meta: V2MetaFunction = () => {
   return [{ title: 'Andrew Usher' }]
@@ -79,7 +79,6 @@ export default function App() {
         <Footer />
         <ScrollRestoration />
         <Scripts />
-        {process.env.NODE_ENV === 'development' && <LiveReload />}
       </body>
     </html>
   )
