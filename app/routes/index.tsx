@@ -126,12 +126,6 @@ export default function Index() {
             url="/blog"
           />
           <IntroSectionCard
-            body="Public collection of personal things I've written over the years"
-            heading="Journal"
-            icon={BookOpenIcon}
-            url="/journal"
-          />
-          <IntroSectionCard
             body="All of the fun things I've been working on"
             heading="Projects"
             icon={BuildingOfficeIcon}
