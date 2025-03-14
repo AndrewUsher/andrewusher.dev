@@ -6,78 +6,78 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
-        cache: 'yarn'
+        cache: 'npm'
         node-version: ${{ matrix.node-version }}
-    - run: yarn
+    - run: npm i
   test:
     name: '🧪 Vitest'
     needs: [install]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
-        cache: 'yarn'
+        cache: 'npm'
         node-version: ${{ matrix.node-version }}
-    - run: yarn
-    - run: yarn test
+    - run: npm i
+    - run: npm run test
   build:
     name: '🧰 Build'
     needs: [install]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
-        cache: 'yarn'
+        cache: 'npm'
         node-version: ${{ matrix.node-version }}
-    - run: yarn
-    - run: yarn build
+    - run: npm i
+    - run: npm run build
   ts:
     name: '🔍 TypeScript'
     needs: [install]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
-        cache: 'yarn'
+        cache: 'npm'
         node-version: ${{ matrix.node-version }}
-    - run: yarn
-    - run: yarn tsc
+    - run: npm i
+    - run: npx tsc
   lint:
     name: '🔍 ESLint'
     needs: [install]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
-        cache: 'yarn'
+        cache: 'npm'
         node-version: ${{ matrix.node-version }}
-    - run: yarn
-    - run: yarn lint
+    - run: npm i
+    - run: npm run lint
     
     
