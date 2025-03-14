@@ -69,7 +69,7 @@
     "@rollup/rollup-linux-x64-gnu": "4.9.5"
   },
   "engines": {
-    "node": "18.15.0"
+    "node": ">=18.15.0"
   },
   "sideEffects": false,
   "packageManager": "yarn@4.3.1"
