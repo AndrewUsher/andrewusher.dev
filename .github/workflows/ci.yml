@@ -12,9 +12,9 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
-        cache: 'yarn'
+        cache: 'npm'
         node-version: ${{ matrix.node-version }}
-    - run: yarn
+    - run: npm ci
   test:
     name: '🧪 Vitest'
     needs: [install]
@@ -27,10 +27,10 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
-        cache: 'yarn'
+        cache: 'npm'
         node-version: ${{ matrix.node-version }}
-    - run: yarn
-    - run: yarn test
+    - run: npm
+    - run: npm run test
   build:
     name: '🧰 Build'
     needs: [install]
@@ -43,10 +43,10 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
-        cache: 'yarn'
+        cache: 'npm'
         node-version: ${{ matrix.node-version }}
-    - run: yarn
-    - run: yarn build
+    - run: npm
+    - run: npm run build
   ts:
     name: '🔍 TypeScript'
     needs: [install]
@@ -59,10 +59,10 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
-        cache: 'yarn'
+        cache: 'npm'
         node-version: ${{ matrix.node-version }}
-    - run: yarn
-    - run: yarn tsc
+    - run: npm
+    - run: npm run tsc
   lint:
     name: '🔍 ESLint'
     needs: [install]
@@ -75,9 +75,9 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
-        cache: 'yarn'
+        cache: 'npm'
         node-version: ${{ matrix.node-version }}
-    - run: yarn
-    - run: yarn lint
+    - run: npm
+    - run: npm run lint
     
     
