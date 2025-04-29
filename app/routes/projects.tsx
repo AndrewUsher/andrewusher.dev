@@ -29,7 +29,7 @@ export default function ProjectsRoute() {
   const projects = useLoaderData<typeof loader>()
   return (
     <>
-      <main className="mx-auto max-w-screen-xl p-8">
+      <main className="mx-auto max-w-(--breakpoint-xl) p-8">
         <Projects projects={projects} />
       </main>
     </>

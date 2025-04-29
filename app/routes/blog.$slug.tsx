@@ -68,8 +68,8 @@ export default function BlogPostPage() {
   const { pathname } = useLocation()
   return (
     <>
-      <main className="prose mx-auto max-w-screen-xl px-4 pb-12 prose-headings:text-blue-700 prose-h1:text-black prose-ul:list-disc dark:prose-invert">
-        <div className="relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] w-screen bg-gradient-to-tl from-blue-400 to-emerald-400 py-20 px-4 text-center shadow-lg">
+      <main className="prose mx-auto max-w-(--breakpoint-xl) px-4 pb-12 prose-headings:text-blue-700 prose-h1:text-black prose-ul:list-disc dark:prose-invert">
+        <div className="relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] w-screen bg-linear-to-tl from-blue-400 to-emerald-400 py-20 px-4 text-center shadow-lg">
           <h1 className="mb-1 break-words text-black">{post.title}</h1>
           <time dateTime={post.date}>Published on {formattedPublishDate}</time>
         </div>
@@ -113,7 +113,7 @@ export default function BlogPostPage() {
 
 export function ErrorBoundary() {
   return (
-    <div className="flex h-screen w-screen items-center justify-center bg-gradient-to-r from-indigo-600 to-blue-400">
+    <div className="flex h-screen w-screen items-center justify-center bg-linear-to-r from-indigo-600 to-blue-400">
       <div className="h-full rounded-md bg-white px-40 py-20 shadow-xl md:h-auto">
         <div className="flex flex-col items-center">
           <h1 className="text-9xl font-bold text-blue-600">404</h1>

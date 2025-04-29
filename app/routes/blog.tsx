@@ -16,7 +16,7 @@ export default function Blog() {
   const posts = useLoaderData<typeof loader>()
   return (
     <>
-      <main className="mx-auto max-w-screen-xl p-8">
+      <main className="mx-auto max-w-(--breakpoint-xl) p-8">
         <Posts entrySlugStart="/blog" posts={posts} />
       </main>
     </>

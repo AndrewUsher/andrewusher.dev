@@ -20,7 +20,7 @@ const NavLink = ({ children, to }: NavLinkProps) => {
 export function Header() {
   return (
     <>
-      <div className="mx-auto flex max-w-screen-xl flex-col items-center justify-between p-8 lg:flex-row">
+      <div className="mx-auto flex max-w-(--breakpoint-xl) flex-col items-center justify-between p-8 lg:flex-row">
         <h1 className="text-4xl font-bold dark:text-white">
           <Link to="/">Andrew Usher</Link>
         </h1>

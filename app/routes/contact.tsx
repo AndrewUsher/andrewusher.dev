@@ -70,7 +70,7 @@ export default function ContactRoute() {
   const submitted = fetcher.type === 'done' && fetcher.data?.success === true
 
   return (
-    <main className="mx-auto max-w-screen-md p-8">
+    <main className="mx-auto max-w-(--breakpoint-md) p-8">
       <section className="prose mb-8 dark:prose-invert">
         <p>How can I help you?</p>
         <p>

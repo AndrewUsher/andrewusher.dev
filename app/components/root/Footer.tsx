@@ -4,7 +4,7 @@ import { Link } from '@remix-run/react'
 export function Footer() {
   return (
     <footer className="bg-gray-50 text-gray-500 dark:bg-neutral-700 dark:text-slate-300">
-      <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-(--breakpoint-xl) px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <nav className="grid grid-cols-2 gap-4 text-center sm:grid-cols-3 lg:grid-cols-6">
             <Link to="/about" className="hover:opacity-75">
