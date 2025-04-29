@@ -10,6 +10,7 @@ public/build
 api/_build
 /app/tailwind.css
 coverage
+build
 
 cypress/videos
 cypress/downloads
