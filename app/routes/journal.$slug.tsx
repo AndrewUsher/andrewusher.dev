@@ -56,7 +56,7 @@ export default function BlogPostPage() {
   const formattedPublishDate = dayjs(post.date).format('MMMM DD, YYYY')
   return (
     <>
-      <div className="s mx-auto mt-8 max-w-screen-xl px-4">
+      <div className="s mx-auto mt-8 max-w-(--breakpoint-xl) px-4">
         <h1 className="mb-1 break-words text-3xl font-bold text-indigo-600 dark:text-indigo-200">
           {post.title}
         </h1>
@@ -80,7 +80,7 @@ export default function BlogPostPage() {
 
 export function ErrorBoundary() {
   return (
-    <div className="flex h-screen w-screen items-center justify-center bg-gradient-to-r from-indigo-600 to-blue-400">
+    <div className="flex h-screen w-screen items-center justify-center bg-linear-to-r from-indigo-600 to-blue-400">
       <div className="h-full rounded-md bg-white px-40 py-20 shadow-xl md:h-auto">
         <div className="flex flex-col items-center">
           <h1 className="text-9xl font-bold text-blue-600">404</h1>

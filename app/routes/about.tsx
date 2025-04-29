@@ -5,8 +5,8 @@ import { timelineData } from '../content/timeline'
 export default function AboutPage() {
   return (
     <>
-      <div className="mx-auto min-h-[80vh] max-w-screen-xl p-8">
-        <div className="prose mb-8 max-w-screen-xl dark:prose-invert lg:prose-xl">
+      <div className="mx-auto min-h-[80vh] max-w-(--breakpoint-xl) p-8">
+        <div className="prose mb-8 max-w-(--breakpoint-xl) dark:prose-invert lg:prose-xl">
           <AboutPageContent />
         </div>
         <ol className="relative border-l border-emerald-400 dark:border-emerald-600">

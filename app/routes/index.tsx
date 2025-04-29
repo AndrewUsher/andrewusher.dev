@@ -102,7 +102,7 @@ export default function Index() {
   const { recentBlogPosts, recentProjects } = useLoaderData<typeof loader>()
   return (
     <>
-      <div className="mx-auto max-w-screen-xl p-8 pt-0">
+      <div className="mx-auto max-w-(--breakpoint-xl) p-8 pt-0">
         <div className="prose dark:prose-invert lg:prose-xl">
           <Paragraph>
             Greetings! I am a systems engineer at{' '}
