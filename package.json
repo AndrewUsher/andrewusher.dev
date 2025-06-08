@@ -4,11 +4,12 @@
   "description": "",
   "license": "",
   "scripts": {
-    "build": "yarn build:css && remix build",
+    "build": "astro build",
     "build:css": "tailwindcss -i ./app/styles/tailwind.css -o ./app/tailwind.css --minify",
-    "dev": "remix dev",
+    "dev": "astro dev",
     "lint": "eslint app/",
     "postinstall": "remix setup node",
+    "preview": "astro preview",
     "start": "remix start",
     "test": "vitest run",
     "test:watch": "vitest --ui"
@@ -24,6 +25,7 @@
     "@t3-oss/env-core": "0.6.0",
     "@tailwindcss/forms": "0.5.3",
     "airtable": "0.11.6",
+    "astro": "^5.9.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^1.2.1",
     "contentful": "10.0.0-beta-v10.43",
