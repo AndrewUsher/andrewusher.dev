@@ -1,9 +1,8 @@
-
 ---
 date: 2022-04-10
 isPublished: true
 slug: npm-needs-snarkdown
-title: NPM Needs: snarkdown
+title: 'NPM Needs: snarkdown'
 ---
 
 ## What Is It?
@@ -22,5 +21,3 @@ console.log(snarkdown('# Hello World'))
 
 - Github Repo: [developit/snarkdown](https://github.com/developit/snarkdown)
 - Author: [Jason Miller](https://github.com/developit)
-
-      

@@ -1,9 +1,8 @@
-
 ---
 date: 2022-04-09
 isPublished: true
 slug: npm-needs-pretty-bytes
-title: NPM Needs: pretty-bytes
+title: 'NPM Needs: pretty-bytes'
 ---
 
 ## What Is It?
@@ -25,5 +24,3 @@ prettyBytes(1650)
 
 - Github Repo: [sindresorhus/pretty-bytes](https://github.com/sindresorhus/pretty-bytes)
 - Author: [Sindre Sorhus](https://sindresorhus.com/)
-
-      

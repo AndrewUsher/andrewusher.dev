@@ -1,9 +1,8 @@
-
 ---
 date: 2022-05-22
 isPublished: true
 slug: offset-client-scroll-height-difference
-title: offsetHeight/scrollHeight/clientHeight: What's The Difference?
+title: "offsetHeight/scrollHeight/clientHeight: What's The Difference?"
 ---
 
 While working on a scrolling progress bar for my portfolio site, I ran into some issues trying to find out the small differences between `offsetHeight`, `clientHeight`, and `scrollHeight` on a given element. Here's a brief description of each one:
@@ -19,4 +18,3 @@ The `scrollHeight` value is equal to the minimum height the element would requir
 ## offsetHeight
 
 `offsetHeight` is a measurement in pixels of the element's CSS height, including any borders, padding, and horizontal scrollbars (if rendered). It does not include the height of pseudo-elements such as ::before or ::after
-      
