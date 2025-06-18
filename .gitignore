@@ -15,6 +15,9 @@ build
 cypress/videos
 cypress/downloads
 
+contentful-export*
+import-scripts
+
 .env
 
 .pnp.*
