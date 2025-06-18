@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content'
+import Posts from './Posts.astro'
+
+const blogPosts = await getCollection('blogPosts')
+---
+
+<section>
+  <h2 class="mb-8 text-4xl font-bold tracking-tight dark:text-white">
+    Recent Blog Posts
+  </h2>
+  <Posts entrySlugStart="/blog" posts={blogPosts.slice(0, 5)} />
+</section>

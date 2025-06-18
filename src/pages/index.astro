@@ -1,12 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-// Welcome to Astro! Everything between these triple-dash code fences
-// is your "component frontmatter". It never runs in the browser.
-console.log('This runs in your terminal, not the browser!')
+import { HomepageIntro }  from 'src/components/HomepageIntro'
+import RecentPosts from 'src/components/RecentPosts.astro'
 ---
 
-<!-- Below is your "component template." It's just HTML, but with
-    some magic sprinkled in to help you build great templates. -->
 <BaseLayout>
-  <h1>Hello, World!</h1>
+  <div class="mx-auto max-w-screen-xl p-8 pt-0">
+    <HomepageIntro client:load />
+    <RecentPosts />
+  </div>
 </BaseLayout>

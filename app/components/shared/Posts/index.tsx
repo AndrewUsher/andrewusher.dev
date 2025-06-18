@@ -13,7 +13,7 @@ export function Posts({ entrySlugStart, posts }: Props) {
     <>
       {posts.map((post) => (
         <article key={post.title} className="mb-6">
-          <h3 className="mb-1 break-words text-2xl font-semibold tracking-wide dark:text-white">
+          <h3 className="dark:text-white mb-1 break-words text-2xl font-semibold tracking-wide">
             <Link
               className="tracking-tighter hover:text-sky-500"
               to={`${entrySlugStart}/${post.slug}`}
@@ -23,7 +23,7 @@ export function Posts({ entrySlugStart, posts }: Props) {
           </h3>
           <time
             dateTime={post.date}
-            className="text-sm tracking-wide text-slate-700 dark:text-slate-500"
+            className="dark:text-slate-500 text-sm tracking-wide text-slate-700"
           >
             Published on {dayjs(post.date).format('MMMM DD, YYYY')}
           </time>
