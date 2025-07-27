@@ -11,6 +11,7 @@ api/_build
 /app/tailwind.css
 coverage
 build
+dist
 
 cypress/videos
 cypress/downloads
