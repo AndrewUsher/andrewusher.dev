@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content'
 import Posts from './Posts.astro'
 
-const blogPosts = await getCollection('blogPosts')
+const blogPosts = (await getCollection('blogPosts')).sort(  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),)
 ---
 
 <section>

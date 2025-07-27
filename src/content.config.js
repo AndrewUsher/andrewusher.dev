@@ -21,6 +21,7 @@ const projects = defineCollection({
     isPublished: z.boolean().default(true),
     liveProjectLink: z.string().url(),
     slug: z.string(),
+    summary: z.string(),
     title: z.string(),
   }),
 })
