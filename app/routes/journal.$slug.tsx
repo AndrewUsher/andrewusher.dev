@@ -7,7 +7,7 @@ import {
   V2_MetaFunction as V2MetaFunction,
 } from '@remix-run/react'
 import snarkdown from 'snarkdown'
-import { ReadingProgressBar } from '~/components/post/ReadingProgress/ReadingProgress'
+import { ReadingProgressBar } from 'src/components/ReadingProgress'
 import { getJournalEntriesBySlug } from '~/lib/contentful.server'
 import { logger } from '~/lib/logger.server'
 

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @font-face {
     font-family: 'Merriweather Sans';
@@ -13,6 +14,10 @@
   
   body::-webkit-scrollbar-thumb {
     @apply rounded-md bg-gradient-to-b from-blue-400 to-emerald-400;
+  }
+
+  body {
+    overflow-x: hidden;
   }
   
   @layer base {

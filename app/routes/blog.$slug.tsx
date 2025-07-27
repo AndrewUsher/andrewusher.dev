@@ -9,7 +9,7 @@ import {
   V2_MetaFunction as V2MetaFunction,
 } from '@remix-run/react'
 import { json, LinksFunction, LoaderArgs } from '@remix-run/server-runtime'
-import { ReadingProgressBar } from '~/components/post/ReadingProgress/ReadingProgress'
+import { ReadingProgressBar } from 'src/components/ReadingProgress'
 import { getBlogPostBySlug } from '~/lib/contentful.server'
 import { logger } from '~/lib/logger.server'
 import { parseMarkdown } from '~/lib/mdx.server'
@@ -68,7 +68,7 @@ export default function BlogPostPage() {
   const { pathname } = useLocation()
   return (
     <>
-      <main className="prose mx-auto max-w-screen-xl px-4 pb-12 prose-headings:text-blue-700 prose-h1:text-black prose-ul:list-disc dark:prose-invert">
+      <main className="dark:prose-invert prose mx-auto max-w-screen-xl px-4 pb-12 prose-headings:text-blue-700 prose-h1:text-black prose-ul:list-disc">
         <div className="relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] w-screen bg-gradient-to-tl from-blue-400 to-emerald-400 py-20 px-4 text-center shadow-lg">
           <h1 className="mb-1 break-words text-black">{post.title}</h1>
           <time dateTime={post.date}>Published on {formattedPublishDate}</time>
@@ -77,7 +77,7 @@ export default function BlogPostPage() {
           className="mt-12"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
-        <div className="mb-4 flex items-center bg-stone-200 px-4 py-2 dark:bg-stone-800">
+        <div className="dark:bg-stone-800 mb-4 flex items-center bg-stone-200 px-4 py-2">
           <RiTwitterFill fill="#1DA1F2" className="h-16 w-16 md:h-8 md:w-8" />
           <p className="ml-2">
             If you liked this article and think others should read it, please{' '}
