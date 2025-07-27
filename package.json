@@ -7,7 +7,7 @@
     "build": "astro build",
     "build:css": "tailwindcss -i ./app/styles/tailwind.css -o ./app/tailwind.css --minify",
     "dev": "astro dev",
-    "lint": "eslint app/",
+    "lint": "eslint src/",
     "postinstall": "remix setup node",
     "preview": "astro preview",
     "start": "remix start",
