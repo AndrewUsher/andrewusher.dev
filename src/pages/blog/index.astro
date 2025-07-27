@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content'
+import Posts from 'src/components/Posts.astro'
+import BaseLayout from 'src/layouts/BaseLayout.astro'
+
+const blogPosts = (await getCollection('blogPosts')).sort(  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),)
+---
+
+<BaseLayout>
+  <main class="mx-auto max-w-screen-xl p-8">
+    <Posts entrySlugStart="/blog" posts={blogPosts} />
+  </main>
+</BaseLayout>;
