@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { HomepageIntro }  from 'src/components/HomepageIntro'
+import { IntroSectionCards } from 'src/components/IntroSectionCards'
 import RecentPosts from 'src/components/RecentPosts.astro'
 import RecentProjects from 'src/components/RecentProjects.astro'
 ---
@@ -8,6 +9,7 @@ import RecentProjects from 'src/components/RecentProjects.astro'
 <BaseLayout>
   <div class="mx-auto max-w-screen-xl p-8 pt-0">
     <HomepageIntro client:load />
+    <IntroSectionCards client:load />
     <RecentPosts />
     <RecentProjects />
   </div>
