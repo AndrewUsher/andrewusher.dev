@@ -1,9 +1,6 @@
 {
-  "build": {
-    "env": {
-      "ENABLE_FILE_SYSTEM_API": "1"
-    }
-  },
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "outputDirectory": "dist",
   "redirects": [
     { 
       "source": "/recipes",
