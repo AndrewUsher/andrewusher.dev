@@ -7,6 +7,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-
   integrations: [react(), mdx()],
+  outDir: './build',
 })
