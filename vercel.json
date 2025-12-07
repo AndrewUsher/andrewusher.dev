@@ -22,5 +22,6 @@
       "source": "/twitter",
       "destination": "https://twitter.com/AndrewUsher17"
     }
-  ]
+  ],
+  "outputDirectory": "build"
 }
