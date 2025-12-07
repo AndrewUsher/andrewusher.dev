@@ -16,15 +16,6 @@
     "target": "ES2019",
     "strict": true,
     "baseUrl": ".",
-    "paths": {
-      "~/*": [
-        "./app/*"
-      ]
-    },
-    "typeRoots": [
-      "./app/external-types",
-      "./node_modules/@types"
-    ],
     "noEmit": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
