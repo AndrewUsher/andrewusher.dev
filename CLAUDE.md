@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Personal portfolio and blog site for Andrew Usher, built with Astro and React. Currently migrating from Remix to Astro - **all new development should target the Astro structure**.
+Personal portfolio and blog site for Andrew Usher, built with Astro and React.
 
 ## Commands
 
@@ -23,8 +23,6 @@ Personal portfolio and blog site for Andrew Usher, built with Astro and React. C
 - `npm run lint` - ESLint on src/ directory (uses @drewster/eslint-config)
 
 ## Architecture
-
-### Astro Structure (Current)
 
 **Pages & Routing:**
 - `src/pages/` - File-based routing (.astro files)
@@ -48,19 +46,11 @@ Personal portfolio and blog site for Andrew Usher, built with Astro and React. C
 - Content loaded via `glob()` loader with Markdown/MDX support
 
 **Configuration:**
-- `astro.config.mjs` - Main config with React and MDX integrations
+- `astro.config.mjs` - Main config with React, MDX integrations, and rehype plugins
 - Output directory: `./build`
 - Vite plugins: TailwindCSS v4 (`@tailwindcss/vite`)
-
-### Legacy Code (Deprecated - Do Not Extend)
-
-The `app/` directory contains deprecated Remix code that will be removed after migration:
-- `app/routes/` - Old Remix routes
-- `app/components/` - Old React components
-- `app/lib/*.server.ts` - Server utilities (Contentful, Airtable, logger)
-- Path alias `~/` maps to `./app/` (will be removed)
-
-**Do not add new features to the `app/` directory.**
+- MDX plugins: rehypeSlug, @jsdevtools/rehype-toc
+- Syntax highlighting: Shiki with github-dark theme
 
 ## Styling
 
@@ -97,23 +87,15 @@ The `app/` directory contains deprecated Remix code that will be removed after m
 
 ## Content Management
 
-**Current (Astro Content Collections):**
-- Blog posts: `content/blog/*.md` and `*.mdx`
-- Projects: `content/projects/*.md` and `*.mdx`
-- Schema validation via Zod in `src/content.config.js`
-- Access via Astro's content API: `getCollection('blogPosts')`
+All content is managed through Astro Content Collections:
 
-**Legacy (Contentful CMS - Being Phased Out):**
-- Only used by deprecated Remix routes in `app/`
-- Environment vars in `app/env.ts` (CONTENTFUL_SPACE_ID, CONTENTFUL_ACCESS_TOKEN)
+- **Blog posts**: `content/blog/*.md` and `*.mdx`
+- **Projects**: `content/projects/*.md` and `*.mdx`
+- **Journal entries**: `content/journal/*.md` and `*.mdx`
+- Schema validation via Zod in `src/content.config.js`
+- Access via Astro's content API: `getCollection('blogPosts')`, `getEntry('blogPosts', slug)`
 
 ## Development Notes
-
-**Migration in Progress:**
-- Main branch for PRs: `dev` (not `main`)
-- Current branch: `refactor/astro`
-- Focus all new work on `src/` directory structure
-- The `app/` directory will be removed when migration completes
 
 **Key Patterns:**
 - Use `.astro` files for static/server-rendered pages
@@ -121,8 +103,16 @@ The `app/` directory contains deprecated Remix code that will be removed after m
 - All blog content is Markdown/MDX in `content/` directory
 - File naming: PascalCase for components, kebab-case for routes
 
+## Forms
+
+Contact form uses **Vercel Forms** (beta):
+- Form component: `src/components/ContactForm.tsx`
+- Uses `data-vercel-form` attribute for Vercel integration
+- Client-side form handling with React
+
 ## Deployment
 
 - Platform: Vercel
+- Main branch for PRs: `dev` (not `main`)
 - Redirects: `vercel.json` (social links like /github, /twitter)
-- Build command will be updated when migration completes
+- Build command: `npm run build` (Astro build)

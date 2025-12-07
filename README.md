@@ -1,46 +1,70 @@
-# Welcome to Remix!
+# andrewusher.dev
 
-- [Remix Docs](https://remix.run/docs)
+Personal portfolio and blog site built with Astro and React.
 
-## Deployment
+## Tech Stack
 
-After having run the `create-remix` command and selected "Vercel" as a deployment target, you only need to [import your Git repository](https://vercel.com/new) into Vercel, and it will be deployed.
-
-If you'd like to avoid using a Git repository, you can also deploy the directory by running [Vercel CLI](https://vercel.com/cli):
-
-```sh
-npm i -g vercel
-vercel
-```
-
-It is generally recommended to use a Git repository, because future commits will then automatically be deployed by Vercel, through its [Git Integration](https://vercel.com/docs/concepts/git).
+- **Framework**: Astro 5.9
+- **UI**: React 19 with Astro integration
+- **Styling**: TailwindCSS v4
+- **Content**: Markdown/MDX with content collections
+- **Deployment**: Vercel
 
 ## Development
 
-To run your Remix app locally, make sure your project's local dependencies are installed:
+Install dependencies:
 
 ```sh
 npm install
 ```
 
-Afterwards, start the Remix development server like so:
+Start the development server:
 
 ```sh
 npm run dev
 ```
 
-(Optionally) if using VSCode, install the recommended extensions
+Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-Open up [http://localhost:3000](http://localhost:3000) and you should be ready to go!
+## Available Commands
 
-If you're used to using the `vercel dev` command provided by [Vercel CLI](https://vercel.com/cli) instead, you can also use that, but it's not needed.
+- `npm run dev` - Start Astro dev server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint on src/
+- `npm test` - Run Vitest tests
+- `npm run test:watch` - Run tests in watch mode with UI
 
-### Recipes
+## Project Structure
 
-#### Enable MSW
-
-`msw` can be used to mock external services during local development/testing. In order to enable the mock server locally, add the below flag to `.env`
-
-```txt
-ENABLE_MSW=true
 ```
+/
+├── content/           # Content collections (blog, projects, journal)
+│   ├── blog/         # Blog posts (Markdown/MDX)
+│   ├── projects/     # Project pages
+│   └── journal/      # Journal entries
+├── public/           # Static assets (fonts, images, etc.)
+├── src/
+│   ├── components/   # Astro and React components
+│   ├── data/         # Static data (timeline, etc.)
+│   ├── layouts/      # Astro layouts
+│   ├── pages/        # File-based routing
+│   └── styles/       # Global styles
+└── astro.config.mjs  # Astro configuration
+```
+
+## Content Management
+
+Content is managed through Astro content collections defined in `src/content.config.js`:
+
+- **blogPosts**: Blog articles with date, title, slug
+- **projects**: Portfolio projects with links and summaries
+- **journal**: Personal journal entries
+
+Add new content by creating Markdown/MDX files in the appropriate `content/` directory.
+
+## Deployment
+
+The site is configured for automatic deployment to Vercel. Push to the `dev` branch to trigger a deployment.
+
+Custom redirects are configured in `vercel.json`.
