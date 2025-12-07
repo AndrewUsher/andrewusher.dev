@@ -110,6 +110,63 @@ Contact form uses **Vercel Forms** (beta):
 - Uses `data-vercel-form` attribute for Vercel integration
 - Client-side form handling with React
 
+## Testing Astro Components
+
+**Status:** ✅ Fully functional with Vitest 3.2.4
+
+### Setup Overview
+
+The project has Astro component testing configured using:
+- **Astro Container API** (experimental) for rendering components
+- **Vitest 3.2.4** for test runner
+- **happy-dom** for DOM parsing in Node environment
+- **@testing-library/dom** and **@testing-library/jest-dom** for assertions
+
+### Test Configuration Files
+
+- `vitest.config.mts` - Vitest configuration using Astro's `getViteConfig()`
+- `vitest.setup.js` - Global test setup with jest-dom matchers
+- `src/test/helpers.ts` - Utility functions for rendering Astro components
+- `src/test/types.d.ts` - TypeScript declarations for Astro testing modules
+- `src/test/README.md` - Comprehensive testing guide
+
+### Test Helpers
+
+Two main helpers are available:
+
+```typescript
+// Basic Astro component rendering
+import { renderAstroComponent } from '../test/helpers'
+const { document } = await renderAstroComponent(Component, { props: {...} })
+
+// Astro component with React children
+import { renderAstroComponentWithReact } from '../test/helpers'
+const { document } = await renderAstroComponentWithReact(Component, { props: {...} })
+```
+
+### Example Test
+
+See `src/components/NavLink.test.ts` for an example of testing an Astro component.
+
+### Environment Notes
+
+- **Default environment:** `node` (required for Astro Container API)
+- **React component tests:** Add `// @vitest-environment jsdom` at top of file
+- Tests use happy-dom programmatically within helpers to parse HTML in Node environment
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run specific test file
+npm test src/components/NavLink.test.ts
+
+# Run tests in watch mode with UI
+npm run test:watch
+```
+
 ## Deployment
 
 - Platform: Vercel
