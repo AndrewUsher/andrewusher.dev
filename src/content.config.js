@@ -26,7 +26,21 @@ const projects = defineCollection({
   }),
 })
 
+const journal = defineCollection({
+  loader: glob({
+    pattern: ['**/*.md', '**/*.mdx'],
+    base: './content/journal',
+  }),
+  schema: z.object({
+    date: z.coerce.date(),
+    isPublished: z.boolean().default(false),
+    slug: z.string(),
+    title: z.string(),
+  }),
+})
+
 export const collections = {
   blogPosts,
   projects,
+  journal,
 }
