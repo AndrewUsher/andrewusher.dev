@@ -6,12 +6,13 @@
   "scripts": {
     "build": "astro build",
     "dev": "astro dev",
-    "lint": "eslint src/",
+    "lint": "astro check",
     "preview": "astro preview",
     "test": "vitest run",
     "test:watch": "vitest --ui"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.6",
     "@astrojs/mdx": "^4.3.0",
     "@astrojs/react": "^4.3.0",
     "@giscus/react": "2.2.6",
@@ -53,7 +54,7 @@
     "eslint-plugin-jest": "27.2.1",
     "jsdom": "21.1.0",
     "ts-node": "10.9.1",
-    "typescript": "5.1.6",
+    "typescript": "^5.1.6",
     "vitest": "1.2.0"
   },
   "optionalDependencies": {

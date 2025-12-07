@@ -5,7 +5,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat'
 
 interface Props {
   entrySlugStart: '/blog' | '/journal'
-  posts: Array<CollectionEntry<'blogPosts'>>
+  posts: Array<CollectionEntry<'blogPosts'>> | Array<CollectionEntry<'journal'>>
 }
 
 dayjs.extend(customParseFormat)
