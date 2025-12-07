@@ -11,9 +11,13 @@ api/_build
 /app/tailwind.css
 coverage
 build
+dist
 
 cypress/videos
 cypress/downloads
+
+contentful-export*
+import-scripts
 
 .env
 
@@ -27,3 +31,6 @@ cypress/downloads
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+
+.astro

@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import Posts from '../../components/Posts.astro'
+
+const allJournalEntries = await getCollection('journal')
+const publishedEntries = allJournalEntries.filter(
+  (entry) => entry.data.isPublished
+)
+
+const title = 'Journal - Andrew Usher'
+const description = 'Personal journal entries and thoughts.'
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="mx-auto max-w-screen-xl p-8">
+    <h1 class="mb-8 text-4xl font-bold text-sky-600 dark:text-sky-400">
+      Journal
+    </h1>
+    {
+      publishedEntries.length > 0 ? (
+        <Posts entrySlugStart="/journal" posts={publishedEntries} />
+      ) : (
+        <p class="text-lg text-gray-600 dark:text-gray-400">
+          No journal entries yet. Check back soon!
+        </p>
+      )
+    }
+  </main>
+</BaseLayout>

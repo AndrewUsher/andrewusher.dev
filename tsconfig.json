@@ -1,5 +1,7 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+  "extends": "astro/tsconfigs/strictest",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["build", "public", "api"],
   "compilerOptions": {
     "module": "esnext",
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
@@ -12,12 +14,9 @@
     "target": "ES2019",
     "strict": true,
     "baseUrl": ".",
-    "paths": {
-      "~/*": ["./app/*"]
-    },
-    "typeRoots": ["./app/external-types", "./node_modules/@types"],
     "noEmit": true,
     "allowJs": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "jsxImportSource": "react"
   }
 }

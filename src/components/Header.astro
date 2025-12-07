@@ -1,0 +1,28 @@
+---
+import NavLink from './NavLink.astro'
+---
+
+<header class="bg-white dark:bg-neutral-900">
+  <div
+    class="top-0 h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"
+  >
+  </div>
+
+  <div
+    class="mx-auto flex max-w-screen-xl flex-col items-center justify-between p-8 lg:flex-row"
+  >
+    <h1 class="text-4xl font-bold dark:text-white">
+      <a href="/">Andrew Usher</a>
+    </h1>
+    <nav class="hidden justify-between lg:flex">
+      <NavLink href="/about">About Me</NavLink>
+      <NavLink href="/blog">Blog</NavLink>
+      <NavLink href="/resume.pdf">Resume</NavLink>
+    </nav>
+    <nav class="mt-6 flex lg:hidden">
+      <NavLink href="/blog">Blog</NavLink>
+      <NavLink href="/contact">Contact Me</NavLink>
+      <NavLink href="/resume.pdf">Resume</NavLink>
+    </nav>
+  </div>
+</header>

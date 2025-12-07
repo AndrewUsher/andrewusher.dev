@@ -4,6 +4,7 @@
     "bradlc.vscode-tailwindcss",
     "esbenp.prettier-vscode",
     "silvenon.mdx",
-    "zixuanchen.vitest-explorer"
+    "zixuanchen.vitest-explorer",
+    "astro-build.astro-vscode"
   ]
 }

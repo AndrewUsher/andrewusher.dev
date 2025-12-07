@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout>
+  <div class="flex min-h-[70vh] items-center justify-center px-4">
+    <div class="w-full max-w-md rounded-lg bg-white p-8 text-center shadow-xl dark:bg-slate-800">
+      <div class="mb-6">
+        <h1 class="text-9xl font-bold text-sky-600 dark:text-sky-400">404</h1>
+      </div>
+
+      <div class="mb-8">
+        <h2 class="mb-3 text-3xl font-bold text-gray-800 dark:text-gray-100">
+          <span class="text-red-500">Oops!</span> Page not found
+        </h2>
+
+        <p class="text-lg text-gray-600 dark:text-gray-300">
+          The page you're looking for doesn't exist.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-3 sm:flex-row sm:justify-center">
+        <a
+          href="/"
+          class="rounded-lg bg-sky-600 px-6 py-3 font-semibold text-white transition hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600"
+        >
+          Go Home
+        </a>
+        <a
+          href="/blog"
+          class="rounded-lg border-2 border-sky-600 px-6 py-3 font-semibold text-sky-600 transition hover:bg-sky-50 dark:border-sky-500 dark:text-sky-400 dark:hover:bg-slate-700"
+        >
+          Read Blog
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

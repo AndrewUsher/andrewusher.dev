@@ -1,0 +1,36 @@
+---
+import type { GetStaticPaths } from "astro";
+import { render } from "astro:content";
+import { getEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import { BlogPost } from "src/components/BlogPost";
+import BaseLayout from "src/layouts/BaseLayout.astro";
+
+export const getStaticPaths =  (async () => {
+  const blogPosts = await getCollection('blogPosts')
+  return blogPosts.map(post => ({
+    params: { slug: post.data.slug },
+  }));
+}) satisfies GetStaticPaths;
+
+const { slug } = Astro.params
+const post = await getEntry('blogPosts', slug)
+if (!post) {
+  throw new Error(`Blog post not found with slug: ${slug}`);
+}
+
+const {Content} = await render(post)
+
+
+
+---
+<BaseLayout>
+  <div class="mx-auto max-w-screen-xl p-8 pt-0">
+<BlogPost post={post} pathname={Astro.url.pathname} client:load>
+  <Content />
+  </BlogPost>
+  </div>
+  
+</BaseLayout>
+
+  

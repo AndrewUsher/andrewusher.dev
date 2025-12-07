@@ -1,0 +1,51 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { render } from 'astro:content'
+import { getEntry } from 'astro:content'
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { ReadingProgressBar } from '../../components/ReadingProgress'
+import dayjs from 'dayjs'
+
+export const getStaticPaths = (async () => {
+  const journalEntries = await getCollection('journal')
+  return journalEntries.map((entry) => ({
+    params: { slug: entry.data.slug },
+  }))
+}) satisfies GetStaticPaths
+
+const { slug } = Astro.params
+const entry = await getEntry('journal', slug)
+
+if (!entry) {
+  return Astro.redirect('/404')
+}
+
+const { Content } = await render(entry)
+const formattedDate = dayjs(entry.data.date).format('MMMM DD, YYYY')
+
+const title = `${entry.data.title} - Andrew Usher`
+const description = entry.data.title
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="mx-auto mt-8 max-w-screen-xl px-4">
+    <h1
+      class="mb-1 break-words text-3xl font-bold text-indigo-600 dark:text-indigo-200"
+    >
+      {entry.data.title}
+    </h1>
+    <time
+      class="text-indigo-400 opacity-80 dark:text-indigo-200"
+      datetime={dayjs(entry.data.date).format('YYYY-MM-DD')}
+    >
+      Published on {formattedDate}
+    </time>
+    <main
+      class="prose-lg mt-12 pb-12 prose-ul:list-disc dark:prose-invert"
+    >
+      <Content />
+    </main>
+  </div>
+  <ReadingProgressBar client:load />
+</BaseLayout>

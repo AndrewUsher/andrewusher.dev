@@ -1,0 +1,8 @@
+---
+const linkClasses = 'ml-8 block lg:text-xl first:ml-0 dark:text-white text-base'
+const { href } = Astro.props
+---
+
+<a href={href} class={linkClasses}>
+  <slot />
+</a>

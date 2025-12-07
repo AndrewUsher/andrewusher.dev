@@ -1,9 +1,5 @@
 {
-  "build": {
-    "env": {
-      "ENABLE_FILE_SYSTEM_API": "1"
-    }
-  },
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     { 
       "source": "/recipes",
@@ -26,5 +22,6 @@
       "source": "/twitter",
       "destination": "https://twitter.com/AndrewUsher17"
     }
-  ]
+  ],
+  "outputDirectory": "build"
 }

@@ -62,7 +62,7 @@ jobs:
         cache: 'npm'
         node-version: ${{ matrix.node-version }}
     - run: npm i
-    - run: npx tsc
+    - run: npm run lint
   lint:
     name: '🔍 ESLint'
     needs: [install]

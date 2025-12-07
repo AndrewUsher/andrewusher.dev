@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import { ProjectsGrid } from './ProjectsGrid.tsx';
+
+const publishedProjects = await getCollection('projects', ({ data }) => {
+  return data.isPublished;
+});
+
+const recentProjects = publishedProjects
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 5);
+---
+
+<h2 class="text-2xl font-bold md:text-4xl mb-8">Recent Projects</h2>
+<ProjectsGrid projects={recentProjects} />

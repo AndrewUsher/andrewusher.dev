@@ -1,0 +1,40 @@
+---
+import { type CollectionEntry } from 'astro:content'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+
+interface Props {
+  entrySlugStart: '/blog' | '/journal'
+  posts: Array<CollectionEntry<'blogPosts'>> | Array<CollectionEntry<'journal'>>
+}
+
+dayjs.extend(customParseFormat)
+
+const { entrySlugStart, posts } = Astro.props
+const sortedPosts = posts.sort(
+  (a, b) =>
+    Date.parse(new Date(b.data.date).toString()) -
+    Date.parse(new Date(a.data.date).toString())
+)
+---
+
+{
+  sortedPosts.map((post) => (
+    <article class="mb-6">
+      <h3 class="mb-1 break-words text-2xl font-semibold tracking-wide dark:text-white">
+        <a
+          class="tracking-tighter hover:text-sky-500"
+          href={`${entrySlugStart}/${post.data.slug}`}
+        >
+          {post.data.title}
+        </a>
+      </h3>
+      <time
+        datetime={dayjs(post.data.date).format('YYYY-MM-DD')}
+        class="text-sm tracking-wide text-slate-700 dark:text-slate-500"
+      >
+        Published on {dayjs(post.data.date).format('MMMM DD, YYYY')}
+      </time>
+    </article>
+  ))
+}

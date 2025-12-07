@@ -1,6 +1,6 @@
 module.exports = {
   darkMode: ['class'],
-  content: ['./app/**/*.{ts,tsx}', './remix.*.js'],
+  content: ['./src/**/*.{astro,html,js,jsx,ts,tsx,mdx}'],
   theme: {
     fontFamily: {
       'merriweather-sans': 'Merriweather Sans, sans-serif',

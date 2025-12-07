@@ -1,0 +1,21 @@
+# Journal Content Directory
+
+This directory is ready for journal entries in Markdown or MDX format.
+
+Each journal entry should have frontmatter with the following fields:
+- title: string
+- date: ISO date string
+- slug: string (URL-friendly identifier)
+- isPublished: boolean (default: false)
+
+Example:
+```md
+---
+title: "My First Journal Entry"
+date: "2025-01-15"
+slug: "my-first-journal-entry"
+isPublished: true
+---
+
+Journal content goes here...
+```
