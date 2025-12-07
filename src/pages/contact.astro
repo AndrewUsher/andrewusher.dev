@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { ContactForm } from '../components/ContactForm'
+
+const title = 'Contact - Andrew Usher'
+const description = 'Get in touch with Andrew Usher'
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="mx-auto max-w-screen-md p-8">
+    <section class="prose mb-8 dark:prose-invert">
+      <h1>Contact</h1>
+      <p>How can I help you?</p>
+      <p>
+        If you want us to work together on a project, or have any questions about
+        what I do, don't hesitate to write me.
+      </p>
+      <p>Here are a few tips on writing me:</p>
+      <ul>
+        <li>Use paragraphs, avoid large walls of text.</li>
+        <li>Number your asks if there are multiple</li>
+        <li>Keep it as short as you can</li>
+        <li>
+          Post code on a git repo, Codepen or smaller stuff or errors in a Gist.
+          Screenshots are helpful too!
+        </li>
+      </ul>
+    </section>
+    <ContactForm client:load />
+  </main>
+</BaseLayout>
