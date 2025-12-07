@@ -2,7 +2,7 @@ import Giscus from '@giscus/react'
 import type { CollectionEntry } from 'astro:content'
 import dayjs from 'dayjs'
 import { RiTwitterFill } from 'react-icons/ri'
-import { generateTwitterShareURL } from '~/lib/generateTwitterShareURL'
+import { generateTwitterShareURL } from '../lib/generateTwitterShareURL'
 import { ReadingProgressBar } from './ReadingProgress'
 
 type Props = {
