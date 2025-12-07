@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { ProjectsGrid } from '../../components/ProjectsGrid'
+
+const allProjects = await getCollection('projects')
+const publishedProjects = allProjects
+  .filter((project) => project.data.isPublished)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+
+const title = 'Projects - Andrew Usher'
+const description = "Projects that I've worked on solely/contributed to."
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="mx-auto max-w-screen-xl p-8">
+    <h1 class="mb-8 text-4xl font-bold text-sky-600 dark:text-sky-400">
+      Projects
+    </h1>
+    <div class="prose dark:prose-invert lg:prose-xl">
+      <ProjectsGrid projects={publishedProjects} client:load />
+    </div>
+  </main>
+</BaseLayout>
