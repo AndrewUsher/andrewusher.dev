@@ -2,7 +2,7 @@
 import NavLink from './NavLink.astro'
 ---
 
-<header class="bg-white dark:bg-neutral-900">
+<header class="bg-white dark:bg-neutral-900" transition:persist>
   <div
     class="top-0 h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"
   >
@@ -17,12 +17,24 @@ import NavLink from './NavLink.astro'
     <nav class="hidden justify-between lg:flex">
       <NavLink href="/about">About Me</NavLink>
       <NavLink href="/blog">Blog</NavLink>
-      <NavLink href="/resume.pdf">Resume</NavLink>
+      <a
+        href="/resume.pdf"
+        data-astro-reload
+        class="ml-8 block lg:text-xl first:ml-0 dark:text-white text-base"
+      >
+        Resume
+      </a>
     </nav>
     <nav class="mt-6 flex lg:hidden">
       <NavLink href="/blog">Blog</NavLink>
       <NavLink href="/contact">Contact Me</NavLink>
-      <NavLink href="/resume.pdf">Resume</NavLink>
+      <a
+        href="/resume.pdf"
+        data-astro-reload
+        class="ml-8 block lg:text-xl first:ml-0 dark:text-white text-base"
+      >
+        Resume
+      </a>
     </nav>
   </div>
 </header>
