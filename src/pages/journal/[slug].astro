@@ -32,12 +32,14 @@ const description = entry.data.title
   <div class="mx-auto mt-8 max-w-screen-xl px-4">
     <h1
       class="mb-1 break-words text-3xl font-bold text-indigo-600 dark:text-indigo-200"
+      transition:name={`post-title-${slug}`}
     >
       {entry.data.title}
     </h1>
     <time
       class="text-indigo-400 opacity-80 dark:text-indigo-200"
       datetime={dayjs(entry.data.date).format('YYYY-MM-DD')}
+      transition:name={`post-date-${slug}`}
     >
       Published on {formattedDate}
     </time>
