@@ -13,7 +13,7 @@ type Props = {
 export function BlogPost({ children, pathname, post }: Props) {
   return (
     <>
-      <main className="dark:prose-invert prose mx-auto max-w-screen-xl px-4 pb-12 prose-headings:text-blue-700 prose-h1:text-black prose-ul:list-disc">
+      <main className="dark:prose-invert b-12 prose mx-auto max-w-screen-xl px-1 prose-headings:text-blue-700 prose-h1:text-black prose-ul:list-disc md:px-4">
         {children}
         <div className="dark:bg-stone-800 mb-4 flex items-center bg-stone-200 px-4 py-2">
           <RiTwitterFill fill="#1DA1F2" className="h-16 w-16 md:h-8 md:w-8" />
