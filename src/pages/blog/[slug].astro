@@ -5,6 +5,7 @@ import { getEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import { BlogPost } from "src/components/BlogPost";
 import BaseLayout from "src/layouts/BaseLayout.astro";
+import dayjs from "dayjs";
 
 export const getStaticPaths =  (async () => {
   const blogPosts = await getCollection('blogPosts')
@@ -20,17 +21,31 @@ if (!post) {
 }
 
 const {Content} = await render(post)
-
-
+const formattedPublishDate = dayjs(post.data.date).format('MMMM DD, YYYY')
 
 ---
 <BaseLayout>
   <div class="mx-auto max-w-screen-xl p-8 pt-0">
-<BlogPost post={post} pathname={Astro.url.pathname} client:load>
-  <Content />
-  </BlogPost>
+    <div class="relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] w-screen bg-gradient-to-tl from-blue-400 to-emerald-400 py-20 px-4 text-center shadow-lg">
+      <h1
+        class="mb-1 break-words text-4xl font-bold text-black md:text-5xl"
+        transition:name={`post-title-${slug}`}
+      >
+        {post.data.title}
+      </h1>
+      <time
+        datetime={formattedPublishDate}
+        class="text-base text-black md:text-lg"
+        transition:name={`post-date-${slug}`}
+      >
+        Published on {formattedPublishDate}
+      </time>
+    </div>
+    <BlogPost post={post} pathname={Astro.url.pathname} client:load>
+      <Content />
+    </BlogPost>
   </div>
-  
+
 </BaseLayout>
 
   

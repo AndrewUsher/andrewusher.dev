@@ -21,7 +21,10 @@ const sortedPosts = posts.sort(
 {
   sortedPosts.map((post) => (
     <article class="mb-6">
-      <h3 class="mb-1 break-words text-2xl font-semibold tracking-wide dark:text-white">
+      <h3
+        class="mb-1 break-words text-2xl font-semibold tracking-wide dark:text-white"
+        transition:name={`post-title-${post.data.slug}`}
+      >
         <a
           class="tracking-tighter hover:text-sky-500"
           href={`${entrySlugStart}/${post.data.slug}`}
@@ -32,6 +35,7 @@ const sortedPosts = posts.sort(
       <time
         datetime={dayjs(post.data.date).format('YYYY-MM-DD')}
         class="text-sm tracking-wide text-slate-700 dark:text-slate-500"
+        transition:name={`post-date-${post.data.slug}`}
       >
         Published on {dayjs(post.data.date).format('MMMM DD, YYYY')}
       </time>

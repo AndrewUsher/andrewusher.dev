@@ -5,8 +5,6 @@ slug: vscode-search
 title: "Advanced VSCode Search: Finding Function Calls While Excluding Variable Assignments"
 ---
 
-# Advanced VSCode Search: Finding Function Calls While Excluding Variable Assignments
-
 As developers, we often need to search through our codebase for specific patterns. One common scenario is finding function calls while filtering out variable assignments. In this post, I'll walk you through creating a powerful VSCode search query that finds `prefetch` function calls while excluding lines that contain assignments.
 
 ## The Challenge
