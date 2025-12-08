@@ -1,0 +1,14 @@
+---
+interface Props {
+  minutes: number
+  display?: string
+  className?: string
+}
+
+const { minutes, display, className = 'text-sm tracking-wide text-slate-700 dark:text-slate-500' } = Astro.props
+
+// Generate display string if not provided
+const readingTimeText = display ?? (minutes < 1 ? '< 1 min read' : `${minutes} min read`)
+---
+
+<span class={className}>{readingTimeText}</span>

@@ -2,10 +2,15 @@
 import { type CollectionEntry } from 'astro:content'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import ReadingTime from './ReadingTime.astro'
+
+interface Post extends CollectionEntry<'blogPosts'> | CollectionEntry<'journal'> {
+  readingTime?: { minutes: number; display: string }
+}
 
 interface Props {
   entrySlugStart: '/blog' | '/journal'
-  posts: Array<CollectionEntry<'blogPosts'>> | Array<CollectionEntry<'journal'>>
+  posts: Post[]
 }
 
 dayjs.extend(customParseFormat)
@@ -32,13 +37,17 @@ const sortedPosts = posts.sort(
           {post.data.title}
         </a>
       </h3>
-      <time
-        datetime={dayjs(post.data.date).format('YYYY-MM-DD')}
-        class="text-sm tracking-wide text-slate-700 dark:text-slate-500"
-        transition:name={`post-date-${post.data.slug}`}
-      >
-        Published on {dayjs(post.data.date).format('MMMM DD, YYYY')}
-      </time>
+      <div class="flex flex-col gap-1 text-sm tracking-wide text-slate-700 dark:text-slate-500">
+        <time
+          datetime={dayjs(post.data.date).format('YYYY-MM-DD')}
+          transition:name={`post-date-${post.data.slug}`}
+        >
+          Published on {dayjs(post.data.date).format('MMMM DD, YYYY')}
+        </time>
+        {post.readingTime && (
+          <ReadingTime minutes={post.readingTime.minutes} display={post.readingTime.display} />
+        )}
+      </div>
     </article>
   ))
 }
