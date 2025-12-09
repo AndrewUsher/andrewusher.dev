@@ -4,13 +4,13 @@ import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import ReadingTime from './ReadingTime.astro'
 
-interface Post extends CollectionEntry<'blogPosts'> | CollectionEntry<'journal'> {
+type PostWithReadingTime = (CollectionEntry<'blogPosts'> | CollectionEntry<'journal'>) & {
   readingTime?: { minutes: number; display: string }
 }
 
 interface Props {
   entrySlugStart: '/blog' | '/journal'
-  posts: Post[]
+  posts: PostWithReadingTime[]
 }
 
 dayjs.extend(customParseFormat)

@@ -5,7 +5,7 @@ import Posts from '../../components/Posts.astro'
 
 const allJournalEntries = await getCollection('journal')
 const publishedEntries = allJournalEntries.filter(
-  (entry) => entry.data.isPublished
+  (entry) => import.meta.env.DEV || entry.data.isPublished
 )
 
 const title = 'Journal - Andrew Usher'

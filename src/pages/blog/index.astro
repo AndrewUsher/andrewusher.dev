@@ -4,12 +4,15 @@ import { calculateReadingTime } from 'src/lib/calculateReadingTime'
 import Posts from 'src/components/Posts.astro'
 import BaseLayout from 'src/layouts/BaseLayout.astro'
 
-const blogPosts = (await getCollection('blogPosts')).sort(  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),)
+const allBlogPosts = await getCollection('blogPosts')
+const blogPosts = allBlogPosts
+  .filter(post => import.meta.env.DEV || post.data.isPublished)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 
 // Add reading time to each post
 const blogPostsWithReadingTime = blogPosts.map(post => ({
   ...post,
-  readingTime: calculateReadingTime(post.body)
+  readingTime: calculateReadingTime(post.body ?? '')
 }))
 ---
 

@@ -11,9 +11,11 @@ import dayjs from "dayjs";
 
 export const getStaticPaths =  (async () => {
   const blogPosts = await getCollection('blogPosts')
-  return blogPosts.map(post => ({
-    params: { slug: post.data.slug },
-  }));
+  return blogPosts
+    .filter(post => import.meta.env.DEV || post.data.isPublished)
+    .map(post => ({
+      params: { slug: post.data.slug },
+    }));
 }) satisfies GetStaticPaths;
 
 const { slug } = Astro.params
