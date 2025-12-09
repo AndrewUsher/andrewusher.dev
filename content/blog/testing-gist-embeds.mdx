@@ -1,0 +1,52 @@
+---
+title: "Testing GitHub Gist Embeds"
+slug: "testing-gist-embeds"
+date: 2025-12-08
+isPublished: false
+tags: ["testing", "gist", "mdx"]
+---
+
+import Gist from '../../src/components/Gist.astro';
+
+This is a test post to demonstrate GitHub Gist embedding capabilities in our Astro blog.
+
+## Basic Gist Embed
+
+Here's a simple example of embedding a complete gist. This Advent of Code solution shows multiple JavaScript files:
+
+<Gist id="cc23628a71c0cb1a9194161a8f9ea3f7" />
+
+## Embedding a Specific File
+
+When a gist contains multiple files, you can embed just one specific file:
+
+<Gist id="cc23628a71c0cb1a9194161a8f9ea3f7" file="Box.js" />
+
+## Line Highlighting
+
+You can also highlight specific lines to draw attention to important parts of the code:
+
+<Gist id="cc23628a71c0cb1a9194161a8f9ea3f7" file="q1.js" lines="1-5" />
+
+This highlights lines 1 through 5 to emphasize the important parts.
+
+## Dark Mode Support
+
+The gist embeds automatically adapt to your site's dark mode. Try toggling dark mode to see the theme switch!
+
+## Why Gist Embeds?
+
+Embedding gists offers several advantages:
+
+1. **Always up-to-date**: When you update the gist on GitHub, the embedded version updates automatically (on rebuild)
+2. **Syntax highlighting**: Built-in syntax highlighting for dozens of languages
+3. **Version control**: Full Git history for your code snippets
+4. **Easy sharing**: Same gist can be embedded across multiple blog posts or sites
+
+## Technical Implementation
+
+The gist embedding is implemented using:
+- Astro components for server-side rendering
+- GitHub API for fetching gist content at build time
+- Shiki for syntax highlighting with both light and dark themes
+- Tailwind CSS for responsive, accessible styling

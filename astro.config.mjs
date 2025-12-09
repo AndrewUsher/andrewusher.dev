@@ -28,6 +28,7 @@ export default defineConfig({
           },
         ],
       ],
+      optimize: true,
     }),
   ],
   markdown: {

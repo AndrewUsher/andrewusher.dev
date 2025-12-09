@@ -1,0 +1,211 @@
+---
+import { fetchGist, parseLineNumbers, getLanguageFromFilename } from '../lib/gist';
+import { codeToHtml } from 'shiki';
+
+export interface Props {
+  id: string;
+  file?: string;
+  lines?: string;
+}
+
+const { id, file, lines } = Astro.props;
+
+// Fetch gist data at build time
+const gistData = await fetchGist(id);
+
+if ('error' in gistData) {
+  console.error(`Failed to fetch gist ${id}:`, gistData.error);
+}
+
+const isError = 'error' in gistData;
+const files = isError ? {} : gistData.files;
+
+// If a specific file is requested, filter to that file
+const displayFiles = file && !isError
+  ? Object.entries(files).filter(([filename]) => filename === file)
+  : Object.entries(files);
+
+// Parse line numbers to highlight
+const highlightLines = lines ? parseLineNumbers(lines) : new Set<number>();
+
+// Generate syntax-highlighted HTML for each file
+const renderedFiles = await Promise.all(
+  displayFiles.map(async ([filename, fileData]) => {
+    const language = getLanguageFromFilename(filename);
+    const content = fileData.content || '';
+
+    // Generate dark theme version only
+    const html = await codeToHtml(content, {
+      lang: language,
+      theme: 'github-dark',
+    });
+
+    // Add line highlighting classes
+    const addLineHighlighting = (html: string) => {
+      if (highlightLines.size === 0) return html;
+
+      const lines = html.split('\n');
+      return lines
+        .map((line, index) => {
+          const lineNumber = index + 1;
+          if (highlightLines.has(lineNumber)) {
+            return line.replace('<span class="line">', '<span class="line highlighted-line">');
+          }
+          return line;
+        })
+        .join('\n');
+    };
+
+    return {
+      filename,
+      html: addLineHighlighting(html),
+      language,
+    };
+  })
+);
+
+const gistUrl = `https://gist.github.com/${!isError ? gistData.owner.login : 'unknown'}/${id}`;
+---
+
+<div class="gist-embed" data-gist-id={id}>
+  {isError ? (
+    <div class="gist-error">
+      <p>Failed to load gist: {gistData.error}</p>
+      <a href={gistUrl} target="_blank" rel="noopener noreferrer">
+        View on GitHub
+      </a>
+    </div>
+  ) : (
+    <>
+      {renderedFiles.map(({ filename, html, language }) => (
+        <div class="gist-file">
+          <div class="gist-file-header">
+            <span class="gist-file-name">{filename}</span>
+            <span class="gist-file-language">{language}</span>
+          </div>
+          <div class="gist-code-container" set:html={html} />
+        </div>
+      ))}
+      <div class="gist-meta">
+        <a
+          href={gistUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="gist-link"
+        >
+          View on GitHub
+        </a>
+        {gistData.description && (
+          <span class="gist-description">{gistData.description}</span>
+        )}
+      </div>
+    </>
+  )}
+</div>
+
+<style>
+  .gist-embed {
+    margin: 2rem 0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: 1px solid #374151;
+  }
+
+  .gist-error {
+    padding: 1.5rem;
+    background-color: #7f1d1d;
+    color: #fecaca;
+    border-left: 4px solid #dc2626;
+  }
+
+  .gist-error a {
+    color: #fca5a5;
+    text-decoration: underline;
+    margin-top: 0.5rem;
+    display: inline-block;
+  }
+
+  .gist-file {
+    background-color: #1f2937;
+  }
+
+  .gist-file-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background-color: #111827;
+    border-bottom: 1px solid #374151;
+    font-size: 0.875rem;
+  }
+
+  .gist-file-name {
+    font-weight: 600;
+    color: #f9fafb;
+  }
+
+  .gist-file-language {
+    color: #9ca3af;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  .gist-code-container {
+    position: relative;
+    overflow-x: auto;
+  }
+
+  .gist-code-container :global(pre) {
+    margin: 0 !important;
+    padding: 1rem !important;
+    background: transparent !important;
+  }
+
+  /* Line highlighting */
+  .gist-code-container :global(.highlighted-line) {
+    background-color: rgba(251, 191, 36, 0.1);
+    display: block;
+    margin: 0 -1rem;
+    padding: 0 1rem;
+    border-left: 3px solid #fbbf24;
+  }
+
+  .gist-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background-color: #111827;
+    border-top: 1px solid #374151;
+    font-size: 0.875rem;
+    gap: 1rem;
+  }
+
+  .gist-link {
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .gist-link:hover {
+    text-decoration: underline;
+  }
+
+  .gist-description {
+    color: #9ca3af;
+    font-style: italic;
+    flex: 1;
+    text-align: right;
+  }
+
+  @media (max-width: 640px) {
+    .gist-meta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .gist-description {
+      text-align: left;
+    }
+  }
+</style>
