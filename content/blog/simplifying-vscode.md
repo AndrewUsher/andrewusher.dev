@@ -3,6 +3,7 @@
 date: 2023-06-11
 isPublished: true
 slug: simplifying-vscode
+tags: ["vscode", "productivity"]
 title: Simplifying VSCode
 ---
 

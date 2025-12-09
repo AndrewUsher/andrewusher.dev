@@ -3,6 +3,7 @@
 date: 2018-05-24
 isPublished: true
 slug: regular-expression-additions-in-es-2018
+tags: ["javascript", "web-development"]
 title: Regular Expression Additions in ES 2018
 ---
 

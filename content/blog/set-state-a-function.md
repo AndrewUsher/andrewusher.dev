@@ -2,6 +2,7 @@
 date: 2018-10-19
 isPublished: true
 slug: set-state-a-function
+tags: ["react", "javascript", "tutorial"]
 title: 'setState: a function??'
 ---
 

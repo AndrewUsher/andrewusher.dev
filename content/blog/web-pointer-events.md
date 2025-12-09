@@ -3,6 +3,7 @@
 date: 2021-08-14
 isPublished: true
 slug: web-pointer-events
+tags: ["javascript", "web-development"]
 title: Web Pointer Events
 ---
 

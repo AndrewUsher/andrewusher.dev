@@ -3,6 +3,7 @@
 date: 2022-01-05
 isPublished: true
 slug: fastify-quickstart
+tags: ["node", "javascript", "web-development", "tutorial"]
 title: A Fastify Quickstart
 ---
 

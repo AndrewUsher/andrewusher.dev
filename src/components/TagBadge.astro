@@ -1,0 +1,20 @@
+---
+import { slugifyTag, getTagColor } from '../lib/tags'
+
+interface Props {
+  tag: string
+  className?: string
+}
+
+const { tag, className = '' } = Astro.props
+const tagSlug = slugifyTag(tag)
+const colorClasses = getTagColor(tagSlug)
+const baseClasses = 'inline-block px-3 py-1 text-sm font-medium rounded-full transition-colors duration-200'
+---
+
+<a
+  href={`/blog/tags/${tagSlug}`}
+  class={`${baseClasses} ${colorClasses} ${className}`}
+>
+  {tag}
+</a>

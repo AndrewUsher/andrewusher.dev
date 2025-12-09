@@ -3,6 +3,7 @@
 date: 2019-01-22
 isPublished: true
 slug: react-aha-moments
+tags: ["react", "javascript", "web-development"]
 title: React Aha Moments
 ---
 

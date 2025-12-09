@@ -3,6 +3,7 @@
 date: 2019-02-23
 isPublished: true
 slug: lost-some-commits-i-know-i-made
+tags: ["git", "tutorial"]
 title: Lost Some Commits I Know I Made
 ---
 

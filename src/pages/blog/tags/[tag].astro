@@ -1,0 +1,40 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { getAllTags, getPostsByTag } from '../../../lib/tags'
+import { calculateReadingTime } from '../../../lib/calculateReadingTime'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import Posts from '../../../components/Posts.astro'
+
+export const getStaticPaths = (async () => {
+  const tags = await getAllTags()
+  return tags.map(tag => ({
+    params: { tag: tag.slug },
+  }))
+}) satisfies GetStaticPaths
+
+const { tag } = Astro.params
+const posts = await getPostsByTag(tag)
+
+const postsWithReadingTime = posts.map(post => ({
+  ...post,
+  readingTime: calculateReadingTime(post.body ?? ''),
+}))
+
+const formattedTag = tag.replace(/-/g, ' ')
+---
+
+<BaseLayout>
+  <main class="mx-auto max-w-screen-xl p-8">
+    <div class="mb-8">
+      <h1 class="mb-4 text-4xl font-bold dark:text-white">
+        Posts tagged with "{formattedTag}"
+      </h1>
+      <p class="text-lg text-slate-700 dark:text-slate-400">
+        {postsWithReadingTime.length}
+        {postsWithReadingTime.length === 1 ? 'post' : 'posts'} found
+      </p>
+    </div>
+
+    <Posts entrySlugStart="/blog" posts={postsWithReadingTime} />
+  </main>
+</BaseLayout>

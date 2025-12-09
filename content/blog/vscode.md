@@ -2,6 +2,7 @@
 date: 2025-02-06
 isPublished: true
 slug: vscode-search
+tags: ["vscode", "productivity", "tutorial"]
 title: "Advanced VSCode Search: Finding Function Calls While Excluding Variable Assignments"
 ---
 

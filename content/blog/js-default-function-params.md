@@ -3,6 +3,7 @@
 date: 2022-05-07
 isPublished: true
 slug: js-default-function-params
+tags: ["javascript", "tutorial"]
 title: How To Use Default Function Parameter Values In JS
 ---
 

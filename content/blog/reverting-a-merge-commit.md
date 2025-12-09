@@ -3,6 +3,7 @@
 date: 2019-01-23
 isPublished: true
 slug: reverting-a-merge-commit
+tags: ["git", "tutorial"]
 title: Reverting A Merge Commit
 ---
 

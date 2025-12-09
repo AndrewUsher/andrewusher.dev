@@ -3,6 +3,7 @@ title: "Adding Estimated Reading Time to an Astro Blog"
 slug: "adding-reading-time-to-astro-blog"
 date: 2025-12-08
 isPublished: true
+tags: ["astro", "typescript", "web-development", "tutorial"]
 ---
 
 Reading time estimates have become a standard UX feature on modern blogs. They set reader expectations, help people decide if they have time to read an article, and improve engagement. Adding this feature to an Astro blog is straightforward and can be done with a simple utility function and a reusable component.

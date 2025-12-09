@@ -3,6 +3,7 @@
 date: 2021-02-06
 isPublished: true
 slug: use-window-size
+tags: ["react", "javascript", "tutorial"]
 title: useWindowSize
 ---
 

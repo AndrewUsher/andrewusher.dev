@@ -2,6 +2,7 @@
 date: 2022-04-10
 isPublished: true
 slug: npm-needs-snarkdown
+tags: ["npm", "javascript"]
 title: 'NPM Needs: snarkdown'
 ---
 

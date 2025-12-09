@@ -3,6 +3,7 @@
 date: 2018-09-20
 isPublished: true
 slug: bucket-list
+tags: ["opinion"]
 title: Bucket List
 ---
 

@@ -3,6 +3,7 @@
 date: 2022-06-04
 isPublished: true
 slug: node-err-import-assertion-type-missing
+tags: ["node", "javascript", "tutorial"]
 title: Resolving ERR_IMPORT_ASSERTION_TYPE_MISSING in Node.js
 ---
 

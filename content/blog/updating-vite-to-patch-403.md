@@ -3,6 +3,7 @@
 date: 2022-08-06
 isPublished: true
 slug: updating-vite-to-patch-403
+tags: ["javascript", "web-development", "tutorial"]
 title: Updating from @sveltejs/kit@1.0.0-next.350 to @sveltejs/kit@1.0.0-next.403
 ---
 

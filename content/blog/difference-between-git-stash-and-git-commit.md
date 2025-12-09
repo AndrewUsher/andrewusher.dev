@@ -3,6 +3,7 @@
 date: 2017-04-19
 isPublished: true
 slug: difference-between-git-stash-and-git-commit
+tags: ["git", "tutorial"]
 title: Difference Between Git Stash and Git Commit
 ---
 

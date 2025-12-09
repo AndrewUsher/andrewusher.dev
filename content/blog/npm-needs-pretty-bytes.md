@@ -2,6 +2,7 @@
 date: 2022-04-09
 isPublished: true
 slug: npm-needs-pretty-bytes
+tags: ["npm", "javascript"]
 title: 'NPM Needs: pretty-bytes'
 ---
 

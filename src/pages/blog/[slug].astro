@@ -6,6 +6,7 @@ import { getCollection } from "astro:content";
 import { BlogPost } from "src/components/BlogPost";
 import BaseLayout from "src/layouts/BaseLayout.astro";
 import ReadingTime from "src/components/ReadingTime.astro";
+import TagList from "src/components/TagList.astro";
 import { calculateReadingTime } from "src/lib/calculateReadingTime";
 import dayjs from "dayjs";
 
@@ -51,6 +52,9 @@ const readingTime = calculateReadingTime(post.body)
           display={readingTime.display}
           className="text-base text-black md:text-lg"
         />
+        {post.data.tags && post.data.tags.length > 0 && (
+          <TagList tags={post.data.tags} className="mt-2" />
+        )}
       </div>
     </div>
     <BlogPost post={post} pathname={Astro.url.pathname} client:load>

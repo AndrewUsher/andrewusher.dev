@@ -3,6 +3,7 @@
 date: 2018-02-24
 isPublished: true
 slug: want-to-learn-faster-double-your-rate-of-failure
+tags: ["career", "opinion"]
 title: Want to Learn Faster? Double Your Rate of Failure
 ---
 

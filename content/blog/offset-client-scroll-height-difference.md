@@ -2,6 +2,7 @@
 date: 2022-05-22
 isPublished: true
 slug: offset-client-scroll-height-difference
+tags: ["javascript", "web-development", "tutorial"]
 title: "offsetHeight/scrollHeight/clientHeight: What's The Difference?"
 ---
 

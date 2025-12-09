@@ -3,6 +3,7 @@
 date: 2018-11-29
 isPublished: true
 slug: recovering-from-a-bad-rebase
+tags: ["git", "tutorial"]
 title: Recovering From A Bad Rebase
 ---
 

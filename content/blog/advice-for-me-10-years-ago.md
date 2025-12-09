@@ -3,6 +3,7 @@
 date: 2018-05-29
 isPublished: true
 slug: advice-for-me-10-years-ago
+tags: ["career", "opinion"]
 title: Advice For Me 10 Years Ago
 ---
 

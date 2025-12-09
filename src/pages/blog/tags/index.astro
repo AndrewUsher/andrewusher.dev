@@ -1,0 +1,35 @@
+---
+import { getAllTags } from '../../../lib/tags'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import TagBadge from '../../../components/TagBadge.astro'
+
+const tags = await getAllTags()
+---
+
+<BaseLayout>
+  <main class="mx-auto max-w-screen-xl p-8">
+    <div class="mb-8">
+      <h1 class="mb-4 text-4xl font-bold dark:text-white">All Tags</h1>
+      <p class="text-lg text-slate-700 dark:text-slate-400">
+        Browse blog posts by topic
+      </p>
+    </div>
+
+    {
+      tags.length === 0 ? (
+        <p class="text-slate-700 dark:text-slate-400">No tags found.</p>
+      ) : (
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {tags.map(tag => (
+            <div class="flex items-center justify-between rounded-lg border border-slate-200 p-4 transition-colors hover:border-slate-300 dark:border-slate-800 dark:hover:border-slate-700">
+              <TagBadge tag={tag.name} />
+              <span class="text-sm text-slate-600 dark:text-slate-400">
+                {tag.count} {tag.count === 1 ? 'post' : 'posts'}
+              </span>
+            </div>
+          ))}
+        </div>
+      )
+    }
+  </main>
+</BaseLayout>
