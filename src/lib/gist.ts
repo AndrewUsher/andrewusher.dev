@@ -101,7 +101,7 @@ export function parseLineNumbers(linesSpec: string): Set<number> {
   for (const part of parts) {
     if (part.includes('-')) {
       const [start, end] = part.split('-').map(Number)
-      if (!isNaN(start) && !isNaN(end)) {
+      if (start !== undefined && end !== undefined && !isNaN(start) && !isNaN(end)) {
         for (let i = start; i <= end; i++) {
           lineNumbers.add(i)
         }

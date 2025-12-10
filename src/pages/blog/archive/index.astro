@@ -1,0 +1,61 @@
+---
+import { getArchiveData } from '../../../lib/archive'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+
+const archiveData = await getArchiveData()
+---
+
+<BaseLayout>
+  <main class="mx-auto max-w-screen-xl p-8">
+    <div class="mb-8">
+      <h1 class="mb-4 text-4xl font-bold dark:text-white">Blog Archive</h1>
+      <p class="text-lg text-slate-700 dark:text-slate-400">
+        Browse blog posts by year and month
+      </p>
+    </div>
+
+    {
+      archiveData.length === 0 ? (
+        <p class="text-slate-700 dark:text-slate-400">
+          No archived posts found.
+        </p>
+      ) : (
+        <div class="space-y-8">
+          {archiveData.map(yearInfo => (
+            <div class="rounded-lg border border-slate-200 p-6 dark:border-slate-800">
+              <div class="mb-4">
+                <a
+                  href={`/blog/archive/${yearInfo.year}`}
+                  class="group inline-flex items-center gap-2"
+                >
+                  <h2 class="text-2xl font-bold text-slate-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
+                    {yearInfo.year}
+                  </h2>
+                  <span class="text-sm text-slate-600 dark:text-slate-400">
+                    ({yearInfo.count} {yearInfo.count === 1 ? 'post' : 'posts'})
+                  </span>
+                </a>
+              </div>
+
+              <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {yearInfo.months.map(month => (
+                  <a
+                    href={`/blog/archive/${yearInfo.year}/${month.slug}`}
+                    class="flex items-center justify-between rounded-lg border border-slate-100 p-3 transition-colors hover:border-slate-300 hover:bg-slate-50 dark:border-slate-700 dark:hover:border-slate-600 dark:hover:bg-slate-800/50"
+                  >
+                    <span class="font-medium text-slate-900 dark:text-slate-100">
+                      {month.name}
+                    </span>
+                    <span class="text-sm text-slate-600 dark:text-slate-400">
+                      {month.count} {month.count === 1 ? 'post' : 'posts'}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )
+    }
+  </main>
+</BaseLayout>

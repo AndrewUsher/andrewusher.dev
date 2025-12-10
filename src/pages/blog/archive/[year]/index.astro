@@ -1,0 +1,67 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { getArchiveData, getPostsByYear } from '../../../../lib/archive'
+import { calculateReadingTime } from '../../../../lib/calculateReadingTime'
+import BaseLayout from '../../../../layouts/BaseLayout.astro'
+import Posts from '../../../../components/Posts.astro'
+
+export const getStaticPaths = (async () => {
+  const archiveData = await getArchiveData()
+  return archiveData.map(yearInfo => ({
+    params: { year: yearInfo.year.toString() },
+  }))
+}) satisfies GetStaticPaths
+
+const { year } = Astro.params
+const yearNumber = parseInt(year, 10)
+const posts = await getPostsByYear(yearNumber)
+
+const postsWithReadingTime = posts.map(post => ({
+  ...post,
+  readingTime: calculateReadingTime(post.body ?? ''),
+}))
+---
+
+<BaseLayout>
+  <main class="mx-auto max-w-screen-xl p-8">
+    <div class="mb-8">
+      <nav class="mb-4 text-sm">
+        <ol class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+          <li>
+            <a
+              href="/blog"
+              class="hover:text-slate-900 dark:hover:text-slate-100"
+            >
+              Blog
+            </a>
+          </li>
+          <li>/</li>
+          <li>
+            <a
+              href="/blog/archive"
+              class="hover:text-slate-900 dark:hover:text-slate-100"
+            >
+              Archive
+            </a>
+          </li>
+          <li>/</li>
+          <li class="font-medium text-slate-900 dark:text-slate-100">
+            {year}
+          </li>
+        </ol>
+      </nav>
+
+      <h1 class="mb-4 text-4xl font-bold dark:text-white">
+        Posts from {year}
+      </h1>
+      <p class="text-lg text-slate-700 dark:text-slate-400">
+        {postsWithReadingTime.length}
+        {postsWithReadingTime.length === 1 ? 'post' : 'posts'} published in {
+          year
+        }
+      </p>
+    </div>
+
+    <Posts entrySlugStart="/blog" posts={postsWithReadingTime} />
+  </main>
+</BaseLayout>

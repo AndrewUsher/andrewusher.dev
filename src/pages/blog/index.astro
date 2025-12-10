@@ -18,6 +18,20 @@ const blogPostsWithReadingTime = blogPosts.map(post => ({
 
 <BaseLayout>
   <main class="mx-auto max-w-screen-xl p-8">
+    <div class="mb-8 flex items-center justify-between">
+      <div>
+        <h1 class="mb-2 text-4xl font-bold dark:text-white">Blog</h1>
+        <p class="text-lg text-slate-700 dark:text-slate-400">
+          Thoughts on web development, programming, and technology
+        </p>
+      </div>
+      <a
+        href="/blog/archive"
+        class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:text-slate-100 dark:hover:bg-slate-800"
+      >
+        Browse Archive
+      </a>
+    </div>
     <Posts entrySlugStart="/blog" posts={blogPostsWithReadingTime} />
   </main>
 </BaseLayout>;
