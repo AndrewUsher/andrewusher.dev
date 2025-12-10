@@ -4,9 +4,11 @@ import react from '@astrojs/react'
 import mdx from '@astrojs/mdx'
 import rehypeSlug from 'rehype-slug'
 import rehypeToc from '@jsdevtools/rehype-toc'
+import vercel from '@astrojs/vercel'
 
 // https://astro.build/config
 export default defineConfig({
+  adapter: vercel(),
   vite: {
     plugins: [tailwindcss()],
   },

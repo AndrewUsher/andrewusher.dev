@@ -1,0 +1,24 @@
+---
+import { RecentCommits } from './RecentCommits'
+import {
+  fetchRecentCommits,
+  type GitHubCommit,
+} from '../lib/github-commits'
+
+const GITHUB_USERNAME = 'AndrewUsher'
+const COMMITS_LIMIT = 10
+
+const commitsData = await fetchRecentCommits(GITHUB_USERNAME, COMMITS_LIMIT)
+
+let commits: GitHubCommit[] = []
+let error: string | null = null
+
+if ('error' in commitsData) {
+  error = commitsData.error
+  console.error('Failed to fetch GitHub commits:', commitsData.error)
+} else {
+  commits = commitsData
+}
+---
+
+<RecentCommits commits={commits} error={error} client:load />

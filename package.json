@@ -15,6 +15,7 @@
     "@astrojs/check": "^0.9.6",
     "@astrojs/mdx": "^4.3.0",
     "@astrojs/react": "^4.3.0",
+    "@astrojs/vercel": "^9.0.2",
     "@giscus/react": "2.2.6",
     "@heroicons/react": "2.0.18",
     "@jsdevtools/rehype-toc": "3.0.2",

@@ -4,6 +4,17 @@ import { HomepageIntro }  from 'src/components/HomepageIntro'
 import { IntroSectionCards } from 'src/components/IntroSectionCards'
 import RecentPosts from 'src/components/RecentPosts.astro'
 import RecentProjects from 'src/components/RecentProjects.astro'
+import RecentCommitsWrapper from 'src/components/RecentCommitsWrapper.astro'
+
+// Enable on-demand rendering for this page
+export const prerender = false
+
+// Set cache headers for ISR: cache for 30 minutes (1800 seconds)
+// stale-while-revalidate allows serving stale content while revalidating
+Astro.response.headers.set(
+  'Cache-Control',
+  's-maxage=1800, stale-while-revalidate'
+)
 ---
 
 <BaseLayout>
@@ -12,5 +23,6 @@ import RecentProjects from 'src/components/RecentProjects.astro'
     <IntroSectionCards client:load />
     <RecentPosts />
     <RecentProjects />
+    <RecentCommitsWrapper />
   </div>
 </BaseLayout>
