@@ -1,9 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
-    { 
+    {
       "source": "/recipes",
-      "destination": "https://dev-delectables.vercel.app/", 
+      "destination": "https://dev-delectables.vercel.app/",
       "permanent": true
     },
     {
@@ -22,6 +22,5 @@
       "source": "/twitter",
       "destination": "https://twitter.com/AndrewUsher17"
     }
-  ],
-  "outputDirectory": "build"
+  ]
 }

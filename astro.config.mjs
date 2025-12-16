@@ -47,5 +47,4 @@ export default defineConfig({
       wrap: true,
     },
   },
-  outDir: './build',
 })
