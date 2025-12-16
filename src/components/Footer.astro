@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets'
+import ThemeSwitcher from './ThemeSwitcher.tsx'
 ---
 
 <footer
@@ -58,6 +59,9 @@ import { Image } from 'astro:assets'
               clip="evenodd"></path>
           </svg>
         </a>
+      </div>
+      <div class="mt-8 flex justify-center">
+        <ThemeSwitcher client:load />
       </div>
       <div class="mt-8 flex justify-center space-x-6">
         <a

@@ -8,6 +8,7 @@ import vercel from '@astrojs/vercel'
 
 // https://astro.build/config
 export default defineConfig({
+  output: 'server',
   adapter: vercel(),
   vite: {
     plugins: [tailwindcss()],
@@ -35,7 +36,14 @@ export default defineConfig({
   ],
   markdown: {
     shikiConfig: {
-      theme: 'github-dark',
+      themes: {
+        'github-dark': 'github-dark',
+        'github-light': 'github-light',
+        dracula: 'dracula',
+        monokai: 'monokai',
+        nord: 'nord',
+      },
+      defaultColor: false,
       wrap: true,
     },
   },

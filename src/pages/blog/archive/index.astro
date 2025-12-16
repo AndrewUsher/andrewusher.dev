@@ -2,6 +2,8 @@
 import { getArchiveData } from '../../../lib/archive'
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 
+export const prerender = true;
+
 const archiveData = await getArchiveData()
 ---
 

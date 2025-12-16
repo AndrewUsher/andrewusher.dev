@@ -3,6 +3,8 @@ import { getCollection } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import Posts from '../../components/Posts.astro'
 
+export const prerender = true;
+
 const allJournalEntries = await getCollection('journal')
 const publishedEntries = allJournalEntries.filter(
   (entry) => import.meta.env.DEV || entry.data.isPublished

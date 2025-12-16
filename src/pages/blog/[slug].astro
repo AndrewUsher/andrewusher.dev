@@ -7,8 +7,11 @@ import { BlogPost } from "src/components/BlogPost";
 import BaseLayout from "src/layouts/BaseLayout.astro";
 import ReadingTime from "src/components/ReadingTime.astro";
 import TagList from "src/components/TagList.astro";
+import ViewCounter from "src/components/ViewCounter";
 import { calculateReadingTime } from "src/lib/calculateReadingTime";
 import dayjs from "dayjs";
+
+export const prerender = true;
 
 export const getStaticPaths =  (async () => {
   const blogPosts = await getCollection('blogPosts')
@@ -60,6 +63,9 @@ const readingTime = calculateReadingTime(post.body)
     <BlogPost post={post} pathname={Astro.url.pathname} client:load>
       <Content />
     </BlogPost>
+    <div class="mt-8 text-center">
+      <ViewCounter slug={slug} client:load />
+    </div>
   </div>
 
 </BaseLayout>

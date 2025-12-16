@@ -4,6 +4,8 @@ import { calculateReadingTime } from 'src/lib/calculateReadingTime'
 import Posts from 'src/components/Posts.astro'
 import BaseLayout from 'src/layouts/BaseLayout.astro'
 
+export const prerender = true;
+
 const allBlogPosts = await getCollection('blogPosts')
 const blogPosts = allBlogPosts
   .filter(post => import.meta.env.DEV || post.data.isPublished)

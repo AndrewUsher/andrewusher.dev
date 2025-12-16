@@ -7,6 +7,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 import { ReadingProgressBar } from '../../components/ReadingProgress'
 import dayjs from 'dayjs'
 
+export const prerender = true;
+
 export const getStaticPaths = (async () => {
   const journalEntries = await getCollection('journal')
   return journalEntries

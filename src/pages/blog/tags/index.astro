@@ -3,6 +3,8 @@ import { getAllTags } from '../../../lib/tags'
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 import TagBadge from '../../../components/TagBadge.astro'
 
+export const prerender = true;
+
 const tags = await getAllTags()
 ---
 

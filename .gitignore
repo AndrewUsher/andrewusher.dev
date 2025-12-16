@@ -34,3 +34,4 @@ import-scripts
 
 
 .astro
+.env*.local

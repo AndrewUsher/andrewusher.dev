@@ -75,3 +75,49 @@
       --chart-5: 340 75% 55%;
     }
   }
+
+  /* Shiki theme switcher */
+  html[data-shiki-theme="github-dark"] .astro-code,
+  html[data-shiki-theme="github-dark"] .astro-code span {
+    color: var(--shiki-github-dark) !important;
+    background-color: var(--shiki-github-dark-bg) !important;
+    font-style: var(--shiki-github-dark-font-style) !important;
+    font-weight: var(--shiki-github-dark-font-weight) !important;
+    text-decoration: var(--shiki-github-dark-text-decoration) !important;
+  }
+
+  html[data-shiki-theme="github-light"] .astro-code,
+  html[data-shiki-theme="github-light"] .astro-code span {
+    color: var(--shiki-github-light) !important;
+    background-color: var(--shiki-github-light-bg) !important;
+    font-style: var(--shiki-github-light-font-style) !important;
+    font-weight: var(--shiki-github-light-font-weight) !important;
+    text-decoration: var(--shiki-github-light-text-decoration) !important;
+  }
+
+  html[data-shiki-theme="dracula"] .astro-code,
+  html[data-shiki-theme="dracula"] .astro-code span {
+    color: var(--shiki-dracula) !important;
+    background-color: var(--shiki-dracula-bg) !important;
+    font-style: var(--shiki-dracula-font-style) !important;
+    font-weight: var(--shiki-dracula-font-weight) !important;
+    text-decoration: var(--shiki-dracula-text-decoration) !important;
+  }
+
+  html[data-shiki-theme="monokai"] .astro-code,
+  html[data-shiki-theme="monokai"] .astro-code span {
+    color: var(--shiki-monokai) !important;
+    background-color: var(--shiki-monokai-bg) !important;
+    font-style: var(--shiki-monokai-font-style) !important;
+    font-weight: var(--shiki-monokai-font-weight) !important;
+    text-decoration: var(--shiki-monokai-text-decoration) !important;
+  }
+
+  html[data-shiki-theme="nord"] .astro-code,
+  html[data-shiki-theme="nord"] .astro-code span {
+    color: var(--shiki-nord) !important;
+    background-color: var(--shiki-nord-bg) !important;
+    font-style: var(--shiki-nord-font-style) !important;
+    font-weight: var(--shiki-nord-font-weight) !important;
+    text-decoration: var(--shiki-nord-text-decoration) !important;
+  }

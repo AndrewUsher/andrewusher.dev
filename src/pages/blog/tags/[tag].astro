@@ -5,6 +5,8 @@ import { calculateReadingTime } from '../../../lib/calculateReadingTime'
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 import Posts from '../../../components/Posts.astro'
 
+export const prerender = true;
+
 export const getStaticPaths = (async () => {
   const tags = await getAllTags()
   return tags.map(tag => ({

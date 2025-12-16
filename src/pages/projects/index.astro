@@ -3,6 +3,8 @@ import { getCollection } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { ProjectsGrid } from '../../components/ProjectsGrid'
 
+export const prerender = true;
+
 const allProjects = await getCollection('projects')
 const publishedProjects = allProjects
   .filter((project) => project.data.isPublished)
