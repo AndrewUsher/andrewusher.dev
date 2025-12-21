@@ -1,5 +1,6 @@
 ---
 import NavLink from './NavLink.astro'
+import SearchDropdown from './SearchDropdown'
 ---
 
 <header class="bg-white dark:bg-neutral-900" transition:persist>
@@ -14,7 +15,7 @@ import NavLink from './NavLink.astro'
     <h1 class="text-4xl font-bold dark:text-white">
       <a href="/">Andrew Usher</a>
     </h1>
-    <nav class="hidden justify-between lg:flex">
+    <nav class="hidden items-center justify-between lg:flex">
       <NavLink href="/about">About Me</NavLink>
       <NavLink href="/blog">Blog</NavLink>
       <a
@@ -24,8 +25,9 @@ import NavLink from './NavLink.astro'
       >
         Resume
       </a>
+      <SearchDropdown client:load />
     </nav>
-    <nav class="mt-6 flex lg:hidden">
+    <nav class="mt-6 flex items-center lg:hidden">
       <NavLink href="/blog">Blog</NavLink>
       <NavLink href="/contact">Contact Me</NavLink>
       <a
@@ -35,6 +37,7 @@ import NavLink from './NavLink.astro'
       >
         Resume
       </a>
+      <SearchDropdown client:load />
     </nav>
   </div>
 </header>

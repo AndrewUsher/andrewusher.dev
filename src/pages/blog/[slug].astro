@@ -39,6 +39,7 @@ const readingTime = calculateReadingTime(post.body)
       <h1
         class="mb-1 break-words text-4xl font-bold text-black md:text-5xl"
         transition:name={`post-title-${slug}`}
+        data-pagefind-meta="title"
       >
         {post.data.title}
       </h1>
@@ -60,9 +61,14 @@ const readingTime = calculateReadingTime(post.body)
         )}
       </div>
     </div>
-    <BlogPost post={post} pathname={Astro.url.pathname} client:load>
-      <Content />
-    </BlogPost>
+    <div data-pagefind-body>
+      {post.data.tags?.map(tag => (
+        <span data-pagefind-filter="tags" class="hidden">{tag}</span>
+      ))}
+      <BlogPost post={post} pathname={Astro.url.pathname} client:load>
+        <Content />
+      </BlogPost>
+    </div>
     <div class="mt-8 text-center">
       <ViewCounter slug={slug} client:load />
     </div>

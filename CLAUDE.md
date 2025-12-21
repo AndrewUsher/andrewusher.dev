@@ -10,7 +10,7 @@ Personal portfolio and blog site for Andrew Usher, built with Astro and React.
 
 **Development:**
 - `npm run dev` - Start Astro dev server (default port 3000)
-- `npm run build` - Build for production using Astro (outputs to `./build`)
+- `npm run build` - Build for production using Astro (outputs to `./dist`)
 - `npm run preview` - Preview production build
 
 **Testing:**

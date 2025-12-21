@@ -12,6 +12,7 @@ api/_build
 coverage
 build
 dist
+**/pagefind
 
 cypress/videos
 cypress/downloads
