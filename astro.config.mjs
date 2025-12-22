@@ -17,6 +17,12 @@ export default defineConfig({
   }),
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      dedupe: ['react', 'react-dom', 'framer-motion'],
+    },
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'framer-motion'],
+    },
   },
   integrations: [
     react(),

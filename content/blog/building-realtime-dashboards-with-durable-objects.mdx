@@ -1,0 +1,930 @@
+---
+title: "Building Real-Time Dashboards with Cloudflare Durable Objects"
+slug: "building-realtime-dashboards-with-durable-objects"
+date: 2025-12-21
+isPublished: true
+tags: ["cloudflare", "websockets", "durable-objects", "real-time", "interactive"]
+---
+
+import ConnectionTypesDemo from '../../src/components/blog/DurableStreams/ConnectionTypesDemo.tsx';
+import DashboardArchitectureDemo from '../../src/components/blog/DurableStreams/DashboardArchitectureDemo.tsx';
+import HibernationDemo from '../../src/components/blog/DurableStreams/HibernationDemo.tsx';
+
+## Introduction
+
+What if you could build a real-time analytics dashboard that scales to millions of concurrent users, handles persistent WebSocket connections, and costs almost nothing when idle? That's the promise of Cloudflare Durable Objects with Hibernation.
+
+Traditional real-time architectures require dedicated servers that consume resources 24/7, even when mostly idle. Connection management becomes a nightmare at scale. Durable Objects flip this model on its head: they're serverless, globally distributed, and automatically hibernate when inactive - consuming zero CPU time while preserving all state.
+
+In this article, we'll explore how to build real-time systems using Durable Objects. We'll understand the fundamentals, compare different connection types, visualize the architecture, and see how hibernation saves costs. Every concept comes with interactive demos you can experiment with right here in your browser.
+
+> **What You'll Learn**: By the end of this article, you'll understand Durable Objects, WebSocket vs SSE vs polling trade-offs, how hibernation works, and how to architect production-ready real-time dashboards.
+
+## What Are Durable Objects?
+
+Durable Objects are Cloudflare's answer to stateful serverless computing. Think of them as single-threaded, globally distributed mini-servers that live at the edge. Unlike traditional serverless functions that are stateless and ephemeral, each Durable Object:
+
+- **Has persistent state** - In-memory data that survives between requests
+- **Lives in one location** - Provides strong consistency guarantees
+- **Handles concurrent connections** - Perfect for WebSockets and real-time data
+- **Hibernates when idle** - Automatically freezes to save costs
+- **Routes by ID** - Multiple clients can connect to the same object instance
+
+The killer feature? They can maintain WebSocket connections while hibernating between messages. Your object wakes up when a message arrives, processes it, then goes back to sleep. No CPU billing during idle time.
+
+### The Perfect Use Case: Live Dashboards
+
+Imagine building a live metrics dashboard where:
+- Multiple browser clients connect to see real-time data
+- Updates are broadcast to all connected clients instantly
+- The system scales from 10 to 10,000 concurrent viewers
+- You only pay for actual processing time, not idle connections
+
+This is exactly what Durable Objects excel at. Let's build it.
+
+## Connection Types: Choosing Your Strategy
+
+Before diving into Durable Objects, we need to understand the three main ways to stream data to browsers. Each has different trade-offs for real-time dashboards.
+
+<ConnectionTypesDemo client:load />
+
+### WebSockets: True Bidirectional Communication
+
+WebSockets create a persistent, full-duplex connection between client and server. Both sides can send messages at any time.
+
+**How it works:**
+```typescript
+// Client-side
+const ws = new WebSocket('wss://api.example.com/metrics/room-123');
+
+ws.onopen = () => {
+  ws.send(JSON.stringify({ type: 'subscribe', metric: 'cpu' }));
+};
+
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  updateDashboard(data);
+};
+
+// Durable Object can send at any time
+ws.send(JSON.stringify({ cpu: 85.3, timestamp: Date.now() }));
+```
+
+**Pros:**
+- Lowest latency for bidirectional communication
+- Efficient for high-frequency updates
+- Native browser support
+- Can send from both client and server
+
+**Cons:**
+- More complex than HTTP
+- Requires sticky routing (perfect for Durable Objects)
+- May need protocol upgrade negotiation
+- Some corporate firewalls block WebSockets
+
+**Best for:** Real-time dashboards, multiplayer games, collaborative editing, chat applications
+
+### Server-Sent Events (SSE): Simple Streaming
+
+SSE is a simpler, HTTP-based protocol where the server streams events to the client. It's unidirectional - only the server can push data.
+
+**How it works:**
+```typescript
+// Client-side
+const eventSource = new EventSource('/api/metrics/stream');
+
+eventSource.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  updateDashboard(data);
+};
+
+// Server streams events
+eventSource.addEventListener('metric-update', (event) => {
+  console.log('Received:', event.data);
+});
+```
+
+**Pros:**
+- Simpler than WebSockets
+- Built on HTTP (better firewall compatibility)
+- Automatic reconnection handling
+- Native browser support
+
+**Cons:**
+- Unidirectional only (server → client)
+- Limit of 6 concurrent connections per browser domain
+- Less efficient encoding than WebSockets
+- Client must use separate HTTP requests to send data
+
+**Best for:** News feeds, stock tickers, server logs, one-way notifications
+
+### HTTP Polling: The Fallback
+
+Polling is the simplest approach: the client repeatedly requests updates at a fixed interval.
+
+**How it works:**
+```typescript
+// Client polls every 2 seconds
+setInterval(async () => {
+  const response = await fetch('/api/metrics/latest');
+  const data = await response.json();
+  updateDashboard(data);
+}, 2000);
+```
+
+**Pros:**
+- Extremely simple to implement
+- Works everywhere (just HTTP)
+- Easy to debug and understand
+- Stateless server architecture
+
+**Cons:**
+- High latency (interval-dependent)
+- Wasteful (many empty responses)
+- Scales poorly (constant server requests)
+- Battery drain on mobile devices
+
+**Best for:** Infrequent updates, simple MVPs, maximum compatibility, systems with unpredictable update timing
+
+### The Verdict for Dashboards
+
+For real-time dashboards with Durable Objects, **WebSockets are the clear winner**. They provide:
+- Instant bidirectional updates
+- Efficient binary or JSON encoding
+- Perfect pairing with Durable Objects (they handle persistent connections natively)
+- Low overhead once connected
+
+We'll use WebSockets for the rest of this article, but the concepts apply to SSE as well.
+
+## Architecture: How It All Fits Together
+
+Now let's visualize how Durable Objects orchestrate real-time connections. This interactive demo simulates the full architecture:
+
+<DashboardArchitectureDemo client:load />
+
+### Understanding the Flow
+
+In this architecture:
+
+1. **Clients connect** - Each browser establishes a WebSocket connection to the Durable Object
+2. **Durable Object coordinates** - A single object instance manages all connections for a specific dashboard/room
+3. **Messages flow bidirectionally** - Clients send metrics, server broadcasts updates
+4. **State persists** - The object maintains connection state, message history, and application data
+5. **Hibernation kicks in** - When no messages arrive for a while, the object freezes
+
+Try adding multiple clients in the demo above. Notice how:
+- Each client connects through the Durable Object
+- When you send a message, it routes through the DO
+- Broadcasting reaches all connected clients simultaneously
+- The event log tracks every connection, message, and state change
+
+### The Code Structure
+
+Here's how you'd structure a Durable Object for a metrics dashboard:
+
+```typescript
+// worker.ts - Cloudflare Worker entrypoint
+export default {
+  async fetch(request: Request, env: Env) {
+    const url = new URL(request.url);
+
+    // Extract dashboard ID from URL
+    const dashboardId = url.pathname.split('/')[2];
+
+    // Get the Durable Object instance for this dashboard
+    const id = env.METRICS_DASHBOARD.idFromName(dashboardId);
+    const stub = env.METRICS_DASHBOARD.get(id);
+
+    // Forward the request to the Durable Object
+    return stub.fetch(request);
+  }
+}
+
+// metrics-dashboard.ts - Durable Object class
+export class MetricsDashboard implements DurableObject {
+  private sessions: Map<WebSocket, { id: string; name: string }>;
+  private metrics: Map<string, any>;
+
+  constructor(private state: DurableObjectState, private env: Env) {
+    this.sessions = new Map();
+    this.metrics = new Map();
+
+    // Enable WebSocket hibernation
+    this.state.blockConcurrencyWhile(async () => {
+      // Load persisted state if needed
+      const stored = await this.state.storage.get('metrics');
+      if (stored) this.metrics = new Map(stored);
+    });
+  }
+
+  async fetch(request: Request): Promise<Response> {
+    // Upgrade to WebSocket
+    const upgradeHeader = request.headers.get('Upgrade');
+    if (upgradeHeader !== 'websocket') {
+      return new Response('Expected WebSocket', { status: 426 });
+    }
+
+    const pair = new WebSocketPair();
+    const [client, server] = Object.values(pair);
+
+    // Accept the WebSocket connection
+    this.state.acceptWebSocket(server);
+
+    // Store session info
+    const sessionId = crypto.randomUUID();
+    this.sessions.set(server, { id: sessionId, name: `Client-${sessionId.slice(0, 8)}` });
+
+    // Send welcome message
+    server.send(JSON.stringify({
+      type: 'connected',
+      sessionId,
+      currentMetrics: Object.fromEntries(this.metrics)
+    }));
+
+    // Notify others
+    this.broadcast({
+      type: 'user-joined',
+      sessionId
+    }, server);
+
+    return new Response(null, { status: 101, webSocket: client });
+  }
+
+  // This method is called when a WebSocket message arrives
+  async webSocketMessage(ws: WebSocket, message: string | ArrayBuffer) {
+    const session = this.sessions.get(ws);
+    if (!session) return;
+
+    try {
+      const data = JSON.parse(message as string);
+
+      // Handle different message types
+      switch (data.type) {
+        case 'metric-update':
+          // Store the metric
+          this.metrics.set(data.name, data.value);
+
+          // Broadcast to all connected clients
+          this.broadcast({
+            type: 'metric-updated',
+            name: data.name,
+            value: data.value,
+            timestamp: Date.now()
+          });
+          break;
+
+        case 'subscribe':
+          // Send current metrics to this client
+          ws.send(JSON.stringify({
+            type: 'snapshot',
+            metrics: Object.fromEntries(this.metrics)
+          }));
+          break;
+      }
+    } catch (error) {
+      console.error('Error processing message:', error);
+      ws.send(JSON.stringify({ type: 'error', message: 'Invalid message format' }));
+    }
+  }
+
+  // Called when a WebSocket closes
+  async webSocketClose(ws: WebSocket, code: number, reason: string) {
+    const session = this.sessions.get(ws);
+    if (session) {
+      this.sessions.delete(ws);
+
+      // Notify others
+      this.broadcast({
+        type: 'user-left',
+        sessionId: session.id
+      });
+    }
+
+    // Clean up
+    ws.close(code, reason);
+  }
+
+  // Helper to broadcast to all connected clients
+  private broadcast(message: any, exclude?: WebSocket) {
+    const payload = JSON.stringify(message);
+
+    for (const [ws] of this.sessions) {
+      if (ws !== exclude) {
+        try {
+          ws.send(payload);
+        } catch (error) {
+          console.error('Error broadcasting to client:', error);
+        }
+      }
+    }
+  }
+
+  // Called when an error occurs on a WebSocket
+  async webSocketError(ws: WebSocket, error: unknown) {
+    console.error('WebSocket error:', error);
+    ws.close(1011, 'Internal error');
+  }
+}
+```
+
+### Key Patterns to Notice
+
+**1. Routing by ID**
+```typescript
+// Multiple clients connecting to "dashboard-123" get the SAME object instance
+const id = env.METRICS_DASHBOARD.idFromName('dashboard-123');
+const stub = env.METRICS_DASHBOARD.get(id);
+```
+
+**2. WebSocket Lifecycle Management**
+```typescript
+// Accept connection
+this.state.acceptWebSocket(server);
+
+// Durable Objects automatically handle:
+// - webSocketMessage() when messages arrive
+// - webSocketClose() when connections close
+// - webSocketError() when errors occur
+```
+
+**3. Broadcasting Pattern**
+```typescript
+// Send to all connected clients except the sender
+private broadcast(message: any, exclude?: WebSocket) {
+  for (const [ws] of this.sessions) {
+    if (ws !== exclude) ws.send(JSON.stringify(message));
+  }
+}
+```
+
+**4. State Persistence**
+```typescript
+// Store in Durable Object storage (persists across hibernation)
+await this.state.storage.put('metrics', Object.fromEntries(this.metrics));
+
+// Load on wake-up
+const stored = await this.state.storage.get('metrics');
+```
+
+## The Magic of Hibernation
+
+Here's where Durable Objects get really interesting. Traditional WebSocket servers consume CPU time continuously while connections are open. Durable Objects can hibernate - they freeze execution while keeping connections alive.
+
+<HibernationDemo client:load />
+
+### How Hibernation Works
+
+The lifecycle has four states:
+
+**1. Active** - Processing messages, executing code
+- Full CPU billing
+- Handling WebSocket messages, HTTP requests, or alarms
+- Object stays active for a timeout period after the last activity (default: ~30 seconds)
+
+**2. Idle** - No active requests, waiting for hibernation timeout
+- Still billing for CPU (object is running)
+- Hibernation timer has started
+- If new activity arrives, resets to Active
+
+**3. Hibernating** - Frozen state, consuming no CPU
+- ✨ **No CPU billing** - This is where you save money
+- All WebSocket connections remain open
+- In-memory state is preserved
+- Waiting for wake event (message, alarm, HTTP request)
+
+**4. Resuming** - Waking from hibernation
+- Brief CPU time for state restoration (~milliseconds)
+- `webSocketMessage()` or `fetch()` handlers execute
+- Returns to Active state
+
+### The Cost Savings
+
+Let's do the math for a real-time dashboard with 1,000 connected users:
+
+**Traditional Server (always-on):**
+- 1,000 connections × 24 hours/day = 24,000 connection-hours
+- Assumes constant CPU usage even when idle
+- Estimated cost: ~$50-100/month for dedicated server
+
+**Durable Object with Hibernation:**
+- Active time: ~1 second per message × 10 messages/hour = 10 seconds/hour active
+- Hibernating: 59 minutes 50 seconds per hour
+- CPU billing: Only the ~10 seconds of active time
+- Estimated cost: ~$0.50-2/month
+
+That's **95%+ cost reduction** for applications with bursty traffic.
+
+### Hibernation Best Practices
+
+**1. Design for resumption**
+```typescript
+// Don't rely on timers or intervals - they stop during hibernation
+// ❌ Bad
+setInterval(() => this.cleanup(), 60000);
+
+// ✅ Good - use alarms instead
+this.state.storage.setAlarm(Date.now() + 60000);
+
+async alarm() {
+  this.cleanup();
+  // Schedule next alarm
+  this.state.storage.setAlarm(Date.now() + 60000);
+}
+```
+
+**2. Keep in-memory state minimal**
+```typescript
+// Hibernation preserves in-memory state, but large objects slow wake-up
+// ✅ Good - lean state
+private sessions: Map<WebSocket, SessionInfo>;
+private metrics: Map<string, number>;
+
+// ❌ Bad - huge state slows resumption
+private fullHistory: Array<{ timestamp: number; data: LargeObject }>;
+```
+
+**3. Use storage for critical data**
+```typescript
+// In-memory state can be lost on rare occasions (object migration, errors)
+// Persist critical data to Durable Object storage
+async updateMetric(name: string, value: number) {
+  this.metrics.set(name, value);
+
+  // Persist to storage
+  await this.state.storage.put(`metric:${name}`, value);
+}
+```
+
+**4. Handle wake-up gracefully**
+```typescript
+// The first message after hibernation takes slightly longer
+// Don't assume instant processing
+webSocketMessage(ws: WebSocket, message: string) {
+  // Objects wake up automatically - no special handling needed
+  // But avoid complex initialization in hot paths
+  this.processMessage(message);
+}
+```
+
+### Monitoring Hibernation
+
+You can track hibernation metrics in your Durable Object:
+
+```typescript
+export class MetricsDashboard implements DurableObject {
+  private stats = {
+    totalMessages: 0,
+    hibernationCount: 0,
+    lastActivityTime: Date.now()
+  };
+
+  async webSocketMessage(ws: WebSocket, message: string) {
+    const now = Date.now();
+    const timeSinceLastActivity = now - this.stats.lastActivityTime;
+
+    // If more than 30 seconds passed, we probably hibernated
+    if (timeSinceLastActivity > 30000) {
+      this.stats.hibernationCount++;
+      console.log(`Resumed from hibernation after ${timeSinceLastActivity}ms`);
+    }
+
+    this.stats.lastActivityTime = now;
+    this.stats.totalMessages++;
+
+    // Process the message
+    this.handleMessage(ws, message);
+  }
+
+  // Expose stats via HTTP endpoint
+  async fetch(request: Request) {
+    const url = new URL(request.url);
+
+    if (url.pathname === '/stats') {
+      return new Response(JSON.stringify(this.stats), {
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    // ... WebSocket upgrade logic
+  }
+}
+```
+
+## Stream Backpressure and Buffering
+
+Real-time systems need to handle scenarios where data arrives faster than clients can consume it. This is where backpressure and buffering come in.
+
+### The Problem
+
+Imagine your dashboard receives 1,000 metric updates per second, but a client on a slow connection can only process 10/second. What happens to the other 990 messages?
+
+**Option 1: Drop them** - Client sees stale data
+**Option 2: Buffer them** - Risk memory overflow
+**Option 3: Apply backpressure** - Slow down the sender
+
+Durable Objects support all three strategies.
+
+### Implementing Smart Buffering
+
+```typescript
+export class MetricsDashboard implements DurableObject {
+  private buffers: Map<WebSocket, Array<any>>;
+  private readonly MAX_BUFFER_SIZE = 100;
+
+  constructor(state: DurableObjectState, env: Env) {
+    this.buffers = new Map();
+  }
+
+  async webSocketMessage(ws: WebSocket, message: string) {
+    const data = JSON.parse(message);
+
+    // Broadcast with buffering
+    this.broadcastWithBackpressure({
+      type: 'metric-update',
+      ...data
+    });
+  }
+
+  private broadcastWithBackpressure(message: any) {
+    const payload = JSON.stringify(message);
+
+    for (const [ws] of this.sessions) {
+      try {
+        // Check WebSocket ready state
+        if (ws.readyState === WebSocket.OPEN) {
+          // Check if buffer exists for this socket
+          const buffer = this.buffers.get(ws) || [];
+
+          if (buffer.length >= this.MAX_BUFFER_SIZE) {
+            // Buffer full - drop oldest messages (or apply other strategy)
+            console.warn(`Buffer full for client, dropping old messages`);
+            buffer.shift(); // Remove oldest
+          }
+
+          // Add to buffer
+          buffer.push(payload);
+          this.buffers.set(ws, buffer);
+
+          // Try to flush buffer
+          this.flushBuffer(ws);
+        }
+      } catch (error) {
+        console.error('Error buffering message:', error);
+      }
+    }
+  }
+
+  private flushBuffer(ws: WebSocket) {
+    const buffer = this.buffers.get(ws);
+    if (!buffer || buffer.length === 0) return;
+
+    try {
+      // Send all buffered messages
+      while (buffer.length > 0) {
+        const message = buffer.shift();
+        ws.send(message);
+      }
+
+      // Clear empty buffer
+      if (buffer.length === 0) {
+        this.buffers.delete(ws);
+      }
+    } catch (error) {
+      console.error('Error flushing buffer:', error);
+      // Keep messages in buffer for retry
+    }
+  }
+
+  async webSocketClose(ws: WebSocket, code: number, reason: string) {
+    // Clean up buffer
+    this.buffers.delete(ws);
+    this.sessions.delete(ws);
+    ws.close(code, reason);
+  }
+}
+```
+
+### Sampling Strategy
+
+For high-frequency metrics, you might want to sample instead of sending everything:
+
+```typescript
+export class MetricsDashboard implements DurableObject {
+  private lastBroadcast: Map<string, number>;
+  private readonly MIN_BROADCAST_INTERVAL = 100; // ms
+
+  constructor(state: DurableObjectState, env: Env) {
+    this.lastBroadcast = new Map();
+  }
+
+  async webSocketMessage(ws: WebSocket, message: string) {
+    const data = JSON.parse(message);
+
+    if (data.type === 'metric-update') {
+      const metricKey = data.name;
+      const now = Date.now();
+      const lastTime = this.lastBroadcast.get(metricKey) || 0;
+
+      // Only broadcast if enough time has passed
+      if (now - lastTime >= this.MIN_BROADCAST_INTERVAL) {
+        this.broadcast({
+          type: 'metric-update',
+          name: data.name,
+          value: data.value,
+          timestamp: now
+        });
+
+        this.lastBroadcast.set(metricKey, now);
+      } else {
+        // Update internal state but don't broadcast
+        this.metrics.set(data.name, data.value);
+      }
+    }
+  }
+}
+```
+
+This ensures clients receive updates at most once per 100ms per metric, preventing overwhelming slow clients.
+
+## Production Considerations
+
+Building a production-ready real-time dashboard requires attention to several key areas.
+
+### Error Handling
+
+```typescript
+export class MetricsDashboard implements DurableObject {
+  async webSocketMessage(ws: WebSocket, message: string | ArrayBuffer) {
+    try {
+      // Always validate input
+      if (typeof message !== 'string') {
+        throw new Error('Expected string message');
+      }
+
+      const data = JSON.parse(message);
+
+      // Validate message structure
+      if (!data.type) {
+        throw new Error('Message missing type field');
+      }
+
+      // Process message
+      await this.handleMessage(ws, data);
+
+    } catch (error) {
+      console.error('Error processing WebSocket message:', error);
+
+      // Send error to client
+      try {
+        ws.send(JSON.stringify({
+          type: 'error',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          code: 'PROCESSING_ERROR'
+        }));
+      } catch (sendError) {
+        // Failed to send error - close connection
+        console.error('Failed to send error to client:', sendError);
+        ws.close(1011, 'Internal error');
+      }
+    }
+  }
+
+  async webSocketError(ws: WebSocket, error: unknown) {
+    console.error('WebSocket error:', error);
+
+    // Clean up session
+    this.sessions.delete(ws);
+
+    // Close with appropriate code
+    try {
+      ws.close(1011, 'Unexpected error');
+    } catch (closeError) {
+      console.error('Error closing WebSocket:', closeError);
+    }
+  }
+}
+```
+
+### Rate Limiting
+
+Protect your Durable Object from abusive clients:
+
+```typescript
+export class MetricsDashboard implements DurableObject {
+  private rateLimits: Map<WebSocket, { count: number; resetTime: number }>;
+  private readonly MAX_MESSAGES_PER_MINUTE = 60;
+
+  constructor(state: DurableObjectState, env: Env) {
+    this.rateLimits = new Map();
+  }
+
+  async webSocketMessage(ws: WebSocket, message: string) {
+    // Check rate limit
+    if (!this.checkRateLimit(ws)) {
+      ws.send(JSON.stringify({
+        type: 'error',
+        message: 'Rate limit exceeded',
+        code: 'RATE_LIMIT'
+      }));
+      return;
+    }
+
+    // Process message normally
+    this.handleMessage(ws, message);
+  }
+
+  private checkRateLimit(ws: WebSocket): boolean {
+    const now = Date.now();
+    let limit = this.rateLimits.get(ws);
+
+    if (!limit || now > limit.resetTime) {
+      // Create or reset limit
+      limit = {
+        count: 0,
+        resetTime: now + 60000 // 1 minute window
+      };
+      this.rateLimits.set(ws, limit);
+    }
+
+    limit.count++;
+
+    if (limit.count > this.MAX_MESSAGES_PER_MINUTE) {
+      return false; // Rate limit exceeded
+    }
+
+    return true;
+  }
+
+  async webSocketClose(ws: WebSocket, code: number, reason: string) {
+    // Clean up rate limit tracking
+    this.rateLimits.delete(ws);
+    this.sessions.delete(ws);
+    ws.close(code, reason);
+  }
+}
+```
+
+### Authentication
+
+Secure your WebSocket connections:
+
+```typescript
+// worker.ts - Validate auth before routing to Durable Object
+export default {
+  async fetch(request: Request, env: Env) {
+    const url = new URL(request.url);
+
+    // Extract and verify auth token
+    const token = url.searchParams.get('token');
+    if (!token) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+
+    // Verify JWT or session token
+    const userId = await verifyAuthToken(token, env);
+    if (!userId) {
+      return new Response('Invalid token', { status: 403 });
+    }
+
+    // Check authorization for this dashboard
+    const dashboardId = url.pathname.split('/')[2];
+    if (!await canAccessDashboard(userId, dashboardId, env)) {
+      return new Response('Forbidden', { status: 403 });
+    }
+
+    // Get Durable Object
+    const id = env.METRICS_DASHBOARD.idFromName(dashboardId);
+    const stub = env.METRICS_DASHBOARD.get(id);
+
+    // Forward request with user context
+    const modifiedRequest = new Request(request);
+    modifiedRequest.headers.set('X-User-ID', userId);
+
+    return stub.fetch(modifiedRequest);
+  }
+}
+
+// metrics-dashboard.ts
+export class MetricsDashboard implements DurableObject {
+  async fetch(request: Request): Promise<Response> {
+    // Extract authenticated user
+    const userId = request.headers.get('X-User-ID');
+    if (!userId) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+
+    // Upgrade to WebSocket
+    const pair = new WebSocketPair();
+    const [client, server] = Object.values(pair);
+
+    this.state.acceptWebSocket(server);
+
+    // Store user ID with session
+    this.sessions.set(server, {
+      id: crypto.randomUUID(),
+      userId,
+      name: `User-${userId}`
+    });
+
+    return new Response(null, { status: 101, webSocket: client });
+  }
+}
+```
+
+### Monitoring and Observability
+
+Track key metrics:
+
+```typescript
+export class MetricsDashboard implements DurableObject {
+  private metrics = {
+    totalConnections: 0,
+    currentConnections: 0,
+    messagesProcessed: 0,
+    errorCount: 0,
+    hibernationEvents: 0
+  };
+
+  async fetch(request: Request): Promise<Response> {
+    const url = new URL(request.url);
+
+    // Expose metrics endpoint
+    if (url.pathname === '/metrics') {
+      return new Response(JSON.stringify(this.metrics), {
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    // WebSocket upgrade
+    if (request.headers.get('Upgrade') === 'websocket') {
+      this.metrics.totalConnections++;
+      this.metrics.currentConnections++;
+
+      // ... handle WebSocket upgrade
+    }
+  }
+
+  async webSocketClose(ws: WebSocket, code: number, reason: string) {
+    this.metrics.currentConnections--;
+    // ... cleanup
+  }
+
+  async webSocketMessage(ws: WebSocket, message: string) {
+    this.metrics.messagesProcessed++;
+
+    try {
+      // ... process message
+    } catch (error) {
+      this.metrics.errorCount++;
+      throw error;
+    }
+  }
+}
+```
+
+You can then poll these metrics or integrate with Cloudflare Analytics Engine.
+
+## Wrapping Up
+
+We've covered a lot of ground! From understanding Durable Objects to building production-ready real-time dashboards. Here's what we explored:
+
+- **Durable Objects fundamentals** - Stateful serverless computing at the edge
+- **Connection strategies** - WebSockets vs SSE vs polling trade-offs
+- **Architecture patterns** - How Durable Objects coordinate real-time connections
+- **Hibernation magic** - How to save 95%+ on costs with automatic sleep/wake
+- **Production concerns** - Error handling, rate limiting, auth, and monitoring
+
+Durable Objects with WebSocket hibernation represent a paradigm shift in real-time architecture. You get:
+- Global distribution without infrastructure management
+- Strong consistency without coordination overhead
+- Persistent connections without constant CPU billing
+- Automatic scaling without capacity planning
+
+The result? Real-time systems that are simpler to build, cheaper to run, and easier to scale than traditional approaches.
+
+### Next Steps
+
+Ready to build your own? Here are some ideas:
+
+**Live Collaboration**
+- Collaborative text editor (like Google Docs)
+- Shared whiteboard or drawing canvas
+- Multiplayer game state coordination
+
+**Real-Time Analytics**
+- Server metrics dashboard (CPU, memory, requests)
+- Application performance monitoring
+- Live user activity tracking
+
+**Communication**
+- Chat rooms with presence indicators
+- Live notifications and alerts
+- Streaming log viewers
+
+**Creative Projects**
+- Live music jam sessions
+- Shared particle simulations
+- Multiplayer interactive art
+
+
+The code for all the interactive demos in this article is [available on GitHub](https://github.com/andrewusher/andrewusher.dev). Feel free to explore, fork, and build your own real-time experiences!
