@@ -1,17 +1,39 @@
 import { useEffect, useState } from 'react'
+import { useRecentlyViewed } from '../hooks/useRecentlyViewed'
 
 interface ViewCounterProps {
   slug: string
+  title?: string
+  date?: string
+  tags?: string[]
+  readingTime?: string
 }
 
-export default function ViewCounter({ slug }: ViewCounterProps) {
+export default function ViewCounter({
+  slug,
+  title,
+  date,
+  tags,
+  readingTime,
+}: ViewCounterProps) {
   const [views, setViews] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
+  const { addPost } = useRecentlyViewed()
 
   useEffect(() => {
     async function trackAndFetchViews() {
       try {
+        // Add to recently viewed if we have the required data
+        if (title && date && tags && readingTime) {
+          addPost({
+            slug,
+            title,
+            date,
+            tags,
+            readingTime,
+          })
+        }
         const incrementResponse = await fetch(`/api/views/${slug}`, {
           method: 'POST',
         })
@@ -31,7 +53,7 @@ export default function ViewCounter({ slug }: ViewCounterProps) {
     }
 
     trackAndFetchViews()
-  }, [slug])
+  }, [slug, title, date, tags, readingTime, addPost])
 
   if (error) {
     return null

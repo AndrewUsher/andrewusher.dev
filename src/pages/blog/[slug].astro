@@ -8,6 +8,7 @@ import BaseLayout from "src/layouts/BaseLayout.astro";
 import ReadingTime from "src/components/ReadingTime.astro";
 import TagList from "src/components/TagList.astro";
 import ViewCounter from "src/components/ViewCounter";
+import { RecentlyViewedPosts } from "src/components/RecentlyViewedPosts";
 import { calculateReadingTime } from "src/lib/calculateReadingTime";
 import dayjs from "dayjs";
 
@@ -70,7 +71,17 @@ const readingTime = calculateReadingTime(post.body)
       </BlogPost>
     </div>
     <div class="mt-8 text-center">
-      <ViewCounter slug={slug} client:load />
+      <ViewCounter
+        slug={slug}
+        title={post.data.title}
+        date={post.data.date.toISOString()}
+        tags={post.data.tags}
+        readingTime={readingTime.display}
+        client:load
+      />
+    </div>
+    <div class="mt-12">
+      <RecentlyViewedPosts currentSlug={slug} client:load />
     </div>
   </div>
 

@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content'
 import { calculateReadingTime } from 'src/lib/calculateReadingTime'
 import Posts from 'src/components/Posts.astro'
 import BaseLayout from 'src/layouts/BaseLayout.astro'
+import { RecentlyViewedPosts } from 'src/components/RecentlyViewedPosts'
 
 export const prerender = true;
 
@@ -34,6 +35,7 @@ const blogPostsWithReadingTime = blogPosts.map(post => ({
         Browse Archive
       </a>
     </div>
+    <RecentlyViewedPosts client:load />
     <Posts entrySlugStart="/blog" posts={blogPostsWithReadingTime} />
   </main>
 </BaseLayout>;

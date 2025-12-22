@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { HomepageIntro }  from 'src/components/HomepageIntro'
 import { IntroSectionCards } from 'src/components/IntroSectionCards'
+import { RecentlyViewedPosts } from 'src/components/RecentlyViewedPosts'
 import RecentPosts from 'src/components/RecentPosts.astro'
 import RecentProjects from 'src/components/RecentProjects.astro'
 import RecentCommitsWrapper from 'src/components/RecentCommitsWrapper.astro'
@@ -21,6 +22,7 @@ Astro.response.headers.set(
   <div class="mx-auto max-w-screen-xl p-8 pt-0">
     <HomepageIntro client:load />
     <IntroSectionCards client:load />
+    <RecentlyViewedPosts client:load />
     <RecentPosts />
     <RecentProjects />
     <RecentCommitsWrapper />
