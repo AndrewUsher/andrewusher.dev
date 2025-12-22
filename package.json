@@ -4,10 +4,10 @@
   "description": "",
   "license": "",
   "scripts": {
-    "build": "astro build && npx pagefind --site dist",
+    "build": "astro build",
     "dev": "astro dev",
     "dev:search": "npm run build && npm run sync-search && npm run dev",
-    "sync-search": "mkdir -p public/pagefind && cp -r dist/pagefind/* public/pagefind/",
+    "sync-search": "mkdir -p public/pagefind && cp -r dist/client/pagefind/* public/pagefind/",
     "lint": "astro check",
     "preview": "astro preview",
     "test": "vitest run",

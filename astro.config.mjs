@@ -5,6 +5,7 @@ import mdx from '@astrojs/mdx'
 import rehypeSlug from 'rehype-slug'
 import rehypeToc from '@jsdevtools/rehype-toc'
 import vercel from '@astrojs/vercel'
+import pagefind from './integrations/pagefind.mjs'
 
 // https://astro.build/config
 export default defineConfig({
@@ -37,6 +38,7 @@ export default defineConfig({
       ],
       optimize: true,
     }),
+    pagefind(),
   ],
   markdown: {
     shikiConfig: {

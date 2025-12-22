@@ -71,9 +71,11 @@ Blog posts are marked for indexing with Pagefind data attributes:
 
 1. `npm run build` → Runs `astro build`
 2. Astro outputs to `dist/`
-3. Pagefind indexes `dist/` → creates `dist/pagefind/`
-4. In production (Vercel), index is served from `dist/pagefind/`
-5. In dev mode, copy to `public/pagefind/` for local testing
+3. **Pagefind integration** runs automatically via `astro:build:done` hook
+4. Pagefind indexes `dist/client/` → creates `dist/client/pagefind/`
+5. Vercel adapter copies everything to `.vercel/output/static/` (includes pagefind)
+6. In production (Vercel), index is served from `/pagefind/`
+7. In dev mode, run `npm run sync-search` to copy to `public/pagefind/`
 
 ## Production
 
