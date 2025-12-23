@@ -121,3 +121,76 @@
     font-weight: var(--shiki-nord-font-weight) !important;
     text-decoration: var(--shiki-nord-text-decoration) !important;
   }
+
+  /* Line highlighting */
+  html[data-shiki-theme="github-dark"] .astro-code .highlighted {
+    background-color: rgba(56, 139, 253, 0.15) !important;
+  }
+
+  html[data-shiki-theme="github-light"] .astro-code .highlighted {
+    background-color: rgba(9, 105, 218, 0.1) !important;
+  }
+
+  html[data-shiki-theme="dracula"] .astro-code .highlighted {
+    background-color: rgba(139, 233, 253, 0.1) !important;
+  }
+
+  html[data-shiki-theme="monokai"] .astro-code .highlighted {
+    background-color: rgba(102, 217, 239, 0.15) !important;
+  }
+
+  html[data-shiki-theme="nord"] .astro-code .highlighted {
+    background-color: rgba(136, 192, 208, 0.15) !important;
+  }
+
+  .astro-code .highlighted {
+    display: block;
+    margin: 0 -1.5rem;
+    padding: 0 1.5rem;
+  }
+
+  /* Code block wrapper and copy button */
+  .code-block-wrapper {
+    position: relative;
+    margin: 1.5rem 0;
+  }
+
+  .code-copy-button {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.375rem;
+    color: #fff;
+    cursor: pointer;
+    opacity: 1;
+    transition: all 0.2s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+  }
+
+  .code-copy-button:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .code-copy-button:focus {
+    outline: 2px solid rgba(56, 139, 253, 0.5);
+    outline-offset: 2px;
+  }
+
+  .code-copy-button svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  /* Ensure code blocks have enough padding for the button */
+  .code-block-wrapper .astro-code {
+    padding-right: 4rem;
+  }

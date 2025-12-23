@@ -41,5 +41,67 @@ import { ClientRouter } from 'astro:transitions'
     <Header />
     <slot />
     <Footer />
+    <script is:inline>
+      function enhanceCodeBlocks() {
+        const codeBlocks = document.querySelectorAll('pre.astro-code')
+
+        codeBlocks.forEach((pre) => {
+          // Skip if already enhanced
+          if (pre.parentElement?.classList.contains('code-block-wrapper')) {
+            return
+          }
+
+          // Extract code text
+          const code = pre.textContent || ''
+
+          // Create wrapper
+          const wrapper = document.createElement('div')
+          wrapper.className = 'code-block-wrapper'
+
+          // Create copy button
+          const button = document.createElement('button')
+          button.className = 'code-copy-button'
+          button.setAttribute('aria-label', 'Copy code')
+          button.setAttribute('title', 'Copy code')
+
+          // Copy icon SVG
+          const copyIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`
+
+          // Check icon SVG
+          const checkIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
+
+          button.innerHTML = copyIcon
+
+          // Copy functionality
+          button.addEventListener('click', async () => {
+            try {
+              await navigator.clipboard.writeText(code)
+              button.innerHTML = checkIcon
+              button.setAttribute('aria-label', 'Copied!')
+              button.setAttribute('title', 'Copied!')
+
+              setTimeout(() => {
+                button.innerHTML = copyIcon
+                button.setAttribute('aria-label', 'Copy code')
+                button.setAttribute('title', 'Copy code')
+              }, 2000)
+            } catch (err) {
+              console.error('Failed to copy code:', err)
+            }
+          })
+
+          // Wrap the pre element
+          pre.parentNode?.insertBefore(wrapper, pre)
+          wrapper.appendChild(button)
+          wrapper.appendChild(pre)
+        })
+      }
+
+      // Run on initial load
+      enhanceCodeBlocks()
+
+      // Re-run on Astro page transitions (if using View Transitions)
+      document.addEventListener('astro:page-load', enhanceCodeBlocks)
+    </script>
   </body>
 </html>
