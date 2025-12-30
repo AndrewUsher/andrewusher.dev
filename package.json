@@ -21,6 +21,7 @@
     "@giscus/react": "2.2.6",
     "@heroicons/react": "2.0.18",
     "@jsdevtools/rehype-toc": "3.0.2",
+    "@sentry/astro": "^10.32.1",
     "@shikijs/transformers": "^3.20.0",
     "@tailwindcss/forms": "0.5.3",
     "@tailwindcss/vite": "^4.1.8",

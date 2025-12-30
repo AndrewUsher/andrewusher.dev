@@ -8,6 +8,8 @@ import vercel from '@astrojs/vercel'
 import pagefind from './integrations/pagefind.mjs'
 import { transformerNotationHighlight } from '@shikijs/transformers'
 
+import sentry from '@sentry/astro'
+
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
@@ -46,6 +48,11 @@ export default defineConfig({
       optimize: true,
     }),
     pagefind(),
+    sentry({
+      project: 'andrewusher-dev',
+      org: 'andrew-usher',
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+    }),
   ],
   markdown: {
     shikiConfig: {
