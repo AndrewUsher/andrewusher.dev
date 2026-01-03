@@ -64,6 +64,7 @@
     "eslint-plugin-jest": "27.2.1",
     "happy-dom": "^20.0.11",
     "jsdom": "21.1.0",
+    "msw": "^2.12.7",
     "pagefind": "^1.4.0",
     "ts-node": "10.9.1",
     "typescript": "^5.1.6",

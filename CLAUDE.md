@@ -167,6 +167,87 @@ npm test src/components/NavLink.test.ts
 npm run test:watch
 ```
 
+### API Mocking with MSW
+
+The project uses [Mock Service Worker (MSW)](https://mswjs.io/) for mocking GitHub API requests in tests.
+
+**Setup:**
+- MSW server configured in `vitest.setup.js`
+- Handlers defined in `src/test/mocks/handlers.ts`
+- Server instance exported from `src/test/mocks/server.ts`
+
+**Usage:**
+```typescript
+import { server } from '../test/mocks/server'
+import { http, HttpResponse } from 'msw'
+
+// Override handlers in specific tests
+test('handles API errors', () => {
+  server.use(
+    http.get('https://api.github.com/users/:username/events/public', () => {
+      return HttpResponse.json({ message: 'Not Found' }, { status: 404 })
+    })
+  )
+
+  // Your test code...
+})
+```
+
+**Note:** The MSW server automatically resets handlers after each test via `afterEach()` hook.
+
+## GitHub Commits Feature
+
+The homepage displays recent commits from multiple repositories the user has contributed to.
+
+### How It Works
+
+1. **Auto-Discovery:** Uses GitHub Events API to find repos with recent push activity
+2. **Fork Filtering:** Excludes forked repositories from the commit feed
+3. **Aggregation:** Fetches commits from multiple repos and sorts chronologically
+4. **Partial Failure Handling:** Displays commits from repos that succeed, even if some fail
+
+### Environment Variables
+
+Configure commit fetching behavior with these optional environment variables:
+
+```bash
+# Maximum number of repos to fetch commits from (default: 5)
+GITHUB_MAX_REPOS=5
+
+# Number of commits to fetch per repo (default: 5)
+GITHUB_COMMITS_PER_REPO=5
+
+# Total maximum commits to display (default: 25)
+GITHUB_TOTAL_COMMITS=25
+
+# GitHub personal access token for higher API rate limits (optional)
+GITHUB_TOKEN=your_token_here
+```
+
+**Rate Limits:**
+- Without token: 60 requests/hour
+- With token: 5,000 requests/hour
+
+### Implementation Files
+
+- **Core Logic:** `src/lib/github-commits.ts`
+  - `fetchRecentCommits()` - Main function for fetching commits
+  - `discoverActiveRepos()` - Finds repos via Events API
+  - Helper functions for formatting dates, messages, and parsing commit types
+
+- **Components:**
+  - `src/components/RecentCommitsWrapper.astro` - Server-side data fetching
+  - `src/components/RecentCommits.tsx` - Client-side React component for rendering
+  - `src/components/CommitTypeBadge.tsx` - Styled badges for commit types
+
+- **Tests:** `src/lib/github-commits.test.ts` with MSW mocks
+
+### Limitations
+
+- **Events API Window:** Only fetches from last 90 days of activity
+- **Event Limit:** GitHub Events API returns max 300 events
+- **Public Repos Only:** Currently configured to fetch only public repository commits
+
 ## Deployment
 
 - Platform: Vercel
