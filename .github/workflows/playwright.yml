@@ -12,14 +12,12 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.51.0-noble
       options: --user 1001
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: '18.x'
+        node-version: '20.x'
     - name: Install dependencies
       run: npm i
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
     - uses: actions/upload-artifact@v4
