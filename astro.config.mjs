@@ -13,6 +13,9 @@ import sentry from '@sentry/astro'
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
+  site: process.env.VERCEL
+    ? 'https://andrewusher.dev'
+    : 'http://localhost:4321',
   adapter: vercel({
     webAnalytics: {
       enabled: true,
@@ -20,12 +23,6 @@ export default defineConfig({
   }),
   vite: {
     plugins: [tailwindcss()],
-    resolve: {
-      dedupe: ['react', 'react-dom', 'framer-motion'],
-    },
-    optimizeDeps: {
-      include: ['react', 'react-dom', 'framer-motion'],
-    },
   },
   integrations: [
     react(),

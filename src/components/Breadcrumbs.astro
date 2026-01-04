@@ -1,0 +1,55 @@
+---
+export interface BreadcrumbItem {
+  label: string
+  href?: string // undefined for current page
+}
+
+interface Props {
+  items: BreadcrumbItem[]
+}
+
+const { items } = Astro.props
+
+// Generate JSON-LD structured data for SEO
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.label,
+    ...(item.href && { item: new URL(item.href, Astro.site).toString() }),
+  })),
+}
+---
+
+<nav aria-label="breadcrumb" class="mb-4 text-sm">
+  <ol class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+    {
+      items.map((item, index) => (
+        <>
+          <li>
+            {item.href ? (
+              <a
+                href={item.href}
+                class="hover:text-slate-900 dark:hover:text-slate-100"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <span
+                class="font-medium text-slate-900 dark:text-slate-100"
+                aria-current="page"
+              >
+                {item.label}
+              </span>
+            )}
+          </li>
+          {index < items.length - 1 && <li>/</li>}
+        </>
+      ))
+    }
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />

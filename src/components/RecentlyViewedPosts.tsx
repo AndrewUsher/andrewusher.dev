@@ -10,7 +10,7 @@ export function RecentlyViewedPosts({ currentSlug }: Props) {
   const posts = getRecentPosts(currentSlug)
 
   if (posts.length === 0) {
-    return null
+    return <></>
   }
 
   return (

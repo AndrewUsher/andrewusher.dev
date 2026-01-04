@@ -12,6 +12,7 @@ import { RecentlyViewedPosts } from "src/components/RecentlyViewedPosts";
 import SimilarPosts from "src/components/SimilarPosts.astro";
 import { calculateReadingTime } from "src/lib/calculateReadingTime";
 import dayjs from "dayjs";
+import Breadcrumbs from "src/components/Breadcrumbs.astro";
 
 export const prerender = true;
 
@@ -37,6 +38,13 @@ const readingTime = calculateReadingTime(post.body)
 ---
 <BaseLayout>
   <div class="mx-auto max-w-screen-xl p-8 pt-0">
+    <Breadcrumbs
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Blog', href: '/blog' },
+        { label: post.data.title },
+      ]}
+    />
     <div class="relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] w-screen bg-gradient-to-tl from-blue-400 to-emerald-400 py-20 px-4 text-center shadow-lg">
       <h1
         class="mb-1 break-words text-4xl font-bold text-black md:text-5xl"

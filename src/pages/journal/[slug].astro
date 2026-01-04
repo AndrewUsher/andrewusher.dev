@@ -6,6 +6,7 @@ import { getCollection } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { ReadingProgressBar } from '../../components/ReadingProgress'
 import dayjs from 'dayjs'
+import Breadcrumbs from '../../components/Breadcrumbs.astro'
 
 export const prerender = true;
 
@@ -34,6 +35,13 @@ const description = entry.data.title
 
 <BaseLayout title={title} description={description}>
   <div class="mx-auto mt-8 max-w-screen-xl px-4">
+    <Breadcrumbs
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Journal', href: '/journal' },
+        { label: entry.data.title },
+      ]}
+    />
     <h1
       class="mb-1 break-words text-3xl font-bold text-indigo-600 dark:text-indigo-200"
       transition:name={`post-title-${slug}`}

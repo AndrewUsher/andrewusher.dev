@@ -7,6 +7,7 @@ import {
 import { calculateReadingTime } from '../../../../lib/calculateReadingTime'
 import BaseLayout from '../../../../layouts/BaseLayout.astro'
 import Posts from '../../../../components/Posts.astro'
+import Breadcrumbs from '../../../../components/Breadcrumbs.astro'
 
 export const prerender = true;
 
@@ -45,40 +46,15 @@ const postsWithReadingTime = posts.map(post => ({
 <BaseLayout>
   <main class="mx-auto max-w-screen-xl p-8">
     <div class="mb-8">
-      <nav class="mb-4 text-sm">
-        <ol class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-          <li>
-            <a
-              href="/blog"
-              class="hover:text-slate-900 dark:hover:text-slate-100"
-            >
-              Blog
-            </a>
-          </li>
-          <li>/</li>
-          <li>
-            <a
-              href="/blog/archive"
-              class="hover:text-slate-900 dark:hover:text-slate-100"
-            >
-              Archive
-            </a>
-          </li>
-          <li>/</li>
-          <li>
-            <a
-              href={`/blog/archive/${year}`}
-              class="hover:text-slate-900 dark:hover:text-slate-100"
-            >
-              {year}
-            </a>
-          </li>
-          <li>/</li>
-          <li class="font-medium text-slate-900 dark:text-slate-100">
-            {monthName}
-          </li>
-        </ol>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Blog', href: '/blog' },
+          { label: 'Archive', href: '/blog/archive' },
+          { label: year, href: `/blog/archive/${year}` },
+          { label: monthName },
+        ]}
+      />
 
       <h1 class="mb-4 text-4xl font-bold dark:text-white">
         Posts from {monthName} {year}

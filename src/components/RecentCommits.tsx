@@ -15,7 +15,7 @@ interface RecentCommitsProps {
 
 export function RecentCommits({ commits, error }: RecentCommitsProps) {
   if (error) {
-    return null
+    return <></>
   }
 
   if (commits.length === 0) {

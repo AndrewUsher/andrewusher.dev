@@ -4,6 +4,7 @@ import { getAllTags, getPostsByTag } from '../../../lib/tags'
 import { calculateReadingTime } from '../../../lib/calculateReadingTime'
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 import Posts from '../../../components/Posts.astro'
+import Breadcrumbs from '../../../components/Breadcrumbs.astro'
 
 export const prerender = true;
 
@@ -28,6 +29,14 @@ const formattedTag = tag.replace(/-/g, ' ')
 <BaseLayout>
   <main class="mx-auto max-w-screen-xl p-8">
     <div class="mb-8">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Blog', href: '/blog' },
+          { label: 'Tags', href: '/blog/tags' },
+          { label: formattedTag },
+        ]}
+      />
       <h1 class="mb-4 text-4xl font-bold dark:text-white">
         Posts tagged with "{formattedTag}"
       </h1>
