@@ -54,7 +54,7 @@ export function EventTimeline({
       ) : (
         <AnimatePresence initial={false}>
           <div className="space-y-2">
-            {displayEvents.map((event, index) => {
+            {displayEvents.map((event) => {
               const colorClass = eventColors[event.type]
               const icon = eventIcons[event.type]
 

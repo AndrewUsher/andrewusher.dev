@@ -229,7 +229,10 @@ export async function fetchRecentCommits(
 
     // Collect all successful commits
     const allCommits: GitHubCommit[] = results
-      .filter((result) => result.status === 'fulfilled')
+      .filter(
+        (result): result is PromiseFulfilledResult<GitHubCommit[]> =>
+          result.status === 'fulfilled'
+      )
       .flatMap((result) => result.value)
 
     // Sort by date (most recent first) and apply total limit

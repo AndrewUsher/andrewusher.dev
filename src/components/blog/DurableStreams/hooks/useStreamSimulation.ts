@@ -11,12 +11,12 @@ export function useStreamSimulation(options: UseStreamSimulationOptions = {}) {
 
   const [metrics, setMetrics] = useState<MetricData[]>([])
   const [isStreaming, setIsStreaming] = useState(autoStart)
-  const intervalRef = useRef<NodeJS.Timeout>()
+  const intervalRef = useRef<NodeJS.Timeout | undefined>(undefined)
   const baselineRef = useRef({
     cpu: 30 + Math.random() * 20,
     memory: 40 + Math.random() * 30,
     requests: 100 + Math.random() * 50,
-    latency: 50 + Math.random() * 30
+    latency: 50 + Math.random() * 30,
   })
 
   const generateMetric = useCallback((): MetricData => {
@@ -33,13 +33,16 @@ export function useStreamSimulation(options: UseStreamSimulationOptions = {}) {
       memory: variance(baseline.memory, 8),
       requests: Math.max(0, baseline.requests + (Math.random() - 0.5) * 30),
       latency: Math.max(0, baseline.latency + (Math.random() - 0.5) * 20),
-      timestamp: Date.now()
+      timestamp: Date.now(),
     }
 
     // Gradually drift the baseline
     baseline.cpu = variance(baseline.cpu, 2)
     baseline.memory = variance(baseline.memory, 1.5)
-    baseline.requests = Math.max(0, baseline.requests + (Math.random() - 0.5) * 5)
+    baseline.requests = Math.max(
+      0,
+      baseline.requests + (Math.random() - 0.5) * 5
+    )
     baseline.latency = Math.max(0, baseline.latency + (Math.random() - 0.5) * 3)
 
     return metric
@@ -51,7 +54,7 @@ export function useStreamSimulation(options: UseStreamSimulationOptions = {}) {
     setIsStreaming(true)
     intervalRef.current = setInterval(() => {
       const metric = generateMetric()
-      setMetrics(prev => {
+      setMetrics((prev) => {
         const newMetrics = [...prev, metric]
         // Keep only last 50 metrics
         return newMetrics.slice(-50)
@@ -74,21 +77,24 @@ export function useStreamSimulation(options: UseStreamSimulationOptions = {}) {
       cpu: 30 + Math.random() * 20,
       memory: 40 + Math.random() * 30,
       requests: 100 + Math.random() * 50,
-      latency: 50 + Math.random() * 30
+      latency: 50 + Math.random() * 30,
     }
   }, [stop])
 
-  const addMetric = useCallback((metric?: Partial<MetricData>) => {
-    const newMetric: MetricData = {
-      cpu: metric?.cpu ?? generateMetric().cpu,
-      memory: metric?.memory ?? generateMetric().memory,
-      requests: metric?.requests ?? generateMetric().requests,
-      latency: metric?.latency ?? generateMetric().latency,
-      timestamp: metric?.timestamp ?? Date.now()
-    }
+  const addMetric = useCallback(
+    (metric?: Partial<MetricData>) => {
+      const newMetric: MetricData = {
+        cpu: metric?.cpu ?? generateMetric().cpu,
+        memory: metric?.memory ?? generateMetric().memory,
+        requests: metric?.requests ?? generateMetric().requests,
+        latency: metric?.latency ?? generateMetric().latency,
+        timestamp: metric?.timestamp ?? Date.now(),
+      }
 
-    setMetrics(prev => [...prev, newMetric].slice(-50))
-  }, [generateMetric])
+      setMetrics((prev) => [...prev, newMetric].slice(-50))
+    },
+    [generateMetric]
+  )
 
   useEffect(() => {
     if (autoStart) {
@@ -109,6 +115,6 @@ export function useStreamSimulation(options: UseStreamSimulationOptions = {}) {
     stop,
     reset,
     addMetric,
-    currentMetric: metrics[metrics.length - 1]
+    currentMetric: metrics[metrics.length - 1],
   }
 }

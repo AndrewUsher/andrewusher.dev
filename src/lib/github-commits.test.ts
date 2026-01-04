@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeEach } from 'vitest'
+import { describe, test, expect } from 'vitest'
 import { http, HttpResponse } from 'msw'
 import { server } from '../test/mocks/server'
 import {
@@ -19,13 +19,14 @@ describe('github-commits', () => {
       expect(commits.length).toBeLessThanOrEqual(25)
 
       const commit = commits[0]
-      expect(commit).toHaveProperty('sha')
-      expect(commit).toHaveProperty('message')
-      expect(commit).toHaveProperty('repo')
-      expect(commit).toHaveProperty('repoUrl')
-      expect(commit).toHaveProperty('commitUrl')
-      expect(commit).toHaveProperty('date')
-      expect(commit.date).toBeInstanceOf(Date)
+      expect(commit).toBeDefined()
+      expect(commit?.sha).toBeDefined()
+      expect(commit?.message).toBeDefined()
+      expect(commit?.repo).toBeDefined()
+      expect(commit?.repoUrl).toBeDefined()
+      expect(commit?.commitUrl).toBeDefined()
+      expect(commit?.date).toBeDefined()
+      expect(commit?.date).toBeInstanceOf(Date)
     })
 
     test('excludes forked repositories', async () => {
@@ -42,8 +43,8 @@ describe('github-commits', () => {
       const commits = await fetchRecentCommits('TestUser')
 
       for (let i = 0; i < commits.length - 1; i++) {
-        expect(commits[i].date.getTime()).toBeGreaterThanOrEqual(
-          commits[i + 1].date.getTime()
+        expect(commits[i]?.date.getTime()).toBeGreaterThanOrEqual(
+          commits[i + 1]?.date.getTime() ?? 0
         )
       }
     })
@@ -77,12 +78,9 @@ describe('github-commits', () => {
 
     test('returns empty array when no repositories found', async () => {
       server.use(
-        http.get(
-          'https://api.github.com/users/:username/events/public',
-          () => {
-            return HttpResponse.json([])
-          }
-        )
+        http.get('https://api.github.com/users/:username/events/public', () => {
+          return HttpResponse.json([])
+        })
       )
 
       const commits = await fetchRecentCommits('EmptyUser')
@@ -92,15 +90,12 @@ describe('github-commits', () => {
 
     test('returns empty array when events API fails', async () => {
       server.use(
-        http.get(
-          'https://api.github.com/users/:username/events/public',
-          () => {
-            return HttpResponse.json(
-              { message: 'API rate limit exceeded' },
-              { status: 403 }
-            )
-          }
-        )
+        http.get('https://api.github.com/users/:username/events/public', () => {
+          return HttpResponse.json(
+            { message: 'API rate limit exceeded' },
+            { status: 403 }
+          )
+        })
       )
 
       const commits = await fetchRecentCommits('ErrorUser')
@@ -111,10 +106,7 @@ describe('github-commits', () => {
     test('handles partial failures gracefully', async () => {
       server.use(
         http.get('https://api.github.com/repos/TestUser/repo2/commits', () => {
-          return HttpResponse.json(
-            { message: 'Server Error' },
-            { status: 500 }
-          )
+          return HttpResponse.json({ message: 'Server Error' }, { status: 500 })
         })
       )
 
@@ -162,14 +154,15 @@ describe('github-commits', () => {
       const commits = await fetchRecentCommits('TestUser', { maxRepos: 1 })
 
       const commit = commits[0]
+      expect(commit).toBeDefined()
 
-      expect(typeof commit.sha).toBe('string')
-      expect(typeof commit.message).toBe('string')
-      expect(typeof commit.repo).toBe('string')
-      expect(typeof commit.repoUrl).toBe('string')
-      expect(typeof commit.commitUrl).toBe('string')
-      expect(commit.repoUrl).toMatch(/^https:\/\/github\.com\//)
-      expect(commit.commitUrl).toMatch(/^https:\/\/github\.com\/.*\/commit\//)
+      expect(typeof commit?.sha).toBe('string')
+      expect(typeof commit?.message).toBe('string')
+      expect(typeof commit?.repo).toBe('string')
+      expect(typeof commit?.repoUrl).toBe('string')
+      expect(typeof commit?.commitUrl).toBe('string')
+      expect(commit?.repoUrl).toMatch(/^https:\/\/github\.com\//)
+      expect(commit?.commitUrl).toMatch(/^https:\/\/github\.com\/.*\/commit\//)
     })
   })
 

@@ -18,7 +18,6 @@ const statusLabels = {
 }
 
 export function ConnectionNode({
-  id,
   label,
   status,
   position,

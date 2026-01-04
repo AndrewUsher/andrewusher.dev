@@ -4,8 +4,8 @@ export function useAnimationFrame(
   callback: (deltaTime: number) => void,
   isActive = true
 ) {
-  const requestRef = useRef<number>()
-  const previousTimeRef = useRef<number>()
+  const requestRef = useRef<number | undefined>(undefined)
+  const previousTimeRef = useRef<number | undefined>(undefined)
 
   useEffect(() => {
     if (!isActive) return

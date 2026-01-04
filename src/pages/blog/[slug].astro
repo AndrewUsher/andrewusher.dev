@@ -72,7 +72,7 @@ const readingTime = calculateReadingTime(post.body)
       </div>
     </div>
     <div data-pagefind-body>
-      {post.data.tags?.map(tag => (
+      {post.data.tags?.map((tag: string) => (
         <span data-pagefind-filter="tags" class="hidden">{tag}</span>
       ))}
       <BlogPost post={post} pathname={Astro.url.pathname} client:load>

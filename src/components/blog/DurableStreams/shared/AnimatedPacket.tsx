@@ -8,6 +8,8 @@ export function AnimatedPacket({
   onComplete,
   duration = 800,
 }: AnimatedPacketProps) {
+  const handleAnimationComplete = onComplete ? () => onComplete() : undefined
+
   return (
     <motion.div
       className="pointer-events-none absolute z-10"
@@ -19,7 +21,9 @@ export function AnimatedPacket({
         ease: 'easeInOut',
         opacity: { duration: 0.2 },
       }}
-      onAnimationComplete={onComplete}
+      {...(handleAnimationComplete && {
+        onAnimationComplete: handleAnimationComplete,
+      })}
     >
       <div className="relative">
         <div className="h-3 w-3 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg">
