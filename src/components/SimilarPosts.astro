@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import { getCollection } from 'astro:content'
+import { getSimilarPosts } from '../lib/similar-posts'
+import SimilarPostCard from './SimilarPostCard.astro'
+
+interface Props {
+  currentPost: CollectionEntry<'blogPosts'>
+}
+
+const { currentPost } = Astro.props
+
+const allPosts = await getCollection('blogPosts')
+
+const publishedPosts = import.meta.env.DEV
+  ? allPosts
+  : allPosts.filter((post) => post.data.isPublished)
+
+const similarPosts = getSimilarPosts(currentPost, publishedPosts)
+---
+
+{
+  similarPosts.length > 0 && (
+    <section class="mx-auto mt-12 max-w-4xl">
+      <h2 class="dark:text-white mb-6 text-2xl font-bold tracking-tight">
+        You Might Also Like
+      </h2>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {similarPosts.map(({ post }) => (
+          <SimilarPostCard post={post} />
+        ))}
+      </div>
+    </section>
+  )
+}

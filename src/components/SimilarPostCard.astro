@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import dayjs from 'dayjs'
+import { calculateReadingTime } from '../lib/calculateReadingTime'
+
+interface Props {
+  post: CollectionEntry<'blogPosts'>
+}
+
+const { post } = Astro.props
+const { display: readingTime } = calculateReadingTime(post.body)
+---
+
+<article
+  class="dark:bg-slate-800/30 dark:hover:bg-slate-800/50 group mb-4 rounded-lg border-l-4 border-sky-500/50 bg-slate-50/50 p-4 transition-all hover:border-sky-500 hover:bg-slate-100/70"
+>
+  <h3 class="dark:text-white mb-2 text-lg font-semibold tracking-tight">
+    <a
+      href={`/blog/${post.data.slug}`}
+      class="transition-colors hover:text-sky-500"
+    >
+      {post.data.title}
+    </a>
+  </h3>
+
+  <div class="dark:text-slate-400 flex flex-col gap-1 text-sm text-slate-600">
+    <time
+      datetime={dayjs(post.data.date).format('YYYY-MM-DD')}
+      class="text-xs"
+    >
+      Published {dayjs(post.data.date).format('MMMM DD, YYYY')}
+    </time>
+
+    <span class="text-xs">{readingTime}</span>
+  </div>
+
+  {
+    post.data.tags && post.data.tags.length > 0 && (
+      <div class="mt-2 flex flex-wrap gap-2">
+        {post.data.tags.map((tag) => (
+          <span class="dark:bg-slate-700/50 dark:text-slate-300 rounded-full bg-slate-200/60 px-2 py-1 text-xs font-medium text-slate-700">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )
+  }
+</article>
