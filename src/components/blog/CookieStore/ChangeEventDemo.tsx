@@ -16,8 +16,10 @@ export default function ChangeEventDemo() {
   const [events, setEvents] = useState<EventLogEntry[]>([])
   const logRef = useRef<HTMLDivElement>(null)
 
+  const hasCookieStore = typeof window !== 'undefined' && !!window.cookieStore
+
   useEffect(() => {
-    if (!listening) return
+    if (!listening || !hasCookieStore) return
 
     const handleChange = (e: Event) => {
       const event = e as CookieChangeEvent
@@ -37,13 +39,12 @@ export default function ChangeEventDemo() {
     return () => {
       window.cookieStore.removeEventListener('change', handleChange)
     }
-  }, [listening])
+  }, [listening, hasCookieStore])
 
   useEffect(() => {
-    if (logRef.current) {
-      logRef.current.scrollTop = 0
-    }
-  }, [events])
+    if (!hasCookieStore || !logRef.current) return
+    logRef.current.scrollTop = 0
+  }, [events, hasCookieStore])
 
   const handleClearLog = () => {
     setEvents([])
@@ -82,25 +83,25 @@ export default function ChangeEventDemo() {
 
   if (!('cookieStore' in window)) {
     return (
-      <div className="my-8 p-6 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20">
-        <h3 className="text-lg font-bold text-red-900 dark:text-red-300 mb-2">
+      <div className="dark:border-red-800 dark:bg-red-900/20 my-8 rounded-lg border border-red-200 bg-red-50 p-6">
+        <h3 className="dark:text-red-300 mb-2 text-lg font-bold text-red-900">
           Cookie Store API Not Supported
         </h3>
-        <p className="text-sm text-red-800 dark:text-red-200">
-          Your browser doesn't support Cookie Store API. Change events won't be
-          available.
+        <p className="dark:text-red-200 text-sm text-red-800">
+          Your browser doesn&apos;t support Cookie Store API. Change events
+          won&apos;t be available.
         </p>
       </div>
     )
   }
 
   return (
-    <div className="my-8 p-6 rounded-lg border border-slate-200 dark:border-neutral-700 bg-white dark:bg-neutral-800">
+    <div className="dark:border-neutral-700 dark:bg-neutral-800 my-8 rounded-lg border border-slate-200 bg-white p-6">
       <div className="mb-6">
-        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+        <h3 className="dark:text-white mb-2 text-xl font-bold text-slate-900">
           Cookie Change Events
         </h3>
-        <p className="text-sm text-slate-600 dark:text-slate-400">
+        <p className="dark:text-slate-400 text-sm text-slate-600">
           Subscribe to cookie changes and see real-time updates.
         </p>
       </div>
@@ -125,32 +126,32 @@ export default function ChangeEventDemo() {
       <div className="mb-6 flex flex-wrap gap-3">
         <button
           onClick={handleTestAdd}
-          className="rounded border border-slate-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-neutral-600"
+          className="dark:border-neutral-600 dark:bg-neutral-700 dark:text-slate-300 dark:hover:bg-neutral-600 rounded border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
         >
           Add Test Cookie
         </button>
         <button
           onClick={handleTestUpdate}
-          className="rounded border border-slate-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-neutral-600"
+          className="dark:border-neutral-600 dark:bg-neutral-700 dark:text-slate-300 dark:hover:bg-neutral-600 rounded border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
         >
           Update Test Cookie
         </button>
         <button
           onClick={handleTestDelete}
-          className="rounded border border-slate-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-neutral-600"
+          className="dark:border-neutral-600 dark:bg-neutral-700 dark:text-slate-300 dark:hover:bg-neutral-600 rounded border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
         >
           Delete Test Cookie
         </button>
       </div>
 
       <div className="mb-4 flex items-center justify-between">
-        <h4 className="font-semibold text-slate-900 dark:text-white">
+        <h4 className="dark:text-white font-semibold text-slate-900">
           Event Log ({events.length})
         </h4>
         {events.length > 0 && (
           <button
             onClick={handleClearLog}
-            className="text-sm text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+            className="dark:text-red-400 dark:hover:text-red-300 text-sm text-red-600 hover:text-red-700"
           >
             Clear Log
           </button>
@@ -159,21 +160,21 @@ export default function ChangeEventDemo() {
 
       <div
         ref={logRef}
-        className="max-h-96 overflow-y-auto rounded-lg border border-slate-200 dark:border-neutral-700 bg-slate-50 dark:bg-neutral-900"
+        className="dark:border-neutral-700 dark:bg-neutral-900 max-h-96 overflow-y-auto rounded-lg border border-slate-200 bg-slate-50"
       >
         <AnimatePresence mode="popLayout">
           {events.length === 0 ? (
-            <div className="py-8 text-center text-slate-500 dark:text-slate-500">
+            <div className="dark:text-slate-500 py-8 text-center text-slate-500">
               {listening
                 ? 'Listening for cookie changes...'
                 : 'Start listening to see cookie change events'}
             </div>
           ) : (
-            <div className="divide-y divide-slate-200 dark:divide-neutral-700">
+            <div className="dark:divide-neutral-700 divide-y divide-slate-200">
               {events.map((entry) => (
                 <div
                   key={entry.id}
-                  className="bg-white dark:bg-neutral-800 p-4"
+                  className="dark:bg-neutral-800 bg-white p-4"
                 >
                   <div className="mb-2 flex items-center gap-2">
                     <Badge
@@ -182,26 +183,26 @@ export default function ChangeEventDemo() {
                     >
                       {entry.type}
                     </Badge>
-                    <span className="text-xs text-slate-500 dark:text-slate-500">
+                    <span className="dark:text-slate-500 text-xs text-slate-500">
                       {entry.timestamp.toLocaleTimeString()}
                     </span>
                   </div>
 
                   {entry.changed && entry.changed.length > 0 && (
                     <div className="mb-2">
-                      <span className="text-xs font-semibold text-green-700 dark:text-green-400">
+                      <span className="dark:text-green-400 text-xs font-semibold text-green-700">
                         Added/Modified:
                       </span>
                       <div className="mt-1 space-y-1">
                         {entry.changed.map((cookie) => (
                           <div
                             key={cookie.name}
-                            className="rounded border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20 px-2 py-1 text-sm"
+                            className="dark:border-green-800 dark:bg-green-900/20 rounded border border-green-200 bg-green-50 px-2 py-1 text-sm"
                           >
-                            <span className="font-medium text-green-900 dark:text-green-300">
+                            <span className="dark:text-green-300 font-medium text-green-900">
                               {cookie.name}
                             </span>
-                            <span className="ml-2 text-green-700 dark:text-green-400">
+                            <span className="dark:text-green-400 ml-2 text-green-700">
                               = {cookie.value}
                             </span>
                           </div>
@@ -212,16 +213,16 @@ export default function ChangeEventDemo() {
 
                   {entry.deleted && entry.deleted.length > 0 && (
                     <div>
-                      <span className="text-xs font-semibold text-red-700 dark:text-red-400">
+                      <span className="dark:text-red-400 text-xs font-semibold text-red-700">
                         Deleted:
                       </span>
                       <div className="mt-1 space-y-1">
                         {entry.deleted.map((cookie) => (
                           <div
                             key={cookie.name}
-                            className="rounded border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 px-2 py-1 text-sm"
+                            className="dark:border-red-800 dark:bg-red-900/20 rounded border border-red-200 bg-red-50 px-2 py-1 text-sm"
                           >
-                            <span className="font-medium text-red-900 dark:text-red-300">
+                            <span className="dark:text-red-300 font-medium text-red-900">
                               {cookie.name}
                             </span>
                           </div>

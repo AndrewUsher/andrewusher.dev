@@ -13,7 +13,14 @@ export default function CookiePlayground() {
     expires: '',
   })
   const [filter, setFilter] = useState('')
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false)
   const loadCookies = async () => {
+    if (!window?.cookieStore) {
+      setError('Cookie Store API not supported')
+      setLoading(false)
+      return
+    }
+
     try {
       const allCookies = await window.cookieStore.getAll()
       setCookies(allCookies as ExtendedCookieListItem[])
@@ -79,15 +86,31 @@ export default function CookiePlayground() {
   }
 
   const handleClearAll = async () => {
-    if (!confirm('Delete all demo cookies?')) return
+    if (!showConfirmDeleteModal) {
+      setShowConfirmDeleteModal(true)
+      return
+    }
+
+    setShowConfirmDeleteModal(false)
+
+    const demoCookies = cookies.filter((cookie) =>
+      cookie.name?.startsWith('demo_')
+    )
+
+    if (demoCookies.length === 0) {
+      setError('No demo cookies found')
+      return
+    }
 
     try {
       await Promise.all(
-        cookies.map((cookie) => window.cookieStore.delete(cookie.name))
+        demoCookies.map((cookie) => window.cookieStore.delete(cookie.name))
       )
       await loadCookies()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to clear cookies')
+      setError(
+        err instanceof Error ? err.message : 'Failed to clear demo cookies'
+      )
     }
   }
 
@@ -227,11 +250,33 @@ export default function CookiePlayground() {
       {cookies.length > 0 && (
         <div className="mb-4 flex justify-end">
           <button
-            onClick={handleClearAll}
+            onClick={() => setShowConfirmDeleteModal(true)}
             className="dark:text-red-400 dark:hover:text-red-300 text-sm text-red-600 hover:text-red-700"
           >
-            Clear All Cookies
+            Clear Demo Cookies
           </button>
+        </div>
+      )}
+
+      {showConfirmDeleteModal && (
+        <div className="dark:border-neutral-700 dark:bg-neutral-800 mb-4 rounded-lg border border-slate-200 bg-white p-4">
+          <p className="dark:text-slate-300 mb-3 text-sm text-slate-700">
+            Delete all demo cookies (cookies starting with &apos;demo_&apos;)?
+          </p>
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => setShowConfirmDeleteModal(false)}
+              className="dark:border-neutral-600 dark:bg-neutral-700 dark:text-slate-300 dark:hover:bg-neutral-600 rounded border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleClearAll}
+              className="rounded bg-red-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-red-700"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       )}
 
