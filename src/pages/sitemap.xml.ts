@@ -73,11 +73,16 @@ export const GET: APIRoute = async () => {
     })
   })
 
+  const yearMonths = new Set<string>()
   publishedPosts.forEach((post) => {
     const year = dayjs(post.data.date).year()
     const month = dayjs(post.data.date).format('MMMM').toLowerCase()
+    yearMonths.add(`${year}/${month}`)
+  })
+
+  yearMonths.forEach((yearMonth) => {
     sitemapUrls.push({
-      url: `/blog/archive/${year}/${month}`,
+      url: `/blog/archive/${yearMonth}`,
       changefreq: 'monthly',
       priority: 0.3,
     })
