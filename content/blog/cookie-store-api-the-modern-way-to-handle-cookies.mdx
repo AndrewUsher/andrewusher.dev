@@ -1,0 +1,816 @@
+---
+title: "Cookie Store API: The Modern Way to Handle Cookies"
+slug: "cookie-store-api-the-modern-way-to-handle-cookies"
+date: 2026-01-11
+isPublished: true
+tags: ["web-api", "cookies", "javascript", "interactive", "async"]
+---
+
+import CookiePlayground from '../../src/components/blog/CookieStore/CookiePlayground';
+import PropertyBuilder from '../../src/components/blog/CookieStore/PropertyBuilder';
+import ChangeEventDemo from '../../src/components/blog/CookieStore/ChangeEventDemo';
+import PartitionedCookieDemo from '../../src/components/blog/CookieStore/PartitionedCookieDemo';
+import BrowserCompatibility from '../../src/components/blog/CookieStore/BrowserCompatibility';
+
+## Introduction
+
+
+The **Cookie Store API** makes all of this possible. It's a modern, Promise-based alternative to the legacy `document.cookie` API that solves many of the problems developers have struggled with for years. In this article, we'll explore Cookie Store API from the ground up. We'll start with basics, progressively build up to advanced patterns, and create interactive demos you can play with. By the end, you'll have all the tools you need to modernize your cookie handling.
+
+## The Problem with `document.cookie`
+
+Before diving into the Cookie Store API, let's understand why we need a new API. The traditional `document.cookie` approach has several limitations:
+
+**1. Synchronous and Blocking**
+
+```javascript
+// This blocks the main thread!
+const cookies = document.cookie;
+```
+
+When you read `document.cookie`, the browser must serialize all cookies for the current domain into a single string. This is slow and blocks your JavaScript execution.
+
+**2. String Parsing is Error-Prone**
+
+```javascript
+// You have to manually parse this mess:
+"session=abc123; user=john; theme=dark; analytics=enabled"
+
+// Parse logic is tedious:
+const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+  const [name, value] = cookie.trim().split('=');
+  acc[name] = value;
+  return acc;
+}, {});
+```
+
+This parsing code is duplicated across projects and prone to bugs.
+
+**3. No Service Worker Access**
+
+Service workers can't access `document.cookie` because they don't have a DOM. This makes it impossible to read cookies in:
+- Offline-first apps
+- Background sync scenarios
+- Push notification handlers
+
+**4. No Type Safety**
+
+```javascript
+// Returns a string - what is this?
+const value = document.cookie.split('=')[1];
+// What if the cookie has an equals sign in its value?
+```
+
+No validation, no structure, just a string.
+
+**5. No Change Notifications**
+
+You can't listen for cookie changes. You have to poll (inefficient) or reload the page to see updates.
+
+The Cookie Store API solves all of these problems.
+
+## Quick Start: Your First Cookie
+
+The Cookie Store API is accessed via the `cookieStore` object, available in both windows and service workers.
+
+**Basic Usage:**
+
+```javascript
+// Get a cookie
+const cookie = await cookieStore.get('session');
+console.log(cookie); // { name: 'session', value: 'abc123', ... }
+
+// Set a cookie
+await cookieStore.set('theme', 'dark');
+
+// Delete a cookie
+await cookieStore.delete('session');
+```
+
+That's it! Three simple methods. But let's try it yourself:
+
+<CookiePlayground client:only />
+
+Notice how much easier this is than `document.cookie`? No parsing, no string manipulation, just clean, promise-based operations.
+
+## Cookie Properties Deep Dive
+
+The real power of the Cookie Store API is in the options you can pass when setting cookies. Let's explore each property:
+
+### expires vs maxAge
+
+Two ways to control cookie lifetime:
+
+```javascript
+// Using expires (absolute timestamp)
+await cookieStore.set({
+  name: 'session',
+  value: 'abc123',
+  expires: Date.now() + 3600000 // 1 hour from now
+});
+
+// Session cookie (no expiration)
+await cookieStore.set({
+  name: 'theme',
+  value: 'dark'
+  // No expires = session cookie, deleted when browser closes
+});
+```
+
+### domain
+
+Controls which domains can receive the cookie:
+
+```javascript
+// Only this exact domain
+await cookieStore.set({
+  name: 'cookie',
+  value: 'value',
+  domain: 'example.com'
+});
+
+// Subdomains too (note the leading dot)
+await cookieStore.set({
+  name: 'cookie',
+  value: 'value',
+  domain: '.example.com' // example.com, www.example.com, api.example.com
+});
+
+// Current domain only (default)
+await cookieStore.set({
+  name: 'cookie',
+  value: 'value'
+  // No domain = only set for current domain
+});
+```
+
+### path
+
+Restricts cookie to a specific path:
+
+```javascript
+// Only accessible from /dashboard and subpaths
+await cookieStore.set({
+  name: 'preferences',
+  value: 'value',
+  path: '/dashboard'
+});
+
+// Site-wide (default)
+await cookieStore.set({
+  name: 'session',
+  value: 'value',
+  path: '/'
+});
+```
+
+### Secure
+
+Only send over HTTPS connections:
+
+```javascript
+await cookieStore.set({
+  name: 'session',
+  value: 'abc123',
+  secure: true // Only sent over HTTPS
+});
+```
+
+Always set `secure: true` for authentication cookies and sensitive data.
+
+### SameSite
+
+Controls when cookies are sent with cross-site requests:
+
+```javascript
+// Strict: Only same-site requests
+await cookieStore.set({
+  name: 'token',
+  value: 'abc123',
+  sameSite: 'Strict'
+});
+
+// Lax: Allows some cross-site (navigation)
+await cookieStore.set({
+  name: 'token',
+  value: 'abc123',
+  sameSite: 'Lax' // Default for modern browsers
+});
+
+// None: Allows all cross-site (requires Secure)
+await cookieStore.set({
+  name: 'token',
+  value: 'abc123',
+  sameSite: 'None',
+  secure: true // Required with SameSite=None
+});
+```
+
+### Partitioned
+
+Creates a privacy-preserving partitioned cookie (more on this later):
+
+```javascript
+await cookieStore.set({
+  name: 'analytics',
+  value: '123',
+  domain: '.tracker.com',
+  partitioned: true // Scoped to top-level site
+});
+```
+
+Try configuring all these properties in the interactive builder:
+
+<PropertyBuilder />
+
+## Getting Cookies
+
+The Cookie Store API provides two methods for reading cookies:
+
+### `get()` - Single Cookie
+
+```javascript
+// Get by name
+const theme = await cookieStore.get('theme');
+console.log(theme); // { name: 'theme', value: 'dark', ... }
+
+// Get by options
+const cookie = await cookieStore.get({
+  name: 'session',
+  domain: 'example.com',
+  path: '/api'
+});
+
+// Returns null if not found
+const missing = await cookieStore.get('does-not-exist');
+console.log(missing); // null
+```
+
+### `getAll()` - Multiple Cookies
+
+```javascript
+// Get all cookies
+const allCookies = await cookieStore.getAll();
+console.log(allCookies); // [{ name: 'a', value: '1' }, { name: 'b', value: '2' }]
+
+// Filter by name
+const sessionCookies = await cookieStore.getAll({ name: 'session' });
+
+// Filter by path
+const apiCookies = await cookieStore.getAll({ path: '/api' });
+
+// Chain filters
+const secureSessionCookies = await cookieStore.getAll({
+  name: 'session',
+  path: '/api',
+  secure: true
+});
+```
+
+Unlike `document.cookie` (which returns a string), these methods return structured objects with all cookie properties.
+
+## Cookie Change Events
+
+One of the most powerful features of the Cookie Store API is the ability to subscribe to cookie changes. This means you can react to cookies being added, modified, or deleted in real-time.
+
+**Basic Event Listener:**
+
+```javascript
+cookieStore.addEventListener('change', (event) => {
+  console.log('Cookies changed:', event);
+
+  // event.type: 'changed' | 'deleted'
+  // event.changed: Array of cookies that were added or modified
+  // event.deleted: Array of cookies that were deleted
+});
+```
+
+**Real-World Example: Auto-Logout on Token Deletion:**
+
+```javascript
+cookieStore.addEventListener('change', (event) => {
+  // Check if auth cookie was deleted
+  const deletedSession = event.deleted.find(c => c.name === 'session');
+
+  if (deletedSession) {
+    // Redirect to login page
+    window.location.href = '/login';
+    // Clear app state
+    logout();
+  }
+});
+```
+
+**Sync State Across Tabs:**
+
+```javascript
+cookieStore.addEventListener('change', async (event) => {
+  // Update theme when cookie changes
+  const themeCookie = event.changed.find(c => c.name === 'theme');
+
+  if (themeCookie) {
+    // Update UI in all tabs
+    document.documentElement.setAttribute('data-theme', themeCookie.value);
+    // Update local state
+    setTheme(themeCookie.value);
+  }
+});
+```
+
+Try it out in the interactive demo:
+
+<ChangeEventDemo client:only />
+
+## Partitioned Cookies (CHIPS)
+
+Cookies Having Independent Partitioned State (CHIPS) is a privacy-preserving feature that's rapidly becoming essential for modern web development.
+
+**The Problem: Third-Party Cookies**
+
+Traditional third-party cookies can track users across sites:
+
+1. User visits `site-a.com` → tracker.com cookie set
+2. User visits `site-b.com` → Same tracker.com cookie read
+3. Tracker knows user visited both sites
+
+This is why browsers increasingly block third-party cookies (ITP, ETP, etc.).
+
+**The Solution: Partitioned Cookies**
+
+Partitioned cookies are scoped to the top-level site:
+
+1. User visits `site-a.com` → tracker.com sets **partitioned** cookie
+2. User visits `site-b.com` → Different tracker.com cookie (different partition!)
+3. Each site gets its own tracker.com cookie → No cross-site tracking
+
+**Legitimate Use Cases:**
+
+Partitioned cookies still enable legitimate third-party functionality:
+
+- **Embedded login buttons** (Google, Facebook, Twitter OAuth)
+- **Embedded payments** (Stripe, PayPal)
+- **Embedded services** (maps, analytics)
+
+Each embedding site gets its own isolated cookie.
+
+<PartitionedCookieDemo />
+
+## Service Worker Integration
+
+One of the biggest advantages of the Cookie Store API is that it works in service workers. This opens up powerful new patterns:
+
+**Background Sync with Cookies:**
+
+```javascript
+// In service worker
+self.addEventListener('sync', async (event) => {
+  const session = await cookieStore.get('session');
+
+  if (session) {
+    // Sync user data to server
+    await fetch('/api/sync', {
+      headers: {
+        'Authorization': `Bearer ${session.value}`
+      }
+    });
+  }
+});
+```
+
+**Push Notifications with Personalization:**
+
+```javascript
+// In service worker
+self.addEventListener('push', async (event) => {
+  const preferences = await cookieStore.get('notifications');
+
+  if (preferences) {
+    // Personalize based on user preferences
+    const data = await event.data.json();
+    data.theme = JSON.parse(preferences.value).theme;
+
+    await self.registration.showNotification('Update', data);
+  }
+});
+```
+
+**Offline-First Authentication:**
+
+```javascript
+// In service worker
+self.addEventListener('fetch', async (event) => {
+  if (event.request.url.includes('/api/')) {
+    const session = await cookieStore.get('session');
+
+    if (session) {
+      // Add auth header to all API requests
+      const modifiedRequest = new Request(event.request, {
+        headers: {
+          ...event.request.headers,
+          'Authorization': `Bearer ${session.value}`
+        }
+      });
+
+      return fetch(modifiedRequest);
+    }
+  }
+
+  return event.respondWith(fetch(event.request));
+});
+```
+
+> **Note:** Service workers can only access cookies via `self.cookieStore`, not `window.cookieStore`.
+
+## Async Patterns & Error Handling
+
+### Promise Chaining
+
+```javascript
+// Chain multiple operations
+await cookieStore.set('step1', 'value1');
+await cookieStore.set('step2', 'value2');
+await cookieStore.set('step3', 'value3');
+
+// Parallel operations (faster!)
+await Promise.all([
+  cookieStore.set('cookie1', 'value1'),
+  cookieStore.set('cookie2', 'value2'),
+  cookieStore.set('cookie3', 'value3')
+]);
+```
+
+### Error Handling
+
+```javascript
+try {
+  await cookieStore.set({
+    name: 'session',
+    value: token,
+    secure: true,
+    sameSite: 'None' // ❌ Will throw without secure!
+  });
+} catch (error) {
+  console.error('Failed to set cookie:', error);
+  // Handle error (show message to user, fallback, etc.)
+}
+```
+
+Common errors:
+- **Secure context required**: Only works on HTTPS (or localhost)
+- **Invalid SameSite**: `SameSite='None'` requires `Secure=true`
+- **Cookie size exceeded**: Cookies limited to ~4KB
+- **Invalid domain**: Can't set cookies for other domains
+
+### Retry Logic
+
+```javascript
+async function setCookieWithRetry(name, value, options, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      await cookieStore.set({ name, value, ...options });
+      return true;
+    } catch (error) {
+      if (i === maxRetries - 1) throw error;
+      // Exponential backoff
+      await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 100));
+    }
+  }
+}
+```
+
+## Migration Guide: From `document.cookie` to Cookie Store API
+
+### Reading Cookies
+
+**Old way:**
+```javascript
+const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+  const [name, value] = cookie.trim().split('=');
+  acc[name] = value;
+  return acc;
+}, {});
+console.log(cookies.theme);
+```
+
+**New way:**
+```javascript
+const theme = await cookieStore.get('theme');
+console.log(theme.value);
+```
+
+### Setting Cookies
+
+**Old way:**
+```javascript
+document.cookie = 'session=abc123; Path=/; Secure; SameSite=Strict';
+```
+
+**New way:**
+```javascript
+await cookieStore.set({
+  name: 'session',
+  value: 'abc123',
+  path: '/',
+  secure: true,
+  sameSite: 'Strict'
+});
+```
+
+### Deleting Cookies
+
+**Old way:**
+```javascript
+document.cookie = 'session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT';
+```
+
+**New way:**
+```javascript
+await cookieStore.delete('session');
+```
+
+### Conditional Implementation
+
+```javascript
+// Feature detection
+if ('cookieStore' in window) {
+  // Use Cookie Store API
+  const cookie = await cookieStore.get('session');
+} else {
+  // Fallback to document.cookie
+  const cookies = document.cookie;
+  // Parse cookie string...
+}
+```
+
+<BrowserCompatibility />
+
+## Performance Considerations
+
+### Batch Operations
+
+```javascript
+// Slow (multiple network round-trips)
+for (const [name, value] of Object.entries(cookies)) {
+  await cookieStore.set(name, value);
+}
+
+// Fast (batched)
+await Promise.all(
+  Object.entries(cookies).map(([name, value]) =>
+    cookieStore.set(name, value)
+  )
+);
+```
+
+### Debounce Change Handlers
+
+```javascript
+let timeoutId: number;
+
+cookieStore.addEventListener('change', () => {
+  clearTimeout(timeoutId);
+  timeoutId = window.setTimeout(() => {
+    // Debounced logic (e.g., re-render UI)
+    updateCookieUI();
+  }, 100);
+});
+```
+
+### Cache Frequently Accessed Cookies
+
+```javascript
+const cookieCache = new Map<string, ExtendedCookieListItem>();
+
+async function getCachedCookie(name: string) {
+  // Check cache first
+  if (cookieCache.has(name)) {
+    return cookieCache.get(name);
+  }
+
+  // Fetch from cookie store
+  const cookie = await cookieStore.get(name);
+  if (cookie) {
+    cookieCache.set(name, cookie);
+  }
+
+  return cookie;
+}
+
+// Invalidate cache on changes
+cookieStore.addEventListener('change', (event) => {
+  event.changed.forEach(cookie => cookieCache.set(cookie.name, cookie));
+  event.deleted.forEach(cookie => cookieCache.delete(cookie.name));
+});
+```
+
+## Real-World Use Cases
+
+### 1. Session Management
+
+```javascript
+// Set session on login
+async function login(credentials) {
+  const response = await fetch('/api/login', {
+    method: 'POST',
+    body: JSON.stringify(credentials)
+  });
+
+  const { token } = await response.json();
+
+  await cookieStore.set({
+    name: 'session',
+    value: token,
+    expires: Date.now() + 3600000 * 24 * 7, // 7 days
+    secure: true,
+    sameSite: 'Strict',
+    httpOnly: false // Can't set via JavaScript for server-only cookies
+  });
+}
+
+// Check session on load
+async function checkAuth() {
+  const session = await cookieStore.get('session');
+
+  if (!session) {
+    window.location.href = '/login';
+    return false;
+  }
+
+  return true;
+}
+```
+
+### 2. A/B Testing
+
+```javascript
+async function getVariant() {
+  let variant = await cookieStore.get('ab_variant');
+
+  if (!variant) {
+    // Assign random variant
+    variant = Math.random() < 0.5 ? 'A' : 'B';
+
+    await cookieStore.set({
+      name: 'ab_variant',
+      value: variant,
+      expires: Date.now() + 3600000 * 24 * 30 // 30 days
+    });
+  }
+
+  return variant.value;
+}
+```
+
+### 3. User Preferences
+
+```javascript
+async function setTheme(theme: 'light' | 'dark') {
+  await cookieStore.set({
+    name: 'theme',
+    value: theme,
+    expires: Date.now() + 3600000 * 24 * 365 // 1 year
+  });
+
+  document.documentElement.setAttribute('data-theme', theme);
+}
+
+async function loadTheme() {
+  const theme = await cookieStore.get('theme');
+  if (theme) {
+    document.documentElement.setAttribute('data-theme', theme.value);
+  }
+}
+```
+
+### 4. Cross-Domain Authentication
+
+```javascript
+// Set SSO token across domains (with CORS)
+async function setSSOToken(token: string, domains: string[]) {
+  await Promise.all(
+    domains.map(domain =>
+      fetch(`https://${domain}/api/set-token`, {
+        method: 'POST',
+        body: JSON.stringify({ token }),
+        credentials: 'include'
+      })
+    )
+  );
+}
+
+// In server endpoint (not shown):
+// await cookieStore.set({ name: 'sso_token', value: token, domain });
+```
+
+## Best Practices
+
+### 1. Always Use Secure Cookies
+
+```javascript
+// ❌ Bad
+await cookieStore.set('session', 'token');
+
+// ✅ Good
+await cookieStore.set({
+  name: 'session',
+  value: 'token',
+  secure: true
+});
+```
+
+### 2. Set Expiration
+
+```javascript
+// ❌ Bad (session cookie when not needed)
+await cookieStore.set('preferences', 'value');
+
+// ✅ Good (explicit expiration)
+await cookieStore.set({
+  name: 'preferences',
+  value: 'value',
+  expires: Date.now() + 3600000 * 24 * 365 // 1 year
+});
+```
+
+### 3. Use SameSite Appropriately
+
+```javascript
+// Authentication: Strict
+await cookieStore.set({
+  name: 'session',
+  value: token,
+  sameSite: 'Strict',
+  secure: true
+});
+
+// Analytics: Lax
+await cookieStore.set({
+  name: 'analytics_id',
+  value: 'abc123',
+  sameSite: 'Lax'
+});
+
+// Third-party: None (with Secure)
+await cookieStore.set({
+  name: 'third_party',
+  value: 'value',
+  sameSite: 'None',
+  secure: true
+});
+```
+
+### 4. Handle Errors Gracefully
+
+```javascript
+async function setCookieSafe(options) {
+  try {
+    await cookieStore.set(options);
+    return true;
+  } catch (error) {
+    console.warn('Failed to set cookie:', error);
+
+    // Fallback or alternative
+    localStorage.setItem(options.name, options.value);
+    return false;
+  }
+}
+```
+
+### 5. Use Partitioned Cookies for Third-Party Contexts
+
+```javascript
+// Embedded service
+await cookieStore.set({
+  name: 'analytics',
+  value: 'id123',
+  domain: '.analytics.com',
+  partitioned: true // Privacy-preserving
+});
+```
+
+## Wrapping Up
+
+We've covered a lot of ground! Here's what we explored:
+
+- **The Problem**: `document.cookie` is synchronous, error-prone, and unavailable in service workers
+- **The Solution**: Cookie Store API is async, Promise-based, and works everywhere
+- **Core Methods**: `get()`, `getAll()`, `set()`, `delete()`
+- **Advanced Features**: Change events, partitioned cookies, service worker integration
+- **Best Practices**: Security, performance, error handling
+
+The Cookie Store API represents a significant improvement in how we handle cookies on the web. It's:
+
+- **Faster**: Asynchronous, non-blocking operations
+- **Safer**: Better security controls (partitioned cookies, SameSite)
+- **More Powerful**: Works in service workers, supports change events
+- **Easier**: No string parsing, promise-based, type-safe
+
+
+### Resources
+
+- [MDN: Cookie Store API](https://developer.mozilla.org/en-US/docs/Web/API/Cookie_Store_API)
+- [Specification](https://cookiestore.spec.whatwg.org/)
+- [Can I Use: Cookie Store API](https://caniuse.com/cookie-store-api)
+- [Explainer: Partitioned Cookies](https://github.com/privacycg/CHIPS)
+
+The code for all interactive demos in this article is available in this repository. Feel free to explore, fork, and build your own cookie-powered experiences!
