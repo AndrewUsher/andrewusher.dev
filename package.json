@@ -29,6 +29,7 @@
     "@types/react": "^19.1.6",
     "@vercel/analytics": "^1.6.1",
     "astro": "^5.16.4",
+    "astro-og-canvas": "^0.10.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^1.2.1",
     "dayjs": "1.11.7",

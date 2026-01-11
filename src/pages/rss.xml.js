@@ -57,6 +57,13 @@ export async function GET(context) {
       link: `/blog/${post.data.slug}/`,
       content: htmlContent,
       categories: post.data.tags || [],
+      customData: `<media:content
+        type="image/png"
+        width="1200"
+        height="630"
+        medium="image"
+        url="${new URL(`/open-graph/${post.data.slug}.png`, context.site).href}"
+      />`,
     }
   })
 

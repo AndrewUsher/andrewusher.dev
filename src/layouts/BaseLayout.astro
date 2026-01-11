@@ -4,6 +4,20 @@ import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
 import ScrollToTop from '../components/ScrollToTop'
 import { ClientRouter } from 'astro:transitions'
+
+interface Props {
+  title?: string
+  description?: string
+  image?: string
+}
+
+const {
+  title = 'Andrew Usher',
+  description = "Andrew Usher's personal website",
+  image = '/open-graph/building-realtime-dashboards-with-durable-objects.png'
+} = Astro.props
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 ---
 
 <html lang="en">
@@ -12,15 +26,22 @@ import { ClientRouter } from 'astro:transitions'
     <meta charset="utf-8" />
     <meta name="robots" content="index,follow" />
     <meta name="googlebot" content="index,follow" />
-    <meta property="og:url" content="https://andrewusher.dev" />
-    <meta property="og:title" content="Andrew Usher" />
-    <meta
-      name="keywords"
-      content="Learn React, NPM Needs, Node.js, Learn TypeScript"
-    />
+    <link rel="canonical" href={canonicalURL} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+
+    {
+      image ? (
+        <>
+          <meta property="og:image" content={new URL(image, Astro.site)} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta property="og:type" content="article" />
+        </>
+      ) : null
+    }
     <meta name="twitter:creator" content="@AndrewUsher17" />
     <meta name="twitter:site" content="@AndrewUsher17" />
-    <meta name="twitter:title" content="Andrew Usher" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta
       name="theme-color"
@@ -43,8 +64,8 @@ import { ClientRouter } from 'astro:transitions'
       href="/rss.xml"
     />
     <meta name="color-scheme" content="dark light" />
-  </head>
-  <body class="font-merriweather-sans dark:bg-neutral-900">
+    <title>{title}</title>
+  </head><body class="font-merriweather-sans dark:bg-neutral-900">
     <Header />
     <slot />
     <Footer />

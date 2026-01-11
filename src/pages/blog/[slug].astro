@@ -36,7 +36,8 @@ const formattedPublishDate = dayjs(post.data.date).format('MMMM DD, YYYY')
 const readingTime = calculateReadingTime(post.body)
 
 ---
-<BaseLayout>
+---
+<BaseLayout title={post.data.title} image={`/open-graph/${slug}.png`}>
   <div class="mx-auto max-w-screen-xl p-8 pt-0">
     <Breadcrumbs
       items={[
