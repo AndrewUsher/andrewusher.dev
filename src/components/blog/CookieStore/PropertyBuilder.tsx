@@ -22,9 +22,7 @@ export default function PropertyBuilder() {
     lines.push(`  name: '${options.name}',`)
     lines.push(`  value: '${options.value}',`)
 
-    if (options.expires && options.expires instanceof Date) {
-      lines.push(`  expires: ${options.expires.getTime()},`)
-    } else if (options.expires && typeof options.expires === 'number') {
+    if (options.expires && typeof options.expires === 'number') {
       lines.push(`  expires: ${options.expires},`)
     }
 
