@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 interface CodePreviewProps {
@@ -13,12 +13,24 @@ export default function CodePreview({
   showCopy = true,
 }: CodePreviewProps) {
   const [copied, setCopied] = useState(false)
+  const copyTimeoutRef = useRef<number | undefined>(undefined)
+
+  useEffect(() => {
+    return () => {
+      if (copyTimeoutRef.current !== undefined) {
+        clearTimeout(copyTimeoutRef.current)
+      }
+    }
+  }, [])
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(code)
       setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      if (copyTimeoutRef.current !== undefined) {
+        clearTimeout(copyTimeoutRef.current)
+      }
+      copyTimeoutRef.current = window.setTimeout(() => setCopied(false), 2000)
     } catch (error) {
       console.error('Failed to copy:', error)
     }
