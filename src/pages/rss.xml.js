@@ -73,6 +73,9 @@ export async function GET(context) {
       'Thoughts on web development, JavaScript, TypeScript, and software engineering',
     site: context.site,
     items,
+    xmlns: {
+      media: 'http://search.yahoo.com/mrss/',
+    },
     customData: '<language>en-us</language>',
   })
 }
