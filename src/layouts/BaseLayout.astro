@@ -34,7 +34,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url.origin)
     {
       image ? (
         <>
-          <meta property="og:image" content={new URL(image, Astro.site)} />
+          <meta property="og:image" content={new URL(image, Astro.site || Astro.url.origin)} />
           <meta name="twitter:card" content="summary_large_image" />
           <meta property="og:type" content="article" />
         </>
