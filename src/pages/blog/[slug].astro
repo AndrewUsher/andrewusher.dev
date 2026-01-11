@@ -38,7 +38,6 @@ const readingTime = calculateReadingTime(post.body)
 ---
 ---
 <BaseLayout title={post.data.title} image={`/open-graph/${slug}.png`}>
-<BaseLayout title={post.data.title} image={`/open-graph/${slug}.png`}>
   <div class="mx-auto max-w-screen-xl p-8 pt-0">
     <Breadcrumbs
       items={[
@@ -77,9 +76,16 @@ const readingTime = calculateReadingTime(post.body)
       {post.data.tags?.map((tag: string) => (
         <span data-pagefind-filter="tags" class="hidden">{tag}</span>
       ))}
-      <BlogPost post={post} pathname={Astro.url.pathname} client:load>
-        <Content />
-      </BlogPost>
+      <div class="blog-layout">
+        <div class="blog-content">
+          <BlogPost post={post} pathname={Astro.url.pathname} client:load>
+            <Content />
+          </BlogPost>
+        </div>
+        <aside class="toc-sidebar hidden lg:block">
+          <nav class="toc-sticky" aria-label="Table of contents"></nav>
+        </aside>
+      </div>
     </div>
     <SimilarPosts currentPost={post} />
     <div class="mt-8 text-center">
@@ -97,5 +103,73 @@ const readingTime = calculateReadingTime(post.body)
     </div>
   </div>
 </BaseLayout>
+
+<script is:inline>
+  function setupTableOfContents() {
+    const toc = document.querySelector('.toc')
+    const tocSticky = document.querySelector('.toc-sticky')
+    if (!toc || !tocSticky) return
+
+    tocSticky.innerHTML = ''
+    tocSticky.appendChild(toc)
+    toc.classList.remove('hidden')
+
+    const headings = document.querySelectorAll('main h2, main h3')
+    const headingIds = new Set()
+
+    headings.forEach((heading) => {
+      if (!heading.id) {
+        let id = heading.textContent?.toLowerCase()
+          .replace(/<[^>]*>/g, '')
+          .replace(/[^\w\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+$/, '')
+          .replace(/^-+/, '')
+        
+        let uniqueId = id
+        let counter = 1
+        while (headingIds.has(uniqueId)) {
+          uniqueId = `${id}-${counter++}`
+        }
+        headingIds.add(uniqueId)
+        heading.id = uniqueId
+      }
+
+      const link = toc.querySelector(`a[href="#${heading.id}"]`)
+      if (link) {
+        link.setAttribute('data-heading-id', heading.id)
+      }
+    })
+
+    setupIntersectionObserver(toc)
+  }
+
+  function setupIntersectionObserver(toc) {
+    const headings = document.querySelectorAll('main h2, main h3')
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id
+          const links = toc.querySelectorAll('.toc-link')
+          links.forEach(link => {
+            link.classList.remove('toc-link-active')
+            if (link.getAttribute('href') === `#${id}`) {
+              link.classList.add('toc-link-active')
+            }
+          })
+        }
+      })
+    }, { rootMargin: '-80px 0px -66% 0px' })
+
+    headings.forEach(heading => observer.observe(heading))
+  }
+
+  function initTOC() {
+    setupTableOfContents()
+  }
+
+  initTOC()
+  document.addEventListener('astro:page-load', initTOC)
+</script>
 
   
