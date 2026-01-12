@@ -1,9 +1,19 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+:root {
+  --scroll-padding-top: 20px;
+}
+
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 20px;
+  scroll-padding-top: var(--scroll-padding-top);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 @font-face {
@@ -276,6 +286,6 @@ html {
   }
 
   /* Hide TOC in content area until moved to sidebar */
-  .blog-content .toc {
+  .toc-enhanced .blog-content .toc {
     display: none !important;
   }

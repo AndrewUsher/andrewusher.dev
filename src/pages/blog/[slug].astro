@@ -83,7 +83,7 @@ const readingTime = calculateReadingTime(post.body)
           </BlogPost>
         </div>
         <aside class="toc-sidebar hidden lg:block">
-          <nav class="toc-sticky" aria-label="Table of contents"></nav>
+          <div class="toc-sticky" role="navigation" aria-label="Table of contents"></div>
         </aside>
       </div>
     </div>
@@ -105,6 +105,8 @@ const readingTime = calculateReadingTime(post.body)
 </BaseLayout>
 
 <script is:inline>
+  let tocObserver = null
+
   function setupTableOfContents() {
     const toc = document.querySelector('.toc')
     const tocSticky = document.querySelector('.toc-sticky')
@@ -113,20 +115,29 @@ const readingTime = calculateReadingTime(post.body)
     tocSticky.innerHTML = ''
     tocSticky.appendChild(toc)
     toc.classList.remove('hidden')
+    document.documentElement.classList.add('toc-enhanced')
 
     const headings = document.querySelectorAll('main h2, main h3')
     const headingIds = new Set()
 
     headings.forEach((heading) => {
+      if (heading.id) {
+        headingIds.add(heading.id)
+      }
+    })
+
+    headings.forEach((heading) => {
       if (!heading.id) {
-        let id = heading.textContent?.toLowerCase()
+        const textContent = heading.textContent ?? ''
+        let id = textContent
+          .toLowerCase()
           .replace(/<[^>]*>/g, '')
           .replace(/[^\w\s-]/g, '')
           .replace(/\s+/g, '-')
           .replace(/-+$/, '')
           .replace(/^-+/, '')
         
-        let uniqueId = id
+        let uniqueId = id || 'section'
         let counter = 1
         while (headingIds.has(uniqueId)) {
           uniqueId = `${id}-${counter++}`
@@ -145,23 +156,30 @@ const readingTime = calculateReadingTime(post.body)
   }
 
   function setupIntersectionObserver(toc) {
+    if (tocObserver) {
+      tocObserver.disconnect()
+      tocObserver = null
+    }
+
     const headings = document.querySelectorAll('main h2, main h3')
-    const observer = new IntersectionObserver((entries) => {
+    tocObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const id = entry.target.id
           const links = toc.querySelectorAll('.toc-link')
           links.forEach(link => {
             link.classList.remove('toc-link-active')
+            link.removeAttribute('aria-current')
             if (link.getAttribute('href') === `#${id}`) {
               link.classList.add('toc-link-active')
+              link.setAttribute('aria-current', 'location')
             }
           })
         }
       })
     }, { rootMargin: '-80px 0px -66% 0px' })
 
-    headings.forEach(heading => observer.observe(heading))
+    headings.forEach(heading => tocObserver.observe(heading))
   }
 
   function initTOC() {
