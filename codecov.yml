@@ -1,0 +1,33 @@
+{
+  "codecov": {
+    "bot": "codecov-commenter",
+    "comment": {
+      "layout": "reach, diff, flags, files"
+    },
+    "coverage": {
+      "precision": 2,
+      "range": [60, 80],
+      "round": "down",
+      "status": {
+        "project": {
+          "default": {
+            "target": 80,
+            "threshold": 5
+          }
+        },
+        "patch": {
+          "default": {
+            "target": 80,
+            "threshold": 5
+          }
+        }
+      }
+    },
+    "ignore": [
+      "src/test/**",
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      "**/*.d.ts"
+    ]
+  }
+}
