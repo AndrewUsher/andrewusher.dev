@@ -70,7 +70,7 @@
     "msw": "^2.12.7",
     "pagefind": "^1.4.0",
     "ts-node": "10.9.1",
-    "typescript": "^5.1.6",
+    "typescript": "^5.9.3",
     "vitest": "^3.2.4"
   },
   "optionalDependencies": {
