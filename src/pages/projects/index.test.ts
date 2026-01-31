@@ -27,6 +27,17 @@ describe('projects/index.astro', () => {
     const h1 = main?.querySelector('h1')
     expect(h1).toBeTruthy()
     expect(h1?.textContent?.trim()).toBe('Projects')
+
+    const allMeta = document.querySelectorAll('meta')
+    expect(allMeta.length).toBeGreaterThan(0)
+
+    const descriptionMeta = document.querySelector(
+      'meta[property="og:description"]'
+    )
+    expect(descriptionMeta).toBeTruthy()
+    expect(descriptionMeta?.getAttribute('content')).toBe(
+      "Projects that I've worked on solely/contributed to."
+    )
   })
 
   test('filters unpublished projects', async () => {
