@@ -66,7 +66,7 @@
     "eslint": "8.32.0",
     "eslint-plugin-jest": "27.9.0",
     "happy-dom": "^20.0.11",
-    "jsdom": "21.1.0",
+    "jsdom": "21.1.2",
     "msw": "^2.12.7",
     "pagefind": "^1.4.0",
     "ts-node": "10.9.1",
