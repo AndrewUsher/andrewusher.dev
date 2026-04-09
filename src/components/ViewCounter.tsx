@@ -22,7 +22,11 @@ export default function ViewCounter({
   const { addPost } = useRecentlyViewed()
 
   useEffect(() => {
+
     async function trackAndFetchViews() {
+      if (import.meta.env.NODE_ENV !== 'production') {
+        return
+      }
       try {
         // Add to recently viewed if we have the required data
         if (title && date && tags && readingTime) {
