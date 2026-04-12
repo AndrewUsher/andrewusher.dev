@@ -67,7 +67,7 @@
     "happy-dom": "^20.8.9",
     "jsdom": "29.0.2",
     "msw": "^2.13.2",
-    "pagefind": "^1.5.0",
+    "pagefind": "^1.5.2",
     "ts-node": "10.9.2",
     "typescript": "^6.0.2",
     "vitest": "^4.1.4"
