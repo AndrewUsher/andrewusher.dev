@@ -7,6 +7,7 @@ import rehypeToc from '@jsdevtools/rehype-toc'
 import vercel from '@astrojs/vercel'
 import pagefind from './integrations/pagefind.mjs'
 import { transformerNotationHighlight } from '@shikijs/transformers'
+import istanbul from 'vite-plugin-istanbul'
 
 import sentry from '@sentry/astro'
 
@@ -22,7 +23,17 @@ export default defineConfig({
     },
   }),
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      ...(process.env.E2E_COVERAGE === 'true'
+        ? [
+            istanbul({
+              include: 'src/**',
+              extension: ['.js', '.ts', '.tsx'],
+            }),
+          ]
+        : []),
+    ],
   },
   integrations: [
     react(),

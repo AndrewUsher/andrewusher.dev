@@ -12,7 +12,10 @@
     "preview": "astro preview",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest --ui"
+    "test:watch": "vitest --ui",
+    "test:e2e": "playwright test",
+    "test:e2e:coverage": "E2E_COVERAGE=true playwright test --project=chromium",
+    "test:e2e:coverage:report": "tsx e2e/process-coverage.ts && c8 report --reporter=text --reporter=lcov --temp-directory=./coverage/e2e"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.8",
@@ -71,6 +74,8 @@
     "pagefind": "^1.5.2",
     "ts-node": "10.9.2",
     "typescript": "^6.0.2",
+    "v8-to-istanbul": "^9.3.0",
+    "vite-plugin-istanbul": "^9.0.0",
     "vitest": "^4.1.4"
   },
   "optionalDependencies": {
