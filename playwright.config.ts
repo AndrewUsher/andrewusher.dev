@@ -53,7 +53,7 @@ const config: PlaywrightTestConfig = {
     },
   ],
   webServer: {
-    command: 'yarn dev',
+    command: 'pnpm dev',
     port: 4321,
     reuseExistingServer: !process.env.CI,
   },
