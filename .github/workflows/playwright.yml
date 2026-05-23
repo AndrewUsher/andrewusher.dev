@@ -22,7 +22,7 @@ jobs:
       run: pnpm i
     - name: Run Playwright tests
       run: npx playwright test
-    - uses: actions/upload-artifact@v5
+    - uses: actions/upload-artifact@v7
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
@@ -47,7 +47,7 @@ jobs:
       run: pnpm test:e2e:coverage
     - name: Process coverage report
       run: pnpm test:e2e:coverage:report
-    - uses: actions/upload-artifact@v5
+    - uses: actions/upload-artifact@v7
       if: ${{ !cancelled() }}
       with:
         name: e2e-coverage
