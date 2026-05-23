@@ -59,8 +59,9 @@ test.describe('Homepage', () => {
         { heading: 'Get In Touch', url: '/contact' },
       ]
 
+      const cardsContainer = page.locator('.my-12.grid')
       for (const card of cards) {
-        const link = page.locator(`a[href="${card.url}"]`).first()
+        const link = cardsContainer.locator(`a[href="${card.url}"]`)
         await expect(link).toBeVisible()
         await expect(link.getByText(card.heading)).toBeVisible()
       }
