@@ -1,0 +1,15 @@
+name: Coverage
+on: push
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v4
+    - uses: actions/setup-node@v6
+      with:
+        cache: 'pnpm'
+        node-version: 22.x
+    - run: pnpm i
+    - run: pnpm test:coverage

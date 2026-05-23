@@ -8,13 +8,14 @@ jobs:
       matrix:
         node-version: [22.x]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v6
       with:
-        cache: 'npm'
+        cache: 'pnpm'
         node-version: ${{ matrix.node-version }}
-    - run: npm i
+    - run: pnpm i
   test:
     name: '🧪 Vitest'
     needs: [install]
@@ -23,14 +24,15 @@ jobs:
       matrix:
         node-version: [22.x]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v6
       with:
-        cache: 'npm'
+        cache: 'pnpm'
         node-version: ${{ matrix.node-version }}
-    - run: npm i
-    - run: npm run test
+    - run: pnpm i
+    - run: pnpm test
   build:
     name: '🧰 Build'
     needs: [install]
@@ -39,14 +41,15 @@ jobs:
       matrix:
         node-version: [22.x]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v6
       with:
-        cache: 'npm'
+        cache: 'pnpm'
         node-version: ${{ matrix.node-version }}
-    - run: npm i
-    - run: npm run build
+    - run: pnpm i
+    - run: pnpm build
   ts:
     name: '🔍 TypeScript'
     needs: [install]
@@ -55,14 +58,15 @@ jobs:
       matrix:
         node-version: [22.x]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v6
       with:
-        cache: 'npm'
+        cache: 'pnpm'
         node-version: ${{ matrix.node-version }}
-    - run: npm i
-    - run: npm run lint
+    - run: pnpm i
+    - run: pnpm lint
   lint:
     name: '🔍 ESLint'
     needs: [install]
@@ -71,13 +75,14 @@ jobs:
       matrix:
         node-version: [22.x]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v6
       with:
-        cache: 'npm'
+        cache: 'pnpm'
         node-version: ${{ matrix.node-version }}
-    - run: npm i
-    - run: npm run lint
+    - run: pnpm i
+    - run: pnpm lint
     
     
