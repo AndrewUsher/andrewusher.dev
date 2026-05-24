@@ -9,6 +9,7 @@ import ReadingTime from "src/components/ReadingTime.astro";
 import TagList from "src/components/TagList.astro";
 import ViewCounter from "src/components/ViewCounter";
 import { RecentlyViewedPosts } from "src/components/RecentlyViewedPosts";
+import GiscusWrapper from "src/components/GiscusWrapper";
 import SimilarPosts from "src/components/SimilarPosts.astro";
 import { calculateReadingTime } from "src/lib/calculateReadingTime";
 import dayjs from "dayjs";
@@ -88,6 +89,7 @@ const readingTime = calculateReadingTime(post.body)
       </div>
     </div>
     <SimilarPosts currentPost={post} />
+    <GiscusWrapper client:visible />
     <div class="mt-8 text-center">
       <ViewCounter
         slug={slug}

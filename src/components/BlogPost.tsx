@@ -1,4 +1,3 @@
-import Giscus from '@giscus/react'
 import type { CollectionEntry } from 'astro:content'
 import { RiTwitterFill } from 'react-icons/ri'
 import { generateTwitterShareURL } from '../lib/generateTwitterShareURL'
@@ -30,19 +29,6 @@ export function BlogPost({ children, pathname, post }: Props) {
             !
           </p>
         </div>
-        <Giscus
-          repo="AndrewUsher/blog-comments"
-          repoId="R_kgDOHS90kA"
-          category="Announcements"
-          categoryId="DIC_kwDOHS90kM4CO-p9"
-          mapping="pathname"
-          reactionsEnabled="1"
-          emitMetadata="0"
-          inputPosition="top"
-          theme="preferred_color_scheme"
-          lang="en"
-          loading="lazy"
-        />
       </main>
       <ReadingProgressBar />
     </>
