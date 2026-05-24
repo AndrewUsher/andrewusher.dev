@@ -6,6 +6,8 @@ export function useAnimationFrame(
 ) {
   const requestRef = useRef<number | undefined>(undefined)
   const previousTimeRef = useRef<number | undefined>(undefined)
+  const callbackRef = useRef(callback)
+  callbackRef.current = callback
 
   useEffect(() => {
     if (!isActive) return
@@ -13,7 +15,7 @@ export function useAnimationFrame(
     const animate = (time: number) => {
       if (previousTimeRef.current !== undefined) {
         const deltaTime = time - previousTimeRef.current
-        callback(deltaTime)
+        callbackRef.current(deltaTime)
       }
       previousTimeRef.current = time
       requestRef.current = requestAnimationFrame(animate)
@@ -26,5 +28,5 @@ export function useAnimationFrame(
         cancelAnimationFrame(requestRef.current)
       }
     }
-  }, [callback, isActive])
+  }, [isActive])
 }
