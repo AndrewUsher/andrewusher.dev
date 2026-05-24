@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { useSimulatedDO } from './hooks/useSimulatedDO'
 import { ConnectionNode } from './shared/ConnectionNode'
@@ -46,6 +46,10 @@ export default function DashboardArchitectureDemo() {
     y: canvasHeight / 2 - 32,
   }
   const clientRadius = 140
+  const clientIndexMap = useMemo(
+    () => new Map(clients.map((c, i) => [c.id, i])),
+    [clients]
+  )
 
   // Auto-send messages
   const clientsRef = useRef(clients)
@@ -136,9 +140,7 @@ export default function DashboardArchitectureDemo() {
                 let toPos: Position
 
                 if (fromIsClient) {
-                  const clientIndex = clients.findIndex(
-                    (c) => c.id === packet.from
-                  )
+                  const clientIndex = clientIndexMap.get(packet.from) ?? -1
                   fromPos =
                     clientIndex >= 0
                       ? getClientPosition(
@@ -148,15 +150,13 @@ export default function DashboardArchitectureDemo() {
                           clientRadius
                         )
                       : doPosition
-                  fromPos = { x: fromPos.x + 32, y: fromPos.y + 32 } // Center of node
+                  fromPos = { x: fromPos.x + 32, y: fromPos.y + 32 }
                 } else {
                   fromPos = { x: doPosition.x + 32, y: doPosition.y + 32 }
                 }
 
                 if (toIsClient) {
-                  const clientIndex = clients.findIndex(
-                    (c) => c.id === packet.to
-                  )
+                  const clientIndex = clientIndexMap.get(packet.to) ?? -1
                   toPos =
                     clientIndex >= 0
                       ? getClientPosition(
@@ -166,7 +166,7 @@ export default function DashboardArchitectureDemo() {
                           clientRadius
                         )
                       : doPosition
-                  toPos = { x: toPos.x + 32, y: toPos.y + 32 } // Center of node
+                  toPos = { x: toPos.x + 32, y: toPos.y + 32 }
                 } else {
                   toPos = { x: doPosition.x + 32, y: doPosition.y + 32 }
                 }
