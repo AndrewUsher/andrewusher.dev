@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, startTransition } from 'react'
 
 /**
  * React Hook to get the scroll percentage from the page, returns value from 0 to 100
@@ -11,10 +11,12 @@ export function useReadingProgress() {
       const totalScrollHeight = document.body.scrollHeight - window.innerHeight
 
       if (totalScrollHeight) {
-        setCompletion(
-          Number((currentScrollingProgress / totalScrollHeight).toFixed(2)) *
-            100
-        )
+        startTransition(() => {
+          setCompletion(
+            Number((currentScrollingProgress / totalScrollHeight).toFixed(2)) *
+              100
+          )
+        })
       }
     }
 
