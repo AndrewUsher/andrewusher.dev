@@ -20,6 +20,7 @@ export default function ViewCounter({
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
   const { addPost } = useRecentlyViewed()
+  const tagsKey = tags?.join(',') ?? ''
 
   useEffect(() => {
 
@@ -57,7 +58,7 @@ export default function ViewCounter({
     }
 
     trackAndFetchViews()
-  }, [slug, title, date, tags, readingTime, addPost])
+  }, [slug, title, date, tagsKey, readingTime, addPost])
 
   if (error) {
     return null
