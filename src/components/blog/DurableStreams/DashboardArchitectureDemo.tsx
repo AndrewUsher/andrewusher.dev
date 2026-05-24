@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { useSimulatedDO } from './hooks/useSimulatedDO'
 import { ConnectionNode } from './shared/ConnectionNode'
@@ -48,11 +48,15 @@ export default function DashboardArchitectureDemo() {
   const clientRadius = 140
 
   // Auto-send messages
+  const clientsRef = useRef(clients)
+  clientsRef.current = clients
+
   useEffect(() => {
     if (!autoSend || clients.length === 0) return
 
     const interval = setInterval(() => {
-      const randomClient = clients[Math.floor(Math.random() * clients.length)]
+      const current = clientsRef.current
+      const randomClient = current[Math.floor(Math.random() * current.length)]
       if (randomClient && randomClient.status === 'connected') {
         sendMessage(randomClient.id, {
           type: 'metric',
@@ -62,7 +66,7 @@ export default function DashboardArchitectureDemo() {
     }, 2000)
 
     return () => clearInterval(interval)
-  }, [autoSend, clients, sendMessage])
+  }, [autoSend, clients.length, sendMessage])
 
   return (
     <div className="dark:bg-neutral-900 dark:border-neutral-700 my-8 rounded-lg border border-slate-200 bg-white p-6 shadow-lg">
