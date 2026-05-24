@@ -23,6 +23,11 @@ export default function VoiceShowcase() {
     return groups;
   }, [voices]);
 
+  const voiceIndexMap = useMemo(
+    () => new Map(voices.map((voice, index) => [voice, index])),
+    [voices]
+  )
+
   const handleSpeak = () => {
     if (text.trim() && selectedVoice) {
       speak(text, { voice: selectedVoice });
@@ -91,7 +96,7 @@ export default function VoiceShowcase() {
               label={`${getLanguageDisplayName(lang)} (${lang})`}
             >
               {langVoices.map((voice) => {
-                const voiceIndex = voices.indexOf(voice);
+                const voiceIndex = voiceIndexMap.get(voice) ?? 0
                 return (
                   <option key={voiceIndex} value={voiceIndex}>
                     {formatVoiceName(voice)}
