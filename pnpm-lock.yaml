@@ -154,7 +154,7 @@ importers:
         specifier: 29.15.2
         version: 29.15.2(eslint@10.2.0(jiti@2.7.0))(typescript@6.0.3)
       happy-dom:
-        specifier: ^20.8.9
+        specifier: ^20.9.0
         version: 20.9.0
       jsdom:
         specifier: 29.0.2
