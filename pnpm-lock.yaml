@@ -33,7 +33,7 @@ importers:
         specifier: 3.0.2
         version: 3.0.2
       '@sentry/astro':
-        specifier: ^10.48.0
+        specifier: ^10.53.1
         version: 10.53.1(astro@6.3.7(@types/node@25.9.1)(@vercel/functions@3.6.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.60.4)(yaml@2.9.0))(rollup@4.60.4)
       '@shikijs/transformers':
         specifier: ^4.0.2
