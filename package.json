@@ -70,7 +70,7 @@
     "eslint-plugin-jest": "29.15.2",
     "happy-dom": "^20.9.0",
     "jsdom": "29.0.2",
-    "msw": "^2.13.2",
+    "msw": "^2.14.6",
     "pagefind": "^1.5.2",
     "ts-node": "10.9.2",
     "typescript": "^6.0.3",
