@@ -1,5 +1,6 @@
 {
-  "corepack": true,
+  "installCommand": "npm install -g pnpm@11 --force && pnpm install",
+  "buildCommand": "pnpm run build",
   "redirects": [
     {
       "source": "/recipes",
