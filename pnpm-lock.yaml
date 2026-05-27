@@ -84,7 +84,7 @@ importers:
         specifier: 5.6.0
         version: 5.6.0(react@19.2.6)
       redis:
-        specifier: ^5.11.0
+        specifier: ^5.12.1
         version: 5.12.1(@opentelemetry/api@1.9.1)
       rehype-slug:
         specifier: 6.0.0
