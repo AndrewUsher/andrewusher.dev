@@ -6,6 +6,7 @@ allowBuilds:
 
 hoistPattern:
   - "*"
+minimumReleaseAge: 0
 publicHoistPattern:
   - "*"
 shamefullyHoist: true
