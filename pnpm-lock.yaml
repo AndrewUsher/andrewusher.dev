@@ -69,7 +69,7 @@ importers:
         specifier: 12.38.0
         version: 12.38.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       lucide-react:
-        specifier: ^1.16.0
+        specifier: ^1.17.0
         version: 1.17.0(react@19.2.7)
       marked:
         specifier: ^18.0.4
