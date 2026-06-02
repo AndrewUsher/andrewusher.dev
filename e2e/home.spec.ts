@@ -26,7 +26,8 @@ test.describe('Homepage', () => {
       await expect(link).toHaveAttribute('href', '/')
     })
 
-    test('contains desktop navigation links', async ({ page }) => {
+    test('contains desktop navigation links', async ({ page }, testInfo) => {
+      test.skip(testInfo.project.name.includes('Mobile'), 'Desktop nav not shown on mobile viewports')
       await page.goto('/')
       const navLinks = page.locator('header nav').first()
       await expect(navLinks.getByRole('link', { name: 'About Me' })).toBeVisible()
@@ -63,7 +64,7 @@ test.describe('Homepage', () => {
       for (const card of cards) {
         const link = cardsContainer.locator(`a[href="${card.url}"]`)
         await expect(link).toBeVisible()
-        await expect(link.getByText(card.heading)).toBeVisible()
+        await expect(link.getByRole('heading', { name: card.heading })).toBeVisible()
       }
     })
 
