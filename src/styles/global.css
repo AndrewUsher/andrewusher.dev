@@ -289,3 +289,26 @@ html {
   .toc-enhanced .blog-content .toc {
     display: none !important;
   }
+
+  /* ::search-text — browser find-in-page highlight */
+  ::search-text {
+    background-color: rgba(96, 165, 250, 0.25);
+    text-decoration: underline;
+    text-decoration-color: rgba(52, 211, 153, 0.5);
+    text-decoration-thickness: 0.15em;
+    text-underline-offset: 0.1em;
+  }
+
+  ::search-text:current {
+    background-color: rgba(96, 165, 250, 0.4);
+    text-decoration-color: rgba(52, 211, 153, 0.8);
+    text-decoration-thickness: 0.2em;
+  }
+
+  .dark ::search-text {
+    background-color: rgba(96, 165, 250, 0.3);
+  }
+
+  .dark ::search-text:current {
+    background-color: rgba(96, 165, 250, 0.5);
+  }
