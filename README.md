@@ -4,7 +4,7 @@ Personal portfolio and blog site built with Astro and React.
 
 ## Tech Stack
 
-- **Framework**: Astro 5.9
+- **Framework**: Astro 6
 - **UI**: React 19 with Astro integration
 - **Styling**: TailwindCSS v4
 - **Content**: Markdown/MDX with content collections
@@ -24,14 +24,14 @@ Start the development server:
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the site.
+Open [http://localhost:4321](http://localhost:4321) to view the site.
 
 ## Available Commands
 
 - `npm run dev` - Start Astro dev server
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint on src/
+- `npm run lint` - Run Astro type checking
 - `npm test` - Run Vitest tests
 - `npm run test:watch` - Run tests in watch mode with UI
 
@@ -65,6 +65,6 @@ Add new content by creating Markdown/MDX files in the appropriate `content/` dir
 
 ## Deployment
 
-The site is configured for automatic deployment to Vercel. Push to the `dev` branch to trigger a deployment.
+The site is configured for automatic deployment to Vercel. Push to the `main` branch to trigger a deployment.
 
 Custom redirects are configured in `vercel.json`.
