@@ -73,6 +73,7 @@
     "msw": "^2.14.6",
     "pagefind": "^1.5.2",
     "ts-node": "10.9.2",
+    "tsx": "^4.22.4",
     "typescript": "^6.0.3",
     "v8-to-istanbul": "^9.3.0",
     "vite-plugin-istanbul": "^9.0.1",
