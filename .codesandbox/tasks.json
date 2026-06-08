@@ -1,0 +1,73 @@
+{
+  // These tasks will run in order when initializing your CodeSandbox project.
+  "setupTasks": [
+    {
+      "command": "pnpm install",
+      "name": "Installing Dependencies"
+    }
+  ],
+
+  // These tasks can be run from CodeSandbox. Running one will open a log in the app.
+  "tasks": {
+    "build": {
+      "name": "build",
+      "command": "pnpm build",
+      "runAtStart": false
+    },
+    "dev": {
+      "name": "dev",
+      "command": "pnpm dev",
+      "runAtStart": true
+    },
+    "dev:search": {
+      "name": "dev:search",
+      "command": "pnpm dev:search",
+      "runAtStart": false
+    },
+    "sync-search": {
+      "name": "sync-search",
+      "command": "pnpm sync-search",
+      "runAtStart": false
+    },
+    "lint": {
+      "name": "lint",
+      "command": "pnpm lint",
+      "runAtStart": false
+    },
+    "preview": {
+      "name": "preview",
+      "command": "pnpm preview",
+      "runAtStart": false
+    },
+    "test": {
+      "name": "test",
+      "command": "pnpm test",
+      "runAtStart": false
+    },
+    "test:coverage": {
+      "name": "test:coverage",
+      "command": "pnpm test:coverage",
+      "runAtStart": false
+    },
+    "test:watch": {
+      "name": "test:watch",
+      "command": "pnpm test:watch",
+      "runAtStart": false
+    },
+    "test:e2e": {
+      "name": "test:e2e",
+      "command": "pnpm test:e2e",
+      "runAtStart": false
+    },
+    "test:e2e:coverage": {
+      "name": "test:e2e:coverage",
+      "command": "pnpm test:e2e:coverage",
+      "runAtStart": false
+    },
+    "test:e2e:coverage:report": {
+      "name": "test:e2e:coverage:report",
+      "command": "pnpm test:e2e:coverage:report",
+      "runAtStart": false
+    }
+  }
+}
