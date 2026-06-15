@@ -82,7 +82,7 @@
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.61.1"
   },
-  "packageManager": "pnpm@11.5.2",
+  "packageManager": "pnpm@11.7.0",
   "engines": {
     "node": ">=24.16.0"
   },
