@@ -12,7 +12,7 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.61.0-noble
       options: --user 1001
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - uses: pnpm/action-setup@v6
     - uses: actions/setup-node@v6
       with:
@@ -35,7 +35,7 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.61.0-noble
       options: --user 1001
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - uses: pnpm/action-setup@v6
     - uses: actions/setup-node@v6
       with:
