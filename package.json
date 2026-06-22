@@ -80,7 +80,7 @@
     "vitest": "^4.1.9"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.62.0"
+    "@rollup/rollup-linux-x64-gnu": "4.62.2"
   },
   "packageManager": "pnpm@11.8.0",
   "engines": {
