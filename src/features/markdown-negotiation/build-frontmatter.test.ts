@@ -24,10 +24,8 @@ describe('buildFrontmatter', () => {
     expect(buildFrontmatter({})).toBe('---\n---')
   })
 
-  test('returns empty frontmatter block when title and description are undefined', () => {
-    expect(buildFrontmatter({ title: undefined, description: undefined })).toBe(
-      '---\n---',
-    )
+  test('returns empty frontmatter block when title and description are absent', () => {
+    expect(buildFrontmatter({})).toBe('---\n---')
   })
 
   test('preserves special characters in title', () => {
