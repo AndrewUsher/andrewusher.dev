@@ -6,6 +6,8 @@ export const GET: APIRoute = () => {
   const robotsTxt = `User-agent: *
 Allow: /
 
+Content-Signal: ai-train=no, search=yes, ai-input=no
+
 Sitemap: ${siteUrl}/sitemap.xml`
 
   return new Response(robotsTxt, {
