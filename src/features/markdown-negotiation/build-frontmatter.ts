@@ -3,8 +3,8 @@ export function buildFrontmatter(meta: {
   description?: string
 }): string {
   const parts: string[] = ['---']
-  if (meta.title) parts.push(`title: ${meta.title}`)
-  if (meta.description) parts.push(`description: ${meta.description}`)
+  if (meta.title) parts.push(`title: ${JSON.stringify(meta.title)}`)
+  if (meta.description) parts.push(`description: ${JSON.stringify(meta.description)}`)
   parts.push('---')
   return parts.join('\n')
 }
