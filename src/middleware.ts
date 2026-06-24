@@ -1,6 +1,10 @@
 import type { APIContext } from 'astro'
+import { handleMarkdownNegotiation } from './features/markdown-negotiation'
 
-export async function onRequest(context: APIContext, next: () => Promise<Response>): Promise<Response> {
+export async function onRequest(
+  context: APIContext,
+  next: () => Promise<Response>,
+): Promise<Response> {
   const response = await next()
 
   if (context.url.pathname === '/') {
@@ -10,5 +14,11 @@ export async function onRequest(context: APIContext, next: () => Promise<Respons
     )
   }
 
-  return response
+  const converted = await handleMarkdownNegotiation({
+    pathname: context.url.pathname,
+    accept: context.request.headers.get('accept') || '',
+    response,
+  })
+
+  return converted ?? response
 }
