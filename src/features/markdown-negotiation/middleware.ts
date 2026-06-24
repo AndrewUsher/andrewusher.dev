@@ -26,7 +26,8 @@ export async function handleMarkdownNegotiation({
   }
 
   try {
-    const html = await original.text()
+    const cloned = original.clone()
+    const html = await cloned.text()
     const meta = extractMeta(html)
     const frontmatter = buildFrontmatter(meta)
     const body = turndownService.turndown(html)
@@ -34,10 +35,14 @@ export async function handleMarkdownNegotiation({
     const tokens = Math.round(markdown.length / 4)
 
     const newHeaders = new Headers(original.headers)
+
+    const existingVary = newHeaders.get('vary')
+    newHeaders.set('vary', existingVary ? `${existingVary}, accept` : 'accept')
+
     newHeaders.set('content-type', 'text/markdown; charset=utf-8')
     newHeaders.set('x-markdown-tokens', String(tokens))
-    newHeaders.set('vary', 'accept')
     newHeaders.delete('content-length')
+    newHeaders.delete('content-encoding')
 
     return new Response(markdown, {
       status: original.status,

@@ -1,5 +1,6 @@
 import { describe, test, expect, vi } from 'vitest'
 import { handleMarkdownNegotiation } from './middleware'
+import { turndownService } from './convert'
 
 function createInput({
   pathname = '/',
@@ -95,8 +96,8 @@ describe('handleMarkdownNegotiation', () => {
       const result = await handleMarkdownNegotiation(input)
       const text = await result!.text()
 
-      expect(text).toContain('title: Page Title')
-      expect(text).toContain('description: Page Description')
+      expect(text).toContain('title: "Page Title"')
+      expect(text).toContain('description: "Page Description"')
       expect(text).toContain('---')
     })
 
@@ -133,15 +134,19 @@ describe('handleMarkdownNegotiation', () => {
   })
 
   describe('error handling', () => {
-    test('returns null when response.text() fails', async () => {
+    test('returns null when clone.text() fails', async () => {
       const input = createInput({
         accept: 'text/markdown',
         body: '<html><body>Valid</body></html>',
       })
 
-      const textSpy = vi
-        .spyOn(input.response, 'text')
-        .mockRejectedValue(new Error('Parse error'))
+      const badClone = new Response('<html><body>Valid</body></html>', {
+        headers: { 'content-type': 'text/html' },
+      })
+      vi.spyOn(badClone, 'text').mockRejectedValue(new Error('Parse error'))
+      const cloneSpy = vi
+        .spyOn(input.response, 'clone')
+        .mockReturnValue(badClone)
       const consoleSpy = vi
         .spyOn(console, 'error')
         .mockImplementation(() => {})
@@ -150,7 +155,33 @@ describe('handleMarkdownNegotiation', () => {
 
       expect(result).toBeNull()
       consoleSpy.mockRestore()
-      textSpy.mockRestore()
+      cloneSpy.mockRestore()
+    })
+
+    test('original response body remains usable after failed conversion', async () => {
+      const input = createInput({
+        accept: 'text/markdown',
+        body: '<html><body>Original content preserved</body></html>',
+      })
+
+      const turndownSpy = vi
+        .spyOn(turndownService, 'turndown')
+        .mockImplementation(() => {
+          throw new Error('Conversion failed')
+        })
+      const consoleSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {})
+
+      const result = await handleMarkdownNegotiation(input)
+
+      expect(result).toBeNull()
+
+      const originalBody = await input.response.text()
+      expect(originalBody).toContain('Original content preserved')
+
+      consoleSpy.mockRestore()
+      turndownSpy.mockRestore()
     })
   })
 })

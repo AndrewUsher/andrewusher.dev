@@ -65,4 +65,49 @@ describe('extractMeta', () => {
     const html = '<html><head><meta name="title" content="Hello &amp; Welcome | My Site"></head><body></body></html>'
     expect(extractMeta(html)).toEqual({ title: 'Hello &amp; Welcome | My Site' })
   })
+
+  test('extracts title from single-quoted meta tags', () => {
+    const html = '<html><head><meta name=\'title\' content=\'My Title\'></head><body></body></html>'
+    expect(extractMeta(html)).toEqual({ title: 'My Title' })
+  })
+
+  test('extracts description from single-quoted meta tags', () => {
+    const html = '<html><head><meta name=\'description\' content=\'My Desc\'></head><body></body></html>'
+    expect(extractMeta(html)).toEqual({ description: 'My Desc' })
+  })
+
+  test('extracts title when content attribute appears before name', () => {
+    const html = '<html><head><meta content="My Title" name="title"></head><body></body></html>'
+    expect(extractMeta(html)).toEqual({ title: 'My Title' })
+  })
+
+  test('extracts description when content appears before name', () => {
+    const html = '<html><head><meta content="My Desc" name="description"></head><body></body></html>'
+    expect(extractMeta(html)).toEqual({ description: 'My Desc' })
+  })
+
+  test('extracts og:title when content appears before property', () => {
+    const html = '<html><head><meta content="OG Title" property="og:title"></head><body></body></html>'
+    expect(extractMeta(html)).toEqual({ title: 'OG Title' })
+  })
+
+  test('extracts og:description when content appears before property', () => {
+    const html = '<html><head><meta content="OG Desc" property="og:description"></head><body></body></html>'
+    expect(extractMeta(html)).toEqual({ description: 'OG Desc' })
+  })
+
+  test('extracts title from single-quoted tags with reordered attributes', () => {
+    const html = '<html><head><meta content=\'Reversed\' name=\'title\'></head><body></body></html>'
+    expect(extractMeta(html)).toEqual({ title: 'Reversed' })
+  })
+
+  test('prefers meta name="title" over og:title with reordered attributes', () => {
+    const html = '<html><head><meta content="OG" property="og:title"><meta content="Standard" name="title"></head><body></body></html>'
+    expect(extractMeta(html)).toEqual({ title: 'Standard' })
+  })
+
+  test('prefers meta name="description" over og:description with mixed quoting', () => {
+    const html = '<html><head><meta content=\'OG Desc\' property=\'og:description\'><meta content="Standard Desc" name="description"></head><body></body></html>'
+    expect(extractMeta(html)).toEqual({ description: 'Standard Desc' })
+  })
 })
