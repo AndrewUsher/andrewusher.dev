@@ -13,12 +13,11 @@ for (const post of blogPosts) {
 export const prerender = true
 
 export const { getStaticPaths, GET } = await OGImageRoute({
-  param: 'route',
   pages,
-  getImageOptions: (path) => {
+  getImageOptions: (_path: string, page: { title: string }) => {
     return {
       description: 'andrewusher.dev',
-      title: pages[path]?.title || 'Blog Post',
+      title: page.title,
       bgGradient: [
         [223, 242, 254],
         [240, 249, 255],
@@ -32,14 +31,14 @@ export const { getStaticPaths, GET } = await OGImageRoute({
           families: ['Merriweather Sans'],
           color: [0, 132, 209],
           size: 32,
-          weight: 400,
+          weight: 'Normal',
           lineHeight: 1.2,
         },
         title: {
           families: ['Merriweather Sans'],
           color: [12, 12, 50],
           size: 44,
-          weight: 700,
+          weight: 'Bold',
           lineHeight: 1.2,
         },
       },

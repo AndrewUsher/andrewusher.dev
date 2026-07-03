@@ -34,7 +34,7 @@ if (!post) {
 
 const {Content} = await render(post)
 const formattedPublishDate = dayjs(post.data.date).format('MMMM DD, YYYY')
-const readingTime = calculateReadingTime(post.body)
+const readingTime = calculateReadingTime(post.body ?? '')
 
 ---
 ---
@@ -95,7 +95,7 @@ const readingTime = calculateReadingTime(post.body)
         slug={slug}
         title={post.data.title}
         date={post.data.date.toISOString()}
-        tags={post.data.tags}
+        {...(post.data.tags ? { tags: post.data.tags } : {})}
         readingTime={readingTime.display}
         client:load
       />

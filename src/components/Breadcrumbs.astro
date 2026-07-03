@@ -14,7 +14,7 @@ const { items } = Astro.props
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
-  itemListElement: items.map((item, index) => ({
+  itemListElement: items.map((item: BreadcrumbItem, index: number) => ({
     '@type': 'ListItem',
     position: index + 1,
     name: item.label,
@@ -26,7 +26,7 @@ const structuredData = {
 <nav aria-label="breadcrumb" class="mb-4 text-sm">
   <ol class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
     {
-      items.map((item, index) => (
+      items.map((item: BreadcrumbItem, index: number) => (
         <>
           <li>
             {item.href ? (
@@ -52,4 +52,4 @@ const structuredData = {
   </ol>
 </nav>
 
-<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} is:inline />

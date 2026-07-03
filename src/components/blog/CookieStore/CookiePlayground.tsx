@@ -48,7 +48,7 @@ export default function CookiePlayground() {
     return cleanup
   }, [])
 
-  const handleSetCookie = async (e: React.FormEvent) => {
+  const handleSetCookie = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     const cookieName = newCookie.name.trim()
 

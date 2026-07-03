@@ -18,14 +18,14 @@ dayjs.extend(customParseFormat)
 
 const { entrySlugStart, posts } = Astro.props
 const sortedPosts = posts.sort(
-  (a, b) =>
+  (a: PostWithReadingTime, b: PostWithReadingTime) =>
     Date.parse(new Date(b.data.date).toString()) -
     Date.parse(new Date(a.data.date).toString())
 )
 ---
 
 {
-  sortedPosts.map((post) => (
+  sortedPosts.map((post: PostWithReadingTime) => (
     <article class="mb-6">
       <h3
         class="mb-1 break-words text-2xl font-semibold tracking-wide dark:text-white"
@@ -49,7 +49,7 @@ const sortedPosts = posts.sort(
           <ReadingTime minutes={post.readingTime.minutes} display={post.readingTime.display} />
         )}
       </div>
-      {post.data.tags && post.data.tags.length > 0 && (
+      {'tags' in post.data && post.data.tags && post.data.tags.length > 0 && (
         <TagList tags={post.data.tags} className="mt-3" />
       )}
     </article>

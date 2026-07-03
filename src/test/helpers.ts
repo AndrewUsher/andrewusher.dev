@@ -82,7 +82,7 @@ export async function renderAstroComponentWithReact<
   T extends AstroComponentFactory
 >(Component: T, options: ComponentContainerRenderOptions<T> = {}) {
   const { loadRenderers } = await import('astro:container')
-  const { getContainerRenderer: reactRenderer } = await import('@astrojs/react')
+  const { getContainerRenderer: reactRenderer } = await import('@astrojs/react/container-renderer')
 
   const renderers = await loadRenderers([reactRenderer()])
   const container = await AstroContainer.create({ renderers })

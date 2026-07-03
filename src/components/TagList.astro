@@ -12,7 +12,7 @@ const { tags, className = '' } = Astro.props
 {
   tags && tags.length > 0 && (
     <div class={`flex flex-wrap gap-2 ${className}`}>
-      {tags.map(tag => (
+      {tags.map((tag: string) => (
         <TagBadge tag={tag} />
       ))}
     </div>
