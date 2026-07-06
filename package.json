@@ -64,8 +64,8 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@types/react-dom": "^19.2.3",
     "@types/turndown": "^5.0.6",
-    "@vitest/coverage-v8": "^4.1.9",
-    "@vitest/ui": "^4.1.9",
+    "@vitest/coverage-v8": "^4.1.10",
+    "@vitest/ui": "^4.1.10",
     "c8": "11.0.0",
     "concurrently": "10.0.3",
     "eslint": "10.6.0",
@@ -79,7 +79,7 @@
     "typescript": "^6.0.3",
     "v8-to-istanbul": "^9.3.0",
     "vite-plugin-istanbul": "^9.0.1",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.10"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.62.2"
