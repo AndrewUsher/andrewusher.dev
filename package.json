@@ -67,7 +67,7 @@
     "@vitest/coverage-v8": "^4.1.10",
     "@vitest/ui": "^4.1.10",
     "c8": "11.0.0",
-    "concurrently": "10.0.3",
+    "concurrently": "10.0.4",
     "eslint": "10.8.0",
     "eslint-plugin-jest": "29.15.4",
     "happy-dom": "^20.10.6",
