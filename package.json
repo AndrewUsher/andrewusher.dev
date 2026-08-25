@@ -36,7 +36,7 @@
     "astro-og-canvas": "^0.13.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "dayjs": "1.11.21",
+    "dayjs": "1.11.23",
     "motion": "12.43.0",
     "lucide-react": "^1.34.0",
     "marked": "^18.0.11",
