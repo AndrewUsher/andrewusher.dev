@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Content from '../content/uses-content.mdx'
+
+export const prerender = true
+
+const title = 'Uses - Andrew Usher'
+const description =
+  'Tools, software, and hardware I use daily — my editor, desk setup, and the stack behind andrewusher.dev.'
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="mx-auto min-h-[80vh] max-w-screen-xl p-8">
+    <div class="prose mb-8 max-w-screen-xl dark:prose-invert lg:prose-xl">
+      <h2>Uses</h2>
+      <Content />
+      <hr />
+      <p class="text-sm italic">
+        Some links on this page are affiliate links, which means I may earn a small
+        commission if you purchase through them — at no extra cost to you.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
