@@ -1,12 +1,37 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
 import Content from '../content/uses-content.mdx'
+import pkg from '../../package.json' with { type: 'json' }
 
 export const prerender = true
 
 const title = 'Uses - Andrew Usher'
 const description =
   'Tools, software, and hardware I use daily — my editor, desk setup, and the stack behind andrewusher.dev.'
+
+function stripVersion(v: string | undefined) {
+  return (v ?? '').replace(/^[\^~>=<\s]+/, '')
+}
+
+const astroVersion = stripVersion(
+  (pkg.dependencies as Record<string, string>)?.astro
+)
+const reactVersion = stripVersion(
+  (pkg.dependencies as Record<string, string>)?.react
+)
+const tailwindVersion = stripVersion(
+  (pkg.dependencies as Record<string, string>)?.tailwindcss
+)
+const vercelVersion = stripVersion(
+  (pkg.dependencies as Record<string, string>)?.['@astrojs/vercel']
+)
+const pagefindVersion = stripVersion(
+  (pkg.devDependencies as Record<string, string>)?.pagefind ??
+    (pkg.dependencies as Record<string, string>)?.pagefind
+)
+const sentryVersion = stripVersion(
+  (pkg.dependencies as Record<string, string>)?.['@sentry/astro']
+)
 ---
 
 <BaseLayout title={title} description={description}>
@@ -14,6 +39,18 @@ const description =
     <div class="prose mb-8 max-w-screen-xl dark:prose-invert lg:prose-xl">
       <h2>Uses</h2>
       <Content />
+
+      <h3>Stack</h3>
+      <p>This site is built with:</p>
+      <ul>
+        <li>Astro {astroVersion}</li>
+        <li>React {reactVersion}</li>
+        <li>Tailwind CSS {tailwindVersion}</li>
+        <li>@astrojs/vercel {vercelVersion} (Vercel hosting)</li>
+        <li>Pagefind {pagefindVersion}</li>
+        <li>Sentry {sentryVersion}</li>
+      </ul>
+
       <hr />
       <p class="text-sm italic">
         Some links on this page are affiliate links, which means I may earn a small
