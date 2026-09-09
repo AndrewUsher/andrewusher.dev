@@ -1,0 +1,189 @@
+---
+title: "The <geolocation> Element: Fixing the Worst Permission UX on the Web"
+slug: "geolocation-element"
+date: 2026-09-08
+isPublished: true
+tags: ["web-api", "html", "geolocation", "interactive", "permissions"]
+---
+
+import GeolocationComparisonDemo from '../../src/components/blog/Geolocation/GeolocationComparisonDemo';
+import GeolocationValidityDemo from '../../src/components/blog/Geolocation/GeolocationValidityDemo';
+
+## Browser Support — Read This First
+
+<div class="not-prose my-6 rounded-lg border-l-4 border-amber-500 bg-amber-50 p-4 dark:border-amber-400/50 dark:bg-amber-950/30">
+  <p class="m-0 text-sm font-semibold text-amber-900 dark:text-amber-200">⚠️ Experimental — Limited Availability, Not Baseline</p>
+  <p class="m-0 mt-1 text-sm text-amber-800 dark:text-amber-300">
+    <code>&lt;geolocation&gt;</code> and <code>HTMLGeolocationElement</code> work in Chrome/Edge 2026+ only. No Firefox or Safari support yet.
+    This is a WICG PEPC proposal (<a href="https://wicg.github.io/PEPC/geolocation-element.html#elementdef-geolocation">spec</a>).
+    That’s why every example in this post ships with a fallback — and why it’s safe to use today.
+    Max 3 <code>&lt;geolocation&gt;</code> elements per page; extra elements are disabled.
+    Tell vendors you want it: <a href="https://github.com/web-platform-dx/developer-signals/issues/515">developer-signals#515</a>.
+  </p>
+</div>
+
+> **Requires Secure Context:** Like `navigator.geolocation`, this only works on HTTPS or `localhost`. The demos below show a mock mode if you’re on `http://`.
+
+## Introduction
+
+You’ve shipped a "Use my location" button. A user clicks **Block** once — maybe by accident, maybe from muscle memory. Every future `navigator.geolocation.getCurrentPosition()` call now instantly throws `PERMISSION_DENIED` with no re-prompt. The only fix is telling the user to dig through `chrome://settings > Privacy > Site Settings > Location`.
+
+The new **`<geolocation>` HTML element** fixes this. It’s a declarative browser-provided control that handles the permission UX correctly — including re-prompting after a prior deny/dismiss with clear copy ("you previously didn’t allow…") — and gives you `position`/`error` props and a `location` event instead of callback hell. The fallback still works everywhere.
+
+In this post you’ll: see the broken permission flow, ship the 30-second fix, prove the difference side-by-side, learn the one debugging API that matters (`isValid`/`invalidReason`), and get a copy-paste production pattern that deletes cleanly when this hits Baseline.
+
+## The Problem: One Deny, Broken Forever
+
+The old API is imperative and unforgiving:
+
+```js
+// Old way — callback-based, permission is one-shot
+navigator.geolocation.getCurrentPosition(
+  (pos) => console.log(pos.coords.latitude, pos.coords.longitude),
+  (err) => console.error(err.message) // PERMISSION_DENIED forever after first Block
+);
+```
+
+If you want to handle permissions gracefully you have to add `navigator.permissions.query({ name: 'geolocation' })`, map three states (`granted`/`prompt`/`denied`), and write custom UI to teach the user how to reset settings. Nobody does this well.
+
+**Try the broken flow now** — the left panel below is the old API. Deny once, then click again and watch it fail instantly with no browser dialog:
+
+*Placeholder for GIF/video fallback for readers who don’t want to deny their real location.*
+
+## The 30-Second Fix
+
+Replace your button with a declarative element. The browser provides the UI (map pin + "Use location", localized via `lang`), the permission dialog, and the location fetch.
+
+```html
+<geolocation>
+  <button id="fallback">Use location</button>
+</geolocation>
+<p id="output"></p>
+```
+
+```js
+const output = document.querySelector("#output");
+
+if (typeof HTMLGeolocationElement === "function") {
+  const geo = document.querySelector("geolocation");
+  geo.addEventListener("location", () => {
+    if (geo.position) {
+      output.textContent = `${geo.position.coords.latitude}, ${geo.position.coords.longitude}`;
+    } else if (geo.error) {
+      output.textContent = geo.error.message;
+    }
+  });
+} else {
+  // Unsupported browsers render the fallback <button> above.
+  const fallback = document.querySelector("#fallback");
+  fallback.addEventListener("click", () => {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => { output.textContent = `${pos.coords.latitude}, ${pos.coords.longitude}`; },
+      (err) => { output.textContent = err.message; }
+    );
+  });
+}
+```
+
+That’s the whole happy path. No `Permissions API` wiring, no dialog management. You listen for `location`, then read `geo.position` (a `GeolocationPosition`) or `geo.error` (a `GeolocationPositionError`).
+
+> **Scope cut:** We intentionally skip `autolocate` (auto-fetch if already granted) and `watch` (maps to `watchPosition` — battery cost) to keep the production pattern lean. See the spec if you need them.
+
+## Demo 1: Side-by-Side — Where the Re-Prompt Matters
+
+Left: `navigator.geolocation`. Right: `<geolocation>`. Same permission states, different UX on the second click after Deny/Dismiss.
+
+<GeolocationComparisonDemo client:only />
+
+**What to try:**
+1. Click **Allow** in either panel → both show `lat, lng ± accuracy`.
+2. Revoke permission (browser site settings → reset), refresh, click **Block** → then click the same button again. Old API: instant `PERMISSION_DENIED` with no dialog. `<geolocation>`: browser re-shows the dialog with "you previously didn’t allow…" copy and can recover.
+3. Check the `permission: prompt | granted | denied` pill (powered by `Permissions API`) — it updates live.
+
+If you’re on Firefox/Safari, both panels run the fallback path — labeled `Fallback mode (would be <geolocation> in Chrome)` — so the page never breaks. That’s progressive enhancement.
+
+## The API You Actually Need
+
+Beyond `location`, the element gives you:
+
+- `geo.position` — `GeolocationPosition | null`
+- `geo.error` — `GeolocationPositionError | null`
+- `geo.permissionStatus` / `geo.initialPermissionStatus` — `prompt | granted | denied`
+- `geo.isValid` / `geo.invalidReason` — the anti-clickjacking debugger (see next section)
+- Events: `location` (data or error returned), `promptaction` (user chose Allow/Block), `promptdismiss` (Esc/close), `validationstatuschange` (isValid flipped)
+
+```js
+geo.addEventListener("promptdismiss", () => {
+  output.textContent = 'Please press "Use location" again and allow access.';
+});
+geo.addEventListener("promptaction", () => {
+  if (geo.permissionStatus === "denied") {
+    output.textContent = 'You blocked access — press again to change your choice.';
+  }
+});
+```
+
+Don’t style the browser’s button by reaching into shadow DOM — there is none. Style the container instead.
+
+## Demo 2: Gotchas Playground — Why Your Button Stopped Working
+
+This is the part MDN buries in a wall: if you violate styling or visibility constraints, the button **silently deactivates** — no console error. The only way to diagnose it is `isValid`/`invalidReason`.
+
+<GeolocationValidityDemo client:only />
+
+**Try to break it:**
+- Set `color: #eee` on `background: #fff` → contrast `1.8:1` → `isValid: false, invalidReason: contrast` (requires ≥ 3:1).
+- Set `font-size: 11px` (or keyword smaller than `small`) → deactivated.
+- Set `opacity: 0.5` → clamped to `1.0`; `font-weight: 100` → clamped to `200`; `letter-spacing: 0.4em` → clamped to `0.2em`.
+- Toggle **Hidden** (`display:none`/hidden) or **Covered** (div overlay) → `invalidReason: hidden | covered`.
+
+Live chips show `isValid`, `invalidReason`, and `validationstatuschange` logs in real time. Use this in devtools: `document.querySelector('geolocation').isValid`.
+
+**Rule of thumb:** Don’t match your design system on this element. Leave the browser’s `color`, `background-color`, `font-size`, `opacity`, `padding` alone; style the card around it. The restrictions are intentional — they prevent clickjacking via invisible/covered/transparent buttons.
+
+## Production Pattern: Ship Today, Delete Later
+
+```js
+// One feature detect, two isolated branches.
+if (typeof HTMLGeolocationElement === "function") {
+  const geo = document.querySelector("geolocation");
+  geo.addEventListener("location", () => {
+    if (geo.position) renderMap(geo.position);
+    else if (geo.error) showError(geo.error);
+  });
+  geo.addEventListener("validationstatuschange", () => {
+    if (!geo.isValid) console.warn("geolocation invalid:", geo.invalidReason);
+  });
+} else {
+  document.querySelector("#fallback").addEventListener("click", () => {
+    navigator.geolocation.getCurrentPosition(renderMap, showError);
+  });
+}
+```
+
+- Fallback `<button>` lives *inside* `<geolocation>` → supporting browsers hide it, unsupporting browsers render it. No double buttons.
+- Track `isValid` in dev/QA — add the `validationstatuschange` warning above.
+- When Baseline lands, delete the `else` branch. That’s the payoff for "less JS on the happy path."
+
+## When to Use It
+
+**Use now:** Any "Find near me" / store locator / delivery address / share location flow where you already have a button fallback. Progressive enhancement makes it zero-risk.
+
+**Wait on:** `autolocate`/`watch` loops, replacing every geolocation call, or hiding the element visually (you’ll hit blockers).
+
+## Wrapping Up
+
+- **Before:** One Block → forever `PERMISSION_DENIED` + hand-rolled `Permissions API` UI.
+- **After:** Declarative `<geolocation>` re-prompts correctly, exposes `position`/`error` as props, fires `location` — fallback deletes later.
+- **Debugging:** `isValid`/`invalidReason` + `validationstatuschange` is the only signal when styling/visibility silently disables the control.
+
+### Resources
+
+- [MDN: &lt;geolocation&gt; element](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/geolocation)
+- [MDN: HTMLGeolocationElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLGeolocationElement)
+- [Introducing the &lt;geolocation&gt; HTML element (Chrome Developers, 2026)](https://developer.chrome.com/blog/geolocation-html-element)
+- [Can I Use: &lt;geolocation&gt; (track Baseline)](https://caniuse.com/?search=geolocation)
+- [MDN dom-examples: geolocation-element](https://github.com/mdn/dom-examples/tree/main/geolocation-element) — basic, watch, and Leaflet map demos
+
+*Code for both demos in this post will be at `src/components/blog/Geolocation/` in this repo. Copy the fallback pattern and try the side-by-side in Chrome — then reset the permission and feel the difference.*
+
