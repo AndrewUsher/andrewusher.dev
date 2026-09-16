@@ -34,7 +34,7 @@
     "astro": "^7.3.2",
     "astro-og-canvas": "^0.13.1",
     "dayjs": "1.11.23",
-    "motion": "13.2.0",
+    "motion": "13.4.0",
     "marked": "^18.0.13",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
