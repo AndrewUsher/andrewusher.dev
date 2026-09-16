@@ -32,7 +32,7 @@
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.3.0",
     "astro": "^7.3.2",
-    "astro-og-canvas": "^0.13.1",
+    "astro-og-canvas": "^0.13.2",
     "dayjs": "1.11.23",
     "motion": "13.4.1",
     "marked": "^18.0.13",
