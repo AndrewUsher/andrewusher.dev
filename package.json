@@ -62,7 +62,7 @@
     "jsdom": "30.1.1",
     "msw": "^2.15.0",
     "pagefind": "^1.5.2",
-    "tsx": "^4.23.13",
+    "tsx": "^4.23.15",
     "typescript": "^6.0.3",
     "v8-to-istanbul": "^9.3.0",
     "vite-plugin-istanbul": "^9.0.1",
