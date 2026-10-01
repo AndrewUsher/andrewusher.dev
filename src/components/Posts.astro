@@ -3,6 +3,7 @@ import { type CollectionEntry } from 'astro:content'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import ReadingTime from './ReadingTime.astro'
+import SeriesBadge from './SeriesBadge.astro'
 import TagList from './TagList.astro'
 
 type PostWithReadingTime = (CollectionEntry<'blogPosts'> | CollectionEntry<'journal'>) & {
@@ -49,6 +50,11 @@ const sortedPosts = posts.sort(
           <ReadingTime minutes={post.readingTime.minutes} display={post.readingTime.display} />
         )}
       </div>
+      {post.collection === 'blogPosts' && post.data.series && (
+        <div class="mt-2">
+          <SeriesBadge series={post.data.series} />
+        </div>
+      )}
       {'tags' in post.data && post.data.tags && post.data.tags.length > 0 && (
         <TagList tags={post.data.tags} className="mt-3" />
       )}

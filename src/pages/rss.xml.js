@@ -56,7 +56,10 @@ export async function GET(context) {
       description: truncateDescription(cleanedContent),
       link: `/blog/${post.data.slug}/`,
       content: htmlContent,
-      categories: post.data.tags || [],
+      categories: [
+        ...(post.data.tags || []),
+        ...(post.data.series ? [`Series: ${post.data.series}`] : []),
+      ],
       customData: `<media:content
         type="image/png"
         width="1200"
