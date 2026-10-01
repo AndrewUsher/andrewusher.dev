@@ -1,0 +1,71 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import { getSeriesPosts } from '../lib/series'
+import SeriesBadge from './SeriesBadge.astro'
+
+interface Props {
+  currentPost: CollectionEntry<'blogPosts'>
+  posts: CollectionEntry<'blogPosts'>[]
+}
+
+const { currentPost, posts } = Astro.props
+const series = currentPost.data.series
+const seriesPosts = series ? getSeriesPosts(series, posts) : []
+const currentIndex = seriesPosts.findIndex(
+  (post) => post.data.slug === currentPost.data.slug
+)
+const position = currentIndex + 1
+const previousPost = seriesPosts[currentIndex - 1]
+const nextPost = seriesPosts[currentIndex + 1]
+---
+
+{series && currentIndex >= 0 && (
+  <nav
+    aria-labelledby="series-navigation-title"
+    class="dark:border-sky-400/30 dark:bg-slate-800/40 mx-auto mt-8 max-w-4xl rounded-xl border border-sky-200 bg-sky-50/70 p-5"
+  >
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <p class="dark:text-sky-200 mb-1 text-xs font-semibold uppercase tracking-wider text-sky-800">
+          Part {position} of {seriesPosts.length}
+        </p>
+        <h2 id="series-navigation-title" class="dark:text-white text-lg font-semibold text-slate-900">
+          Continue this series
+        </h2>
+      </div>
+      <SeriesBadge series={series} />
+    </div>
+
+    <progress
+      class="mb-4 h-2 w-full accent-sky-600 dark:accent-sky-400"
+      max={seriesPosts.length}
+      value={position}
+      aria-label={`Series progress: part ${position} of ${seriesPosts.length}`}
+    />
+
+    <div class="flex flex-wrap items-center justify-between gap-3 text-sm">
+      {previousPost ? (
+        <a
+          href={`/blog/${previousPost.data.slug}`}
+          rel="prev"
+          class="dark:text-sky-300 rounded text-sky-800 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+        >
+          <span aria-hidden="true">← </span>Previous: {previousPost.data.title}
+        </a>
+      ) : (
+        <span class="dark:text-slate-400 text-slate-600">You’re at the beginning</span>
+      )}
+      {nextPost ? (
+        <a
+          href={`/blog/${nextPost.data.slug}`}
+          rel="next"
+          class="dark:text-sky-300 rounded text-sky-800 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+        >
+          Next: {nextPost.data.title}<span aria-hidden="true"> →</span>
+        </a>
+      ) : (
+        <span class="dark:text-slate-400 text-slate-600">You’ve reached the end</span>
+      )}
+    </div>
+  </nav>
+)}

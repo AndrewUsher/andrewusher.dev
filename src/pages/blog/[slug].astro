@@ -11,6 +11,7 @@ import ViewCounter from "src/components/ViewCounter";
 import { RecentlyViewedPosts } from "src/components/RecentlyViewedPosts";
 import GiscusWrapper from "src/components/GiscusWrapper";
 import SimilarPosts from "src/components/SimilarPosts.astro";
+import SeriesNavigation from "src/components/SeriesNavigation.astro";
 import { calculateReadingTime } from "src/lib/calculateReadingTime";
 import dayjs from "dayjs";
 import Breadcrumbs from "src/components/Breadcrumbs.astro";
@@ -53,6 +54,10 @@ const articleSchema = {
   ).toString(),
 }
 const isDraft = !post.data.isPublished
+const allBlogPosts = await getCollection('blogPosts')
+const seriesPosts = allBlogPosts.filter(
+  (candidate) => import.meta.env.DEV || candidate.data.isPublished
+)
 
 ---
 ---
@@ -96,6 +101,7 @@ const isDraft = !post.data.isPublished
         )}
       </div>
     </div>
+    <SeriesNavigation currentPost={post} posts={seriesPosts} />
     <div data-pagefind-body>
       {post.data.tags?.map((tag: string) => (
         <span data-pagefind-filter="tags" class="hidden">{tag}</span>

@@ -11,7 +11,9 @@ function createMockPost(
   slug: string,
   tags: string[] = [],
   date: Date = new Date('2024-01-01'),
-  isPublished = true
+  isPublished = true,
+  series?: string,
+  seriesOrder?: number
 ): BlogPost {
   return {
     id: slug,
@@ -21,6 +23,8 @@ function createMockPost(
       date,
       isPublished,
       title: `Post ${slug}`,
+      ...(series ? { series } : {}),
+      ...(seriesOrder === undefined ? {} : { seriesOrder }),
     },
     collection: 'blogPosts',
   } as BlogPost
@@ -300,6 +304,47 @@ describe('getSimilarPosts', () => {
 
     const similar = getSimilarPosts(currentPost, allPosts)
     expect(similar.length).toBe(0)
+  })
+
+  it('prioritizes same-series posts in series order before tag matches', () => {
+    const currentPost = createMockPost(
+      'current',
+      ['unrelated'],
+      new Date('2024-01-01'),
+      true,
+      'Modern Web APIs',
+      2
+    )
+    const laterInSeries = createMockPost(
+      'series-later',
+      [],
+      new Date('2024-01-03'),
+      true,
+      'Modern Web APIs',
+      3
+    )
+    const earlierInSeries = createMockPost(
+      'series-earlier',
+      [],
+      new Date('2024-01-01'),
+      true,
+      'Modern Web APIs',
+      1
+    )
+    const tagMatch = createMockPost('tag-match', ['unrelated'])
+
+    const similar = getSimilarPosts(currentPost, [
+      currentPost,
+      tagMatch,
+      laterInSeries,
+      earlierInSeries,
+    ])
+
+    expect(similar.map(({ post }) => post.data.slug)).toEqual([
+      'series-earlier',
+      'series-later',
+      'tag-match',
+    ])
   })
 
   it('includes score in results', () => {
