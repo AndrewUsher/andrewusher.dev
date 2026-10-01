@@ -1,39 +1,39 @@
 ---
-import type { GetStaticPaths } from "astro";
-import { render } from "astro:content";
-import { getEntry } from "astro:content";
-import { getCollection } from "astro:content";
-import { BlogPost } from "src/components/BlogPost";
-import BaseLayout from "src/layouts/BaseLayout.astro";
-import ReadingTime from "src/components/ReadingTime.astro";
-import TagList from "src/components/TagList.astro";
-import ViewCounter from "src/components/ViewCounter";
-import { RecentlyViewedPosts } from "src/components/RecentlyViewedPosts";
-import GiscusWrapper from "src/components/GiscusWrapper";
-import SimilarPosts from "src/components/SimilarPosts.astro";
-import SeriesNavigation from "src/components/SeriesNavigation.astro";
-import { calculateReadingTime } from "src/lib/calculateReadingTime";
-import dayjs from "dayjs";
-import Breadcrumbs from "src/components/Breadcrumbs.astro";
+import type { GetStaticPaths } from 'astro'
+import { render } from 'astro:content'
+import { getEntry } from 'astro:content'
+import { getCollection } from 'astro:content'
+import { BlogPost } from 'src/components/BlogPost'
+import BaseLayout from 'src/layouts/BaseLayout.astro'
+import ReadingTime from 'src/components/ReadingTime.astro'
+import TagList from 'src/components/TagList.astro'
+import ViewCounter from 'src/components/ViewCounter'
+import { RecentlyViewedPosts } from 'src/components/RecentlyViewedPosts'
+import GiscusWrapper from 'src/components/GiscusWrapper'
+import SimilarPosts from 'src/components/SimilarPosts.astro'
+import SeriesNavigation from 'src/components/SeriesNavigation.astro'
+import { calculateReadingTime } from 'src/lib/calculateReadingTime'
+import dayjs from 'dayjs'
+import Breadcrumbs from 'src/components/Breadcrumbs.astro'
 
-export const prerender = true;
+export const prerender = true
 
-export const getStaticPaths =  (async () => {
+export const getStaticPaths = (async () => {
   const blogPosts = await getCollection('blogPosts')
   return blogPosts
-    .filter(post => import.meta.env.DEV || post.data.isPublished)
-    .map(post => ({
-      params: { slug: post.data.slug },
-    }));
-}) satisfies GetStaticPaths;
+    .filter((post) => import.meta.env.DEV || post.data.isPublished)
+    .map((post) => ({
+      params: { slug: post.data.slug }
+    }))
+}) satisfies GetStaticPaths
 
 const { slug } = Astro.params
 const post = await getEntry('blogPosts', slug)
 if (!post) {
-  throw new Error(`Blog post not found with slug: ${slug}`);
+  throw new Error(`Blog post not found with slug: ${slug}`)
 }
 
-const {Content} = await render(post)
+const { Content } = await render(post)
 const formattedPublishDate = dayjs(post.data.date).format('MMMM DD, YYYY')
 const readingTime = calculateReadingTime(post.body ?? '')
 const siteOrigin = Astro.site || Astro.url.origin
@@ -45,21 +45,21 @@ const articleSchema = {
   author: {
     '@type': 'Person',
     name: 'Andrew Usher',
-    url: new URL('/', siteOrigin).toString(),
+    url: new URL('/', siteOrigin).toString()
   },
   image: new URL(`/open-graph/${slug}.png`, siteOrigin).toString(),
   mainEntityOfPage: new URL(
     Astro.url.pathname.replace(/\/+$/, '') || '/',
-    siteOrigin,
-  ).toString(),
+    siteOrigin
+  ).toString()
 }
 const isDraft = !post.data.isPublished
 const allBlogPosts = await getCollection('blogPosts')
 const seriesPosts = allBlogPosts.filter(
   (candidate) => import.meta.env.DEV || candidate.data.isPublished
 )
-
 ---
+
 ---
 <BaseLayout
   title={post.data.title}
@@ -72,10 +72,12 @@ const seriesPosts = allBlogPosts.filter(
       items={[
         { label: 'Home', href: '/' },
         { label: 'Blog', href: '/blog' },
-        { label: post.data.title },
+        { label: post.data.title }
       ]}
     />
-    <div class="relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] w-screen bg-gradient-to-tl from-blue-400 to-emerald-400 py-20 px-4 text-center shadow-lg">
+    <div
+      class="relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] w-screen bg-gradient-to-tl from-blue-400 to-emerald-400 py-20 px-4 text-center shadow-lg"
+    >
       <h1
         class="mb-1 break-words text-4xl font-bold text-black md:text-5xl"
         transition:name={`post-title-${slug}`}
@@ -96,16 +98,22 @@ const seriesPosts = allBlogPosts.filter(
           display={readingTime.display}
           className="text-base text-black md:text-lg"
         />
-        {post.data.tags && post.data.tags.length > 0 && (
-          <TagList tags={post.data.tags} className="mt-2" />
-        )}
+        {
+          post.data.tags && post.data.tags.length > 0 && (
+            <TagList tags={post.data.tags} className="mt-2" />
+          )
+        }
       </div>
     </div>
     <SeriesNavigation currentPost={post} posts={seriesPosts} />
     <div data-pagefind-body>
-      {post.data.tags?.map((tag: string) => (
-        <span data-pagefind-filter="tags" class="hidden">{tag}</span>
-      ))}
+      {
+        post.data.tags?.map((tag: string) => (
+          <span data-pagefind-filter="tags" class="hidden">
+            {tag}
+          </span>
+        ))
+      }
       <div class="blog-layout">
         <div class="blog-content">
           <BlogPost post={post} pathname={Astro.url.pathname} client:load>
@@ -113,7 +121,12 @@ const seriesPosts = allBlogPosts.filter(
           </BlogPost>
         </div>
         <aside class="toc-sidebar hidden lg:block">
-          <div class="toc-sticky" role="navigation" aria-label="Table of contents"></div>
+          <div
+            class="toc-sticky"
+            role="navigation"
+            aria-label="Table of contents"
+          >
+          </div>
         </aside>
       </div>
     </div>
@@ -124,7 +137,7 @@ const seriesPosts = allBlogPosts.filter(
         slug={slug}
         title={post.data.title}
         date={post.data.date.toISOString()}
-        {...(post.data.tags ? { tags: post.data.tags } : {})}
+        {...post.data.tags ? { tags: post.data.tags } : {}}
         readingTime={readingTime.display}
         client:load
       />
@@ -167,7 +180,7 @@ const seriesPosts = allBlogPosts.filter(
           .replace(/\s+/g, '-')
           .replace(/-+$/, '')
           .replace(/^-+/, '')
-        
+
         let uniqueId = id || 'section'
         let counter = 1
         while (headingIds.has(uniqueId)) {
@@ -193,24 +206,27 @@ const seriesPosts = allBlogPosts.filter(
     }
 
     const headings = document.querySelectorAll('main h2, main h3')
-    tocObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id
-          const links = toc.querySelectorAll('.toc-link')
-          links.forEach(link => {
-            link.classList.remove('toc-link-active')
-            link.removeAttribute('aria-current')
-            if (link.getAttribute('href') === `#${id}`) {
-              link.classList.add('toc-link-active')
-              link.setAttribute('aria-current', 'location')
-            }
-          })
-        }
-      })
-    }, { rootMargin: '-80px 0px -66% 0px' })
+    tocObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id
+            const links = toc.querySelectorAll('.toc-link')
+            links.forEach((link) => {
+              link.classList.remove('toc-link-active')
+              link.removeAttribute('aria-current')
+              if (link.getAttribute('href') === `#${id}`) {
+                link.classList.add('toc-link-active')
+                link.setAttribute('aria-current', 'location')
+              }
+            })
+          }
+        })
+      },
+      { rootMargin: '-80px 0px -66% 0px' }
+    )
 
-    headings.forEach(heading => tocObserver.observe(heading))
+    headings.forEach((heading) => tocObserver.observe(heading))
   }
 
   function initTOC() {
@@ -220,5 +236,3 @@ const seriesPosts = allBlogPosts.filter(
   initTOC()
   document.addEventListener('astro:page-load', initTOC)
 </script>
-
-  
