@@ -9,24 +9,40 @@ interface Props {
   title?: string
   description?: string
   image?: string
+  noindex?: boolean
+  structuredData?: Record<string, unknown>
 }
 
 const {
   title = 'Andrew Usher',
   description = "Andrew Usher's personal website",
-  image
+  image,
+  noindex = false,
+  structuredData,
 } = Astro.props
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url.origin)
+const siteOrigin = Astro.site || Astro.url.origin
+const canonicalPathname = Astro.url.pathname.replace(/\/+$/, '') || '/'
+const canonicalURL = new URL(canonicalPathname, siteOrigin)
+const isPreviewBuild = import.meta.env.PROD && process.env.VERCEL_ENV === 'preview'
+const robotsContent =
+  noindex || isPreviewBuild ? 'noindex,nofollow' : 'index,follow'
 ---
 
 <html lang="en">
   <head>
     <ClientRouter fallback="animate" />
     <meta charset="utf-8" />
-    <meta name="robots" content="index,follow" />
-    <meta name="googlebot" content="index,follow" />
+    <meta name="robots" content={robotsContent} />
+    <meta name="googlebot" content={robotsContent} />
     <link rel="canonical" href={canonicalURL} />
+    {structuredData && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(structuredData).replace(/</g, '\\u003c')}
+        is:inline
+      />
+    )}
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

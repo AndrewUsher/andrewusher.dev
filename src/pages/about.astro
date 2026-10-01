@@ -6,9 +6,18 @@ export const prerender = true;
 
 const title = 'About - Andrew Usher'
 const description = 'Learn more about Andrew Usher, a dedicated front-end web developer and designer.'
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': new URL('/#person', Astro.site || Astro.url.origin).toString(),
+  name: 'Andrew Usher',
+  url: new URL('/', Astro.site || Astro.url.origin).toString(),
+  image: new URL('/android-chrome-512x512.png', Astro.site || Astro.url.origin).toString(),
+  sameAs: ['https://twitter.com/AndrewUsher17'],
+}
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} structuredData={personSchema}>
   <div class="mx-auto min-h-[80vh] max-w-screen-xl p-8">
     <div class="prose mb-8 max-w-screen-xl dark:prose-invert lg:prose-xl">
       <h2>About Me</h2>
