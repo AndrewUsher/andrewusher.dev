@@ -10,6 +10,25 @@ export function slugifySeries(series: string): string {
     .replace(/^-|-$/g, '')
 }
 
+export function getUniqueSeriesSlugs(seriesNames: string[]): string[] {
+  const seriesBySlug = new Map<string, string>()
+
+  for (const series of seriesNames) {
+    const slug = slugifySeries(series)
+    const existingSeries = seriesBySlug.get(slug)
+
+    if (existingSeries !== undefined && existingSeries !== series) {
+      throw new Error(
+        `Blog series route slug collision: "${existingSeries}" and "${series}" both resolve to "${slug}".`
+      )
+    }
+
+    seriesBySlug.set(slug, series)
+  }
+
+  return [...seriesBySlug.keys()]
+}
+
 export function getSeriesPosts(
   series: string,
   posts: BlogPost[]

@@ -2,7 +2,11 @@
 import type { GetStaticPaths } from 'astro'
 import { getCollection } from 'astro:content'
 import BaseLayout from '../../../layouts/BaseLayout.astro'
-import { getSeriesPosts, slugifySeries } from '../../../lib/series'
+import {
+  getSeriesPosts,
+  getUniqueSeriesSlugs,
+  slugifySeries,
+} from '../../../lib/series'
 
 export const prerender = true
 
@@ -15,8 +19,8 @@ export const getStaticPaths = (async () => {
       .filter((series): series is string => Boolean(series))
   )
 
-  return [...seriesNames].map((series) => ({
-    params: { series: slugifySeries(series) },
+  return getUniqueSeriesSlugs([...seriesNames]).map((series) => ({
+    params: { series },
   }))
 }) satisfies GetStaticPaths
 

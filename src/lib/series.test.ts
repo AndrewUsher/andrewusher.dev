@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import type { CollectionEntry } from 'astro:content'
-import { getSeriesPosts, slugifySeries } from './series'
+import {
+  getSeriesPosts,
+  getUniqueSeriesSlugs,
+  slugifySeries,
+} from './series'
 
 function createPost(
   slug: string,
@@ -26,6 +30,14 @@ function createPost(
 describe('blog series helpers', () => {
   it('creates URL-friendly series slugs', () => {
     expect(slugifySeries('  Modern Web APIs!  ')).toBe('modern-web-apis')
+  })
+
+  it('rejects different series names that resolve to the same route slug', () => {
+    expect(() =>
+      getUniqueSeriesSlugs(['Modern Web APIs', 'Modern Web APIs!'])
+    ).toThrow(
+      'Blog series route slug collision: "Modern Web APIs" and "Modern Web APIs!" both resolve to "modern-web-apis".'
+    )
   })
 
   it('filters posts to a series and sorts them by series order', () => {
