@@ -35,10 +35,33 @@ if (!post) {
 const {Content} = await render(post)
 const formattedPublishDate = dayjs(post.data.date).format('MMMM DD, YYYY')
 const readingTime = calculateReadingTime(post.body ?? '')
+const siteOrigin = Astro.site || Astro.url.origin
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.data.title,
+  datePublished: post.data.date.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: 'Andrew Usher',
+    url: new URL('/', siteOrigin).toString(),
+  },
+  image: new URL(`/open-graph/${slug}.png`, siteOrigin).toString(),
+  mainEntityOfPage: new URL(
+    Astro.url.pathname.replace(/\/+$/, '') || '/',
+    siteOrigin,
+  ).toString(),
+}
+const isDraft = !post.data.isPublished
 
 ---
 ---
-<BaseLayout title={post.data.title} image={`/open-graph/${slug}.png`}>
+<BaseLayout
+  title={post.data.title}
+  image={`/open-graph/${slug}.png`}
+  noindex={isDraft}
+  structuredData={articleSchema}
+>
   <div class="mx-auto max-w-screen-xl p-8 pt-0">
     <Breadcrumbs
       items={[
@@ -57,7 +80,7 @@ const readingTime = calculateReadingTime(post.body ?? '')
       </h1>
       <div class="flex flex-col gap-2 items-center text-black md:text-lg">
         <time
-          datetime={formattedPublishDate}
+          datetime={post.data.date.toISOString()}
           class="text-base text-black md:text-lg"
           transition:name={`post-date-${slug}`}
         >

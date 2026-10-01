@@ -18,9 +18,10 @@ const structuredData = {
     '@type': 'ListItem',
     position: index + 1,
     name: item.label,
-    ...(item.href && { item: new URL(item.href, Astro.site).toString() }),
+    item: new URL(item.href || Astro.url.pathname, Astro.site || Astro.url.origin).toString(),
   })),
 }
+const structuredDataJson = JSON.stringify(structuredData).replace(/</g, '\\u003c')
 ---
 
 <nav aria-label="breadcrumb" class="mb-4 text-sm">
@@ -52,4 +53,4 @@ const structuredData = {
   </ol>
 </nav>
 
-<script type="application/ld+json" set:html={JSON.stringify(structuredData)} is:inline />
+<script type="application/ld+json" set:html={structuredDataJson} is:inline />

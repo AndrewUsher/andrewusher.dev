@@ -16,9 +16,19 @@ Astro.response.headers.set(
   'Cache-Control',
   's-maxage=1800, stale-while-revalidate'
 )
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': new URL('/#person', Astro.site || Astro.url.origin).toString(),
+  name: 'Andrew Usher',
+  url: new URL('/', Astro.site || Astro.url.origin).toString(),
+  image: new URL('/android-chrome-512x512.png', Astro.site || Astro.url.origin).toString(),
+  sameAs: ['https://twitter.com/AndrewUsher17'],
+}
 ---
 
-<BaseLayout>
+<BaseLayout structuredData={personSchema}>
   <div class="mx-auto max-w-screen-xl p-8 pt-0">
     <HomepageIntro client:load />
     <IntroSectionCards client:load />

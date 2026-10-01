@@ -6,6 +6,15 @@ export async function onRequest(
   next: () => Promise<Response>,
 ): Promise<Response> {
   const response = await next()
+  const canonicalHostname = new URL(
+    import.meta.env.SITE || 'https://andrewusher.dev',
+  ).hostname
+  const isPreviewHost = context.url.hostname !== canonicalHostname
+  const isDraftPath = /^\/(?:preview|draft)(?:\/|$)/i.test(context.url.pathname)
+
+  if (isPreviewHost || isDraftPath) {
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow')
+  }
 
   if (context.url.pathname === '/') {
     response.headers.set(

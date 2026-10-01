@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro'
 import { getCollection } from 'astro:content'
-import dayjs from 'dayjs'
+import { getAllTags, slugifyTag } from '../lib/tags'
+import { getArchiveData } from '../lib/archive'
 
 const siteUrl = import.meta.env.SITE || 'https://andrewusher.dev'
 
@@ -28,12 +29,6 @@ export const GET: APIRoute = async () => {
   sitemapUrls.push({ url: '/blog/tags', changefreq: 'monthly', priority: 0.5 })
   sitemapUrls.push({ url: '/journal', changefreq: 'monthly', priority: 0.4 })
   sitemapUrls.push({ url: '/uses', changefreq: 'monthly', priority: 0.5 })
-  sitemapUrls.push({
-    url: '/things-i-like',
-    changefreq: 'monthly',
-    priority: 0.5,
-  })
-
   const blogPosts = await getCollection('blogPosts')
   const publishedPosts = blogPosts.filter((post) => post.data.isPublished)
 
@@ -46,56 +41,28 @@ export const GET: APIRoute = async () => {
     })
   })
 
-  // Projects
-  const projects = await getCollection('projects')
-  const publishedProjects = projects.filter(
-    (project) => project.data.isPublished
-  )
-
-  publishedProjects.forEach((project) => {
-    sitemapUrls.push({
-      url: `/projects/${project.data.slug}`,
-      lastmod: project.data.date.toISOString(),
-      changefreq: 'monthly',
-      priority: 0.7,
-    })
-  })
-
-  const years = new Set(
-    publishedPosts.map((post) => dayjs(post.data.date).year())
-  )
-
-  years.forEach((year) => {
+  // Archive URLs match the pages produced by the archive routes.
+  const archiveData = await getArchiveData()
+  archiveData.forEach(({ year, months }) => {
     sitemapUrls.push({
       url: `/blog/archive/${year}`,
       changefreq: 'monthly',
       priority: 0.4,
     })
-  })
-
-  const yearMonths = new Set<string>()
-  publishedPosts.forEach((post) => {
-    const year = dayjs(post.data.date).year()
-    const month = dayjs(post.data.date).format('MMMM').toLowerCase()
-    yearMonths.add(`${year}/${month}`)
-  })
-
-  yearMonths.forEach((yearMonth) => {
-    sitemapUrls.push({
-      url: `/blog/archive/${yearMonth}`,
-      changefreq: 'monthly',
-      priority: 0.3,
+    months.forEach(({ slug }) => {
+      sitemapUrls.push({
+        url: `/blog/archive/${year}/${slug}`,
+        changefreq: 'monthly',
+        priority: 0.3,
+      })
     })
   })
 
-  // Tag pages
-  const allTags = new Set<string>()
-  publishedPosts.forEach((post) => {
-    post.data.tags?.forEach((tag: string) => allTags.add(tag))
-  })
-
-  allTags.forEach((tag: string) => {
-    const tagSlug = tag.toLowerCase().replace(/\s+/g, '-')
+  // The project collection is presented on its index page; it has no detail routes.
+  // Use the same tag slugger as the generated tag pages to avoid dead sitemap URLs.
+  const tags = await getAllTags()
+  tags.forEach(({ name }) => {
+    const tagSlug = slugifyTag(name)
     sitemapUrls.push({
       url: `/blog/tags/${tagSlug}`,
       changefreq: 'monthly',

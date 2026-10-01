@@ -2,9 +2,10 @@ import type { APIRoute } from 'astro'
 
 const siteUrl = import.meta.env.SITE || 'https://andrewusher.dev'
 
-export const GET: APIRoute = () => {
+export const GET: APIRoute = ({ url }) => {
+  const isPreviewHost = url.hostname !== new URL(siteUrl).hostname
   const robotsTxt = `User-agent: *
-Allow: /
+${isPreviewHost ? 'Disallow: /' : `Allow: /\nDisallow: /preview\nDisallow: /draft`}
 
 Content-Signal: ai-train=no, search=yes, ai-input=no
 

@@ -31,9 +31,10 @@ const formattedDate = dayjs(entry.data.date).format('MMMM DD, YYYY')
 
 const title = `${entry.data.title} - Andrew Usher`
 const description = entry.data.title
+const isDraft = !entry.data.isPublished
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} noindex={isDraft}>
   <div class="mx-auto mt-8 max-w-screen-xl px-4">
     <Breadcrumbs
       items={[
