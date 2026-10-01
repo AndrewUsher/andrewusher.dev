@@ -1,0 +1,19 @@
+---
+import { slugifySeries } from '../lib/series'
+
+interface Props {
+  series: string
+  className?: string
+}
+
+const { series, className = '' } = Astro.props
+const seriesSlug = slugifySeries(series)
+---
+
+<a
+  href={`/blog/series/${seriesSlug}`}
+  aria-label={`View the ${series} series`}
+  class={`inline-flex items-center rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-sm font-medium text-sky-800 transition-colors hover:bg-sky-500/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:text-sky-200 ${className}`}
+>
+  {series}
+</a>

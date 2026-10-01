@@ -62,19 +62,41 @@ export function getSimilarPosts(
   currentPost: BlogPost,
   allPosts: BlogPost[]
 ): SimilarPost[] {
-  const scoredPosts = allPosts
+  const candidates = allPosts.filter(
+    (post) =>
+      post.data.slug !== currentPost.data.slug &&
+      post.data.isPublished === true
+  )
+
+  const sameSeriesPosts = candidates
     .filter(
       (post) =>
-        post.data.slug !== currentPost.data.slug &&
-        post.data.isPublished === true
+        currentPost.data.series !== undefined &&
+        post.data.series === currentPost.data.series
     )
+    .sort((a, b) => {
+      const orderDifference =
+        (a.data.seriesOrder ?? Number.MAX_SAFE_INTEGER) -
+        (b.data.seriesOrder ?? Number.MAX_SAFE_INTEGER)
+
+      return orderDifference || a.data.date.valueOf() - b.data.date.valueOf()
+    })
+    .map((post) => ({
+      post,
+      score: calculateSimilarityScore(currentPost, post),
+    }))
+
+  const sameSeriesSlugs = new Set(
+    sameSeriesPosts.map(({ post }) => post.data.slug)
+  )
+  const scoredPosts = candidates
+    .filter((post) => !sameSeriesSlugs.has(post.data.slug))
     .map((post) => ({
       post,
       score: calculateSimilarityScore(currentPost, post),
     }))
     .filter(({ score }) => score >= SIMILARITY_THRESHOLD)
     .sort((a, b) => b.score - a.score)
-    .slice(0, MAX_SIMILAR_POSTS)
 
-  return scoredPosts
+  return [...sameSeriesPosts, ...scoredPosts].slice(0, MAX_SIMILAR_POSTS)
 }
