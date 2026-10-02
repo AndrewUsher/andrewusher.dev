@@ -1,0 +1,9 @@
+export const EMBEDDING_MODEL = 'Xenova/all-MiniLM-L6-v2'
+export const MODEL_REVISION = '751bff37182d3f1213fa05d7196b954e230abad9'
+export const INDEX_VERSION = 1
+export const MODEL_DIRECTORY = `.cache/ask-blog/${MODEL_REVISION}/model`
+export const MODEL_FILES = ['config.json', 'tokenizer.json', 'tokenizer_config.json', 'special_tokens_map.json', 'onnx/model_quantized.onnx'] as const
+export const INDEX_FILE = '.cache/ask-blog/index.json'
+export const MAX_QUESTION_LENGTH = 2_000
+export const MAX_HISTORY_MESSAGES = 6
+export const MAX_ANSWER_TOKENS = 600

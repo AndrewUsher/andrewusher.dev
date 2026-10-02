@@ -3,6 +3,7 @@ import '../styles/global.css'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
 import ScrollToTop from '../components/ScrollToTop'
+import { AskBlog } from '../components/AskBlog'
 import { ClientRouter } from 'astro:transitions'
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
   image?: string
   noindex?: boolean
   structuredData?: Record<string, unknown>
+  blogChat?: boolean
 }
 
 const {
@@ -19,6 +21,7 @@ const {
   image,
   noindex = false,
   structuredData,
+  blogChat = false,
 } = Astro.props
 
 const siteOrigin = Astro.site || Astro.url.origin
@@ -81,11 +84,12 @@ const robotsContent =
     />
     <meta name="color-scheme" content="dark light" />
     <title>{title}</title>
-  </head><body class="font-merriweather-sans dark:bg-neutral-900">
+  </head><body class="font-merriweather-sans dark:bg-neutral-900" data-blog-chat={blogChat ? 'true' : 'false'}>
     <Header />
     <slot />
     <Footer />
     <ScrollToTop client:load />
+    {import.meta.env.ASK_BLOG_ENABLED === 'true' && <AskBlog client:load transition:persist="ask-blog" />}
     <script is:inline>
       function enhanceCodeBlocks() {
         const codeBlocks = document.querySelectorAll('pre.astro-code')

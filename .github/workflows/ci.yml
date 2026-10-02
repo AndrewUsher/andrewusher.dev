@@ -50,6 +50,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: pnpm i
     - run: pnpm build
+      env:
+        ASK_BLOG_ENABLED: 'true'
+    - run: pnpm benchmark:blog
   ts:
     name: '🔍 TypeScript'
     needs: [install]
@@ -84,5 +87,3 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: pnpm i
     - run: pnpm lint
-    
-    

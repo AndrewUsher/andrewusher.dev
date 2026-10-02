@@ -2,6 +2,9 @@ allowBuilds:
   '@sentry/cli': true
   esbuild: true
   msw: true
+  # CPU binaries ship in the package; skip the optional CUDA download script.
+  onnxruntime-node: false
+  protobufjs: true
   sharp: true
 
 hoistPattern:
