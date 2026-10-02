@@ -1,3 +1,4 @@
+import { globSync, realpathSync, statSync } from 'node:fs'
 import { defineConfig } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@astrojs/react'
@@ -8,8 +9,22 @@ import vercel from '@astrojs/vercel'
 import pagefind from './integrations/pagefind.mjs'
 import { transformerNotationHighlight } from '@shikijs/transformers'
 import istanbul from 'vite-plugin-istanbul'
+import { loadEnv } from 'vite'
+import askBlog from './integrations/ask-blog'
+import { MODEL_DIRECTORY, MODEL_FILES, INDEX_FILE } from './src/features/ask-blog/config'
 
 import sentry from '@sentry/astro'
+
+const askBlogEnabled = (
+  process.env.ASK_BLOG_ENABLED ??
+  loadEnv(process.env.NODE_ENV || 'production', process.cwd(), '').ASK_BLOG_ENABLED
+) === 'true'
+// The ONNX package ships several OS/architecture binaries. Vercel Node runs on
+// Linux x64; exclude concrete files (the adapter doesn't accept glob patterns).
+const onnxRoot = realpathSync('node_modules/onnxruntime-node')
+const unusedNativeFiles = [...globSync(`${onnxRoot}/bin/**/*`)].filter(file =>
+  statSync(file).isFile() && (!file.includes('/linux/x64/') || /providers_(cuda|tensorrt)/.test(file))
+)
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,6 +33,11 @@ export default defineConfig({
     ? 'https://andrewusher.dev'
     : 'http://localhost:4321',
   adapter: vercel({
+    includeFiles: askBlogEnabled
+      ? [INDEX_FILE, ...MODEL_FILES.map(file => `${MODEL_DIRECTORY}/${file}`)]
+      : [],
+    excludeFiles: unusedNativeFiles,
+    maxDuration: 60,
     webAnalytics: {
       enabled: true,
     },
@@ -36,6 +56,7 @@ export default defineConfig({
     ],
   },
   integrations: [
+    askBlog(askBlogEnabled),
     react(),
     mdx({
       rehypePlugins: [
