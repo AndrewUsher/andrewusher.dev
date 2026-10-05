@@ -61,6 +61,11 @@ html {
       --chart-3: 197 37% 24%;
       --chart-4: 43 74% 66%;
       --chart-5: 27 87% 67%;
+      --commit-calendar-0: hsl(var(--chart-1) / 0.07);
+      --commit-calendar-1: hsl(var(--chart-1) / 0.28);
+      --commit-calendar-2: hsl(var(--chart-1) / 0.48);
+      --commit-calendar-3: hsl(var(--chart-1) / 0.7);
+      --commit-calendar-4: hsl(var(--chart-1) / 0.95);
       --radius: 0.5rem;
     }
     .dark {
@@ -88,7 +93,77 @@ html {
       --chart-3: 30 80% 55%;
       --chart-4: 280 65% 60%;
       --chart-5: 340 75% 55%;
+      --commit-calendar-0: hsl(var(--chart-1) / 0.14);
+      --commit-calendar-1: hsl(var(--chart-1) / 0.34);
+      --commit-calendar-2: hsl(var(--chart-1) / 0.56);
+      --commit-calendar-3: hsl(var(--chart-1) / 0.78);
+      --commit-calendar-4: hsl(var(--chart-1) / 1);
     }
+  }
+
+  .commit-calendar-cell {
+    cursor: pointer;
+    transition: fill 120ms ease, stroke 120ms ease;
+  }
+
+  .commit-calendar-cell:focus-visible {
+    outline: none;
+    stroke: hsl(var(--ring));
+    stroke-width: 2px;
+  }
+
+  .commit-calendar-cell[aria-pressed="true"] {
+    stroke: hsl(var(--foreground));
+    stroke-width: 1.5px;
+  }
+
+  .commit-calendar-outside {
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .commit-calendar-legend {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 2px;
+  }
+
+  .commit-calendar-level-0 { fill: var(--commit-calendar-0); background-color: var(--commit-calendar-0); }
+  .commit-calendar-level-1 { fill: var(--commit-calendar-1); background-color: var(--commit-calendar-1); }
+  .commit-calendar-level-2 { fill: var(--commit-calendar-2); background-color: var(--commit-calendar-2); }
+  .commit-calendar-level-3 { fill: var(--commit-calendar-3); background-color: var(--commit-calendar-3); }
+  .commit-calendar-level-4 { fill: var(--commit-calendar-4); background-color: var(--commit-calendar-4); }
+
+  .commit-calendar-tooltip {
+    border-color: hsl(var(--border));
+    background: hsl(var(--popover));
+    color: hsl(var(--popover-foreground));
+  }
+
+  .commit-calendar-skeleton-cell {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 2px;
+    background: hsl(var(--muted));
+    animation: commit-calendar-pulse 1.6s ease-in-out infinite alternate;
+  }
+
+  .commit-calendar-skeleton-cell:nth-child(7n) {
+    animation-delay: 160ms;
+  }
+
+  .commit-calendar-skeleton-cell:nth-child(7n + 3) {
+    animation-delay: 320ms;
+  }
+
+  @keyframes commit-calendar-pulse {
+    from { opacity: 0.45; }
+    to { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .commit-calendar-cell { transition: none; }
+    .commit-calendar-skeleton-cell { animation: none; }
   }
 
   /* Shiki theme switcher */

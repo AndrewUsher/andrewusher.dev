@@ -1,8 +1,9 @@
-import { describe, test, expect } from 'vitest'
+import { describe, test, expect, vi } from 'vitest'
 import { http, HttpResponse } from 'msw'
 import { server } from '../test/mocks/server'
 import {
   fetchRecentCommits,
+  getCommitCalendar,
   formatRelativeTime,
   truncateCommitMessage,
   parseCommitType,
@@ -26,7 +27,8 @@ describe('github-commits', () => {
       expect(commit?.repoUrl).toBeDefined()
       expect(commit?.commitUrl).toBeDefined()
       expect(commit?.date).toBeDefined()
-      expect(commit?.date).toBeInstanceOf(Date)
+      expect(typeof commit?.date).toBe('string')
+      expect(() => new Date(commit!.date).toISOString()).not.toThrow()
     })
 
     test('excludes forked repositories', async () => {
@@ -43,8 +45,8 @@ describe('github-commits', () => {
       const commits = await fetchRecentCommits('TestUser')
 
       for (let i = 0; i < commits.length - 1; i++) {
-        expect(commits[i]?.date.getTime()).toBeGreaterThanOrEqual(
-          commits[i + 1]?.date.getTime() ?? 0
+        expect(Date.parse(commits[i]?.date ?? '')).toBeGreaterThanOrEqual(
+          Date.parse(commits[i + 1]?.date ?? '')
         )
       }
     })
@@ -163,6 +165,90 @@ describe('github-commits', () => {
       expect(typeof commit?.commitUrl).toBe('string')
       expect(commit?.repoUrl).toMatch(/^https:\/\/github\.com\//)
       expect(commit?.commitUrl).toMatch(/^https:\/\/github\.com\/.*\/commit\//)
+    })
+  })
+
+  describe('getCommitCalendar', () => {
+    test('aggregates timestamps into UTC calendar days', async () => {
+      server.use(
+        http.get('https://api.github.com/repos/TestUser/repo1/commits', () => {
+          return HttpResponse.json([
+            {
+              commit: {
+                author: { date: '2025-01-10T00:30:00+02:00' },
+              },
+            },
+            {
+              commit: {
+                author: { date: '2025-01-10T03:30:00-02:00' },
+              },
+            },
+          ])
+        }),
+        http.get('https://api.github.com/repos/TestUser/repo2/commits', () => {
+          return HttpResponse.json([])
+        })
+      )
+
+      const calendar = await getCommitCalendar(
+        'TestUser',
+        new Date('2025-01-10T12:00:00Z')
+      )
+
+      expect(calendar.days['2025-01-09']).toBe(1)
+      expect(calendar.days['2025-01-10']).toBe(1)
+      expect(calendar.total).toBe(2)
+    })
+
+    test('aggregates UTC day buckets, includes empty days, and excludes forks', async () => {
+      const fetchForkCommits = vi.fn()
+      server.use(
+        http.get(
+          'https://api.github.com/repos/TestUser/forked-repo/commits',
+          () => {
+            fetchForkCommits()
+            return HttpResponse.json([])
+          }
+        )
+      )
+
+      const calendar = await getCommitCalendar('TestUser')
+      const dates = Object.keys(calendar.days)
+
+      expect(calendar.total).toBe(10)
+      expect(calendar.range.start).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+      expect(calendar.range.end).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+      expect(calendar.days[calendar.range.start]).toBe(0)
+      expect(dates[0]).toBe(calendar.range.start)
+      expect(dates[dates.length - 1]).toBe(calendar.range.end)
+      expect(Object.values(calendar.days).filter((count) => count > 0).length)
+        .toBeGreaterThan(0)
+      expect(fetchForkCommits).not.toHaveBeenCalled()
+    })
+
+    test('keeps successful repository data when another repository fails', async () => {
+      server.use(
+        http.get('https://api.github.com/repos/TestUser/repo2/commits', () => {
+          return HttpResponse.json({ message: 'Server Error' }, { status: 500 })
+        })
+      )
+
+      const calendar = await getCommitCalendar('TestUser')
+
+      expect(calendar.total).toBe(5)
+    })
+
+    test('throws on GitHub rate limiting so the API can use its fallback', async () => {
+      server.use(
+        http.get('https://api.github.com/repos/TestUser/repo1/commits', () => {
+          return HttpResponse.json(
+            { message: 'API rate limit exceeded' },
+            { status: 403 }
+          )
+        })
+      )
+
+      await expect(getCommitCalendar('TestUser')).rejects.toThrow(/rate limit/i)
     })
   })
 

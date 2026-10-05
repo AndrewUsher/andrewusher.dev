@@ -1,5 +1,6 @@
 ---
-import { RecentCommits } from './RecentCommits'
+import { RecentCommitsWrapper } from './RecentCommitsWrapper'
+import CommitCalendar from './CommitCalendar'
 import { fetchRecentCommits } from '../lib/github-commits'
 
 const GITHUB_USERNAME = 'AndrewUsher'
@@ -10,4 +11,7 @@ const commits = await fetchRecentCommits(GITHUB_USERNAME)
 const error = commits.length === 0 ? 'No recent commits found' : null
 ---
 
-<RecentCommits commits={commits} error={error} client:load />
+<div class="space-y-8">
+  <CommitCalendar username={GITHUB_USERNAME} client:visible />
+  <RecentCommitsWrapper commits={commits} error={error} client:load />
+</div>
