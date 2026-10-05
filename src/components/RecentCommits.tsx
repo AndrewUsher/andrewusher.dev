@@ -85,7 +85,7 @@ export function RecentCommits({ commits, error }: RecentCommitsProps) {
                     <span className="dark:text-slate-600 text-slate-400">
                       •
                     </span>
-                    <time dateTime={commit.date.toISOString()}>
+                    <time dateTime={commit.date}>
                       {formatRelativeTime(commit.date)}
                     </time>
                   </div>
