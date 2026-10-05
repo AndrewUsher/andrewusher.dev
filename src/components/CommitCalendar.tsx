@@ -183,7 +183,7 @@ export default function CommitCalendar({
     <section
       aria-busy={loading}
       aria-label={chartLabel}
-      className="commit-calendar rounded-xl border border-slate-200/80 bg-white/80 p-5 shadow-sm dark:border-slate-700/80 dark:bg-slate-900/60 sm:p-6"
+      className="commit-calendar rounded-xl border border-slate-200/80 bg-white/80 p-5 pb-8 shadow-sm dark:border-slate-700/80 dark:bg-slate-900/60 sm:p-6 sm:pb-10"
       role="group"
     >
       <div className="mb-4 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
