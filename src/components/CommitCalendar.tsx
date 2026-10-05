@@ -4,6 +4,7 @@ import type { CommitCalendar as CommitCalendarData } from '../lib/github-commits
 
 interface CommitCalendarProps {
   username: string
+  initialCalendar: CommitCalendarData | null
 }
 
 interface CalendarCell {
@@ -79,29 +80,36 @@ function makeMonthLabels(cells: CalendarCell[]): { label: string; week: number }
   return labels
 }
 
-export default function CommitCalendar({ username }: CommitCalendarProps) {
-  const [calendar, setCalendar] = useState<CommitCalendarData | null>(null)
-  const [loading, setLoading] = useState(true)
+export default function CommitCalendar({
+  username,
+  initialCalendar,
+}: CommitCalendarProps) {
+  const [calendar, setCalendar] = useState<CommitCalendarData | null>(
+    initialCalendar
+  )
+  const [loading, setLoading] = useState(initialCalendar === null)
   const [activeCell, setActiveCell] = useState<CalendarCell | null>(null)
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
   const cellRefs = useRef(new Map<string, SVGRectElement>())
 
   useEffect(() => {
     const controller = new AbortController()
-    fetch(`/api/commits/calendar?username=${encodeURIComponent(username)}`, {
-      signal: controller.signal,
-    })
-      .then(async (response) => {
-        if (!response.ok) throw new Error('Commit calendar unavailable')
-        return (await response.json()) as CommitCalendarData
+    if (initialCalendar === null) {
+      fetch(`/api/commits/calendar?username=${encodeURIComponent(username)}`, {
+        signal: controller.signal,
       })
-      .then(setCalendar)
-      .catch((error: unknown) => {
-        if (error instanceof Error && error.name !== 'AbortError') {
-          console.error('Unable to load commit calendar:', error.message)
-        }
-      })
-      .finally(() => setLoading(false))
+        .then(async (response) => {
+          if (!response.ok) throw new Error('Commit calendar unavailable')
+          return (await response.json()) as CommitCalendarData
+        })
+        .then(setCalendar)
+        .catch((error: unknown) => {
+          if (error instanceof Error && error.name !== 'AbortError') {
+            console.error('Unable to load commit calendar:', error.message)
+          }
+        })
+        .finally(() => setLoading(false))
+    }
 
     const handleClear = () => setSelectedDate(null)
     window.addEventListener('commit-calendar-clear', handleClear)
@@ -109,7 +117,7 @@ export default function CommitCalendar({ username }: CommitCalendarProps) {
       controller.abort()
       window.removeEventListener('commit-calendar-clear', handleClear)
     }
-  }, [username])
+  }, [username, initialCalendar])
 
   const cells = useMemo(() => (calendar ? makeCells(calendar) : []), [calendar])
   const monthLabels = useMemo(
