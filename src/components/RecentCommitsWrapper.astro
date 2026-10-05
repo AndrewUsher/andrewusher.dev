@@ -1,17 +1,30 @@
 ---
 import { RecentCommitsWrapper } from './RecentCommitsWrapper'
 import CommitCalendar from './CommitCalendar'
-import { fetchRecentCommits } from '../lib/github-commits'
+import {
+  fetchRecentCommits,
+  getCommitCalendar,
+} from '../lib/github-commits'
 
 const GITHUB_USERNAME = 'AndrewUsher'
 
 // Fetch commits from all active repos (defaults: 5 repos, 5 commits each, max 25 total)
-const commits = await fetchRecentCommits(GITHUB_USERNAME)
+const [commits, calendar] = await Promise.all([
+  fetchRecentCommits(GITHUB_USERNAME),
+  getCommitCalendar(GITHUB_USERNAME).catch((error: unknown) => {
+    console.error('Unable to fetch homepage commit calendar:', error)
+    return null
+  }),
+])
 
 const error = commits.length === 0 ? 'No recent commits found' : null
 ---
 
 <div class="space-y-8">
-  <CommitCalendar username={GITHUB_USERNAME} client:visible />
+  <CommitCalendar
+    username={GITHUB_USERNAME}
+    initialCalendar={calendar}
+    client:visible
+  />
   <RecentCommitsWrapper commits={commits} error={error} client:load />
 </div>
