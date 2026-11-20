@@ -6,6 +6,7 @@ import rehypeSlug from 'rehype-slug'
 import rehypeToc from '@jsdevtools/rehype-toc'
 import vercel from '@astrojs/vercel'
 import pagefind from './integrations/pagefind.mjs'
+import sentryViteCompat from './integrations/sentry-vite-compat.mjs'
 import { transformerNotationHighlight } from '@shikijs/transformers'
 import istanbul from 'vite-plugin-istanbul'
 
@@ -25,6 +26,7 @@ export default defineConfig({
   vite: {
     plugins: [
       tailwindcss(),
+      sentryViteCompat(),
       ...(process.env.E2E_COVERAGE === 'true'
         ? [
             istanbul({
