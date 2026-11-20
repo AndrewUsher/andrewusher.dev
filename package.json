@@ -33,7 +33,7 @@
     "@tanstack/charts": "^1.0.0",
     "@types/react": "^19.3.0",
     "astro": "^7.4.13",
-    "astro-og-canvas": "^0.13.2",
+    "astro-og-canvas": "^0.13.3",
     "dayjs": "1.11.23",
     "motion": "13.5.1",
     "marked": "^18.0.14",
